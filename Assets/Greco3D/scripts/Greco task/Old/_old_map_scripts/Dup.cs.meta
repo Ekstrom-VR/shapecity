@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 6103e45098805487ebe18f266aa95620
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - rocketPrefab: {fileID: 100000, guid: 182b0440aac6442b9a934858f6817247, type: 2}
+  - hand: {instanceID: 0}
+  - rocketInstance: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
