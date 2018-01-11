@@ -157,7 +157,7 @@ Destroy(this);
 
 function  AbortIntro(){
 PlayerPrefs.SetString('subj_id','JDS99');
-SL_control_station.modNum = 2;
+//SL_control_station.modNum = 2;
 Destroy(this);
 }
 	
