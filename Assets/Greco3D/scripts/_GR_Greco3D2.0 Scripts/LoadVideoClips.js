@@ -51,16 +51,18 @@ function Start() {
 		var posArray = readerPos.text.Split(separator);
 	    var rotArray = readerRot.text.Split(separator);
 
-		for(var i :int = 0; i < numVideos; i ++)
+		for(var i :int = 0; i < posArray.Length; i ++)
 		{
+			if(!String.IsNullOrEmpty(posArray[i])) {
 				line  = posArray[i];
 				lineArray = line.Split(',' [0]);
+				
 				curPosNav.Add(new Vector3(float.Parse(lineArray[0]),float.Parse(lineArray[1]),float.Parse(lineArray[2])));
 
 				line = rotArray[i];
 				lineArray = line.Split(',' [0]);
 				curRotNav.Add(new Quaternion(float.Parse(lineArray[0]),float.Parse(lineArray[1]),float.Parse(lineArray[2]),float.Parse(lineArray[3])));
-
+			}
 		}
 
 //		var readerPos : StreamReader = new StreamReader(positionPath);
