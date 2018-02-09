@@ -559,5 +559,3 @@ function GetStores(city : Transform){
      
      return targets;
  }
-
-

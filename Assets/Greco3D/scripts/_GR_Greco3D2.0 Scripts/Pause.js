@@ -8,9 +8,9 @@ function Update() {
 	    Debug.Log("escape!!");
 	    
 	    
-	    curAction = GetComponent(PassiveNav3).action;
-	    GetComponent(PassiveNav3).action = "pause";
-	    gameObject.AddComponent(PauseMenu);
+//	    curAction = GetComponent(PassiveNav3).action;
+//	    GetComponent(PassiveNav3).action = "pause";
+//	    gameObject.AddComponent(PauseMenu);
 
 
 	}

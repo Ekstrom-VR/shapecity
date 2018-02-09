@@ -30,10 +30,10 @@ var rotate_type : int = 0;
  
 
 //
-	public function TotTime() : float
-	{
-		return trial_time + iti_time;
-	}
+//	public function TotTime() : float
+//	{
+//		return trial_time + iti_time;
+//	}
 
 }
 

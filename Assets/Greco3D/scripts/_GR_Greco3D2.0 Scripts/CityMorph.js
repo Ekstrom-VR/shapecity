@@ -40,7 +40,7 @@ var feedBack : FeedBack;
 	    feedBack = GetComponent(FeedBack);
 	    
 		//Set up total trialtime: trial time + iti time
-		total_time = vars.TotTime();
+		total_time = vars.trial_time + vars.iti_time;
 		timer = total_time;
 		
 		

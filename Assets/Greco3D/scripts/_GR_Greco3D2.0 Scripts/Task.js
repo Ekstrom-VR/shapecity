@@ -13,7 +13,9 @@ static var task_stage : String;
 static var curR : int;
 static var curT : int;
 static var background : Background;
-var vars = new VariablesClass();
+var vars : VariablesClass = new VariablesClass();
+// vars : VariablesClass;
+
 var curR_ins : int;
 var curT_ins : int;
 
@@ -21,6 +23,9 @@ function Start(){
 
   SetUpComps(); 
   task_stage = vars.preRun;
+
+//   vars = GetComponent(VariablesClass);
+
 
 }
 
@@ -137,11 +142,7 @@ function SetUpComps(){
     background.enabled = true;	 	
     iti.enabled = false;
     cityInfo.enabled = false;
-    feedBack.enabled = false;
-    
-    
-  
-   
+    feedBack.enabled = false; 
 }
 
 

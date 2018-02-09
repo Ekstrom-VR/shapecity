@@ -34,7 +34,7 @@ function Start() {
 			var line : String = '';
 			var lineArray : String[];
 		
-		print(path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt");
+//		print(path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt");
 	
 		// for StreamReader
 //		var positionPath : String = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
@@ -106,7 +106,7 @@ function Start() {
 		cityRotList[iC]=rotNavArray;
 		cityVidList[iC]=vidArray;
 
-		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
+//		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
 	   
 	}
 				
