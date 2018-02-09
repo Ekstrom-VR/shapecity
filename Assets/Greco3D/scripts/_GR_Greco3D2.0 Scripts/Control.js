@@ -1,7 +1,6 @@
 ﻿#pragma strict
 
 public var curTrialList_ins  : Array;
-
 static var curTrialList = new Array();
 static var curStoreList = new Array();
 static var storeList = new Array();
@@ -9,30 +8,23 @@ static var numCities : int;
 static var city_x = new Array();
 static var city_y = new Array();
 static var player : GameObject;
-
 private var background : GameObject; 
 private var intro : boolean = true;
 private var task   : boolean = true;
-
 var scan : boolean = true;
-
 private var vars = new VariablesClass();
-
 
 function Awake()
 {
     background = GameObject.Find("Background");
 	SetUpTaskType();
-
 }
-
 
 function Start () 
 {
    //Setup gameobjects
 	gameObject.AddComponent(CityConfig);
-	
-	
+
 	//Load video clips if necessary
 	if(vars.navType=="passive_VC"){
 	gameObject.AddComponent(LoadVideoClips);
@@ -40,9 +32,7 @@ function Start ()
 	
 	//activate player
     player.SetActive(true);
-    
-    
-        
+             
 	if(vars.test_mode){
     StartTask();
     intro = false;
@@ -204,22 +194,12 @@ function SetUpTaskType (){
 	
 	//Play
 	var playerPassive = GameObject.Find("Passive Navigator");
-//    var playerActive = GameObject.Find("Active Navigator");
    
     playerPassive.SetActive(false);
-//    playerActive.SetActive(false);
    
    if(vars.navType == "passive" || vars.navType == "passive_VC" ){
    	player = playerPassive;
-//   	Destroy(playerActive);
    }
-//   else if(navType == "active"){
-//   	player = playerActive;
-//   }   
-   
-
-
-
 }
 
 

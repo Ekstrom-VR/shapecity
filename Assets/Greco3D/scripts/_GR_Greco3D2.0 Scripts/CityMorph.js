@@ -3,11 +3,8 @@
 static var stopwatch:float;
 static var startTime : float = 0;
 static var trial_action : String;
-
 private var run_trial_order = new Array();
 private var cityNum : int;
-
-
 private var GetStartTime : boolean;
 private var cityChange = true;
 private var getStartTime : boolean;
@@ -16,16 +13,13 @@ private var feedBackCheck : boolean =true;
 var origin : Transform;
 var timer : float;
 var vars = new VariablesClass();
-
 var iti : ITI;
-
 var task = new Task();
 var control = new Control();
 var background : Background;
 var trial_action_ins : String;
 
 var feedBack : FeedBack;
-
 
 	function OnEnable(){
 		trial_action = 'reset';
@@ -54,10 +48,6 @@ var feedBack : FeedBack;
 			if(vars.rotate_mode){
 			RotateStores();
 			}
-
-		
-		//Drop player in random position
-		RandPosition(origin,Control.player,15);	
 	}
 
 	function Update(){
@@ -101,7 +91,7 @@ var feedBack : FeedBack;
 		}
 		
 		
-																							//Change City ofter iterating trials. Should go back and modify this code.
+//Change City ofter iterating trials. Should go back and modify this code.
 		if(cityChange){
 		
 		
@@ -219,8 +209,6 @@ function RotateWalls(){
 		 	}
 	 
 }
-
-
 
 
 function NextTaskStage(){

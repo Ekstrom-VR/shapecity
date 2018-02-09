@@ -103,10 +103,7 @@ function OnGUI(){
 		GUI.Label(rect2,resp_final,style1);
 		} 	
 }
-	
-	
-	
-	
+		
 	function Keyboard()
 	{
 		for (var c : char in Input.inputString)

@@ -84,36 +84,36 @@ if (CityMorph.trial_action == 'task'){
 	{
 	print ('V key down at ' + CityMorph.stopwatch);
 	resp_key = '1';
-	resp_time = G3D_cityMorph.stopwatch;
+	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = G3D_cityMorph.stopwatch;
+	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 	if (Input.GetKeyDown('b'))
 	{
 	print ('B key down at ' + CityMorph.stopwatch);
 	resp_key = '2';
-	resp_time = G3D_cityMorph.stopwatch;
+	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = G3D_cityMorph.stopwatch;
+	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 	if (Input.GetKeyDown('n'))
 	{
 	print ('N key down at ' + CityMorph.stopwatch);
 	resp_key = '3';
-	resp_time = G3D_cityMorph.stopwatch;
+	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = G3D_cityMorph.stopwatch;
+	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 	if (Input.GetKeyDown('m'))
 	{
 	print ('M key down at ' + CityMorph.stopwatch);
 	resp_key = '4';
-	resp_time = G3D_cityMorph.stopwatch;
+	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = G3D_cityMorph.stopwatch;
+	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 	
@@ -193,11 +193,7 @@ if (CityMorph.trial_action == 'task'){
 		resp_key = 'nan';
 		resp_time = 00;
 		resp_key_list = [];
-		resp_time_list = [];
-	
-	
-	
-	
+		resp_time_list = [];	
 	}
 	
 
@@ -218,6 +214,3 @@ acc_total += acc_curr;
 System.IO.File.AppendAllText(  "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt",line);
 
 }
-
-
-
