@@ -45,9 +45,7 @@ function Update(){
 		  PlayerPrefs.SetString('subj_id',resp_final);
 		   
 		}	
-		
-		
-		
+
 		//Start Instructions script
 		if(i == 3)
 		{
@@ -56,9 +54,7 @@ function Update(){
 		
 		//Abort and menu and start task	
 		if(Input.GetKey(KeyCode.LeftControl)&&Input.GetKeyDown(KeyCode.Q)){
-		
 		 AbortIntro();
-	   
 		}										
 }
 		
@@ -115,7 +111,7 @@ function OnGUI(){
 						
 				}
 				// End of entry
-				else if (c == "\n"[0]) {// "\n" for Mac, "\r" for windows.
+				else if (c == "\n"[0] || c == "\r"[0]) {// "\n" for Mac, "\r" for windows.
 				    
 				    
 				    resp_final = resp_final + resp;
