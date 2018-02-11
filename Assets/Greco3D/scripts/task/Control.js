@@ -11,7 +11,7 @@ static var player : GameObject;
 private var background : GameObject; 
 private var intro : boolean = true;
 private var task   : boolean = true;
-var scan : boolean = true;
+public var scan : boolean = false;
 private var vars = new VariablesClass();
 
 function Awake()
