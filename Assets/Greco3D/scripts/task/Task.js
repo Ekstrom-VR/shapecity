@@ -58,7 +58,7 @@ function Update(){
 		pause.enabled=true;
 		end.enabled=false;
 		if(vars.navType == "passive"){
-		Control.player.GetComponent(PassiveNav4).enabled = true;
+//		Control.player.GetComponent(PassiveNav4).enabled = true;
 		}
 		else if(vars.navType == "passive_VC"){
 		Control.player.GetComponent(PassiveNav_VC).enabled = true;
@@ -83,7 +83,7 @@ function Update(){
 	   	end.enabled=true; 
 	    curT = 0;
 		if(vars.navType == "passive"){
-		Control.player.GetComponent(PassiveNav4).enabled = true;
+//		Control.player.GetComponent(PassiveNav4).enabled = true;
 		}
 		else if(vars.navType == "passive_VC"){
 		Control.player.GetComponent(PassiveNav_VC).enabled = true;
@@ -113,8 +113,8 @@ function SetUpComps(){
     gameObject.AddComponent(FeedBack);
     
 	if(vars.navType == "passive"){
-	Control.player.AddComponent(PassiveNav4);	
-    Control.player.GetComponent(PassiveNav4).enabled = false;
+//	Control.player.AddComponent(PassiveNav4);	
+//    Control.player.GetComponent(PassiveNav4).enabled = false;
 	}
 	else if(vars.navType == "passive_VC"){
 	Control.player.AddComponent(PassiveNav_VC);	

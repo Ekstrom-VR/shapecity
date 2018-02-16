@@ -1,6 +1,5 @@
 ﻿#pragma strict
 
-
 // var  toyStoreNV  : boolean = false;
 // var  firstBankNV : boolean = false;
 // var  bookStoreNV : boolean = false;
@@ -32,9 +31,6 @@ inViewArray = new int[stores.length];
 
 }
 function Update () {
-
-
-
 
 numStoresNV_present =numStoresNV;
 //var allNV = new Array();
@@ -84,8 +80,6 @@ var allChildren =store.GetComponentsInChildren(Renderer);
 	
 	return inView;
 }
-
-
 
 function CountInView(){
  	var cnt: int =0;

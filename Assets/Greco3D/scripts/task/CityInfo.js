@@ -1,9 +1,6 @@
 ﻿#pragma strict
 
-
-
 function OnGUI(){
-
 
 //Static variables/classes
 var run_trial_order : Array = Control.curTrialList[Task.curR];//Get trial order
@@ -15,11 +12,8 @@ if(curT < vars.numT){
 var cityNum : int= run_trial_order[curT];
 }
 
-
 //vars
 var message : String;
-
-
 
 //Setup mesage
 if(CityMorph.trial_action == "iti"){
@@ -45,10 +39,5 @@ message  = "City " + cityNum;
 			);
 			
 				
-       	GUI.Label(buttonRect1,message,styleInstrux);
-      
-       	           	
-  	     	
+       	GUI.Label(buttonRect1,message,styleInstrux);  	     	
  }
- 
-  	

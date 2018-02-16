@@ -1,7 +1,6 @@
 ﻿#pragma strict
 import System.IO;
 
-
 private var reset : boolean = false;
 private var prepareClip : boolean = true;
 private var curPosNav = new Array();
@@ -22,16 +21,14 @@ cityRotList = LoadVideoClips.cityRotList;
 cityVidList = LoadVideoClips.cityVidList;
 ChangeNavClip();
 
-feedBack = GetComponent(FeedBack);																	//Get feedback script
-
+feedBack = GetComponent(FeedBack);
 }
-
 
 function FixedUpdate() {
 	//set from static vars
 	var vars = new VariablesClass();
 	if(Task.curR < vars.numR){
-	run_trial_order = Control.curTrialList[Task.curR];												//Get trial order
+	run_trial_order = Control.curTrialList[Task.curR];
 	}
 	
 
@@ -56,9 +53,6 @@ function FixedUpdate() {
 	       transform.rotation = newRotation;
 		   cnt++;
 		   }	
-		   	    
-		    
-
    }
    else if(CityMorph.trial_action == "reset" && curT < vars.numT || !reset){
    			cnt =0;
@@ -66,13 +60,9 @@ function FixedUpdate() {
    			ChangeNavClip();
    			prepareClip = false;
    			}
-		    reset = true;
-		   
-   }  
-   	
-
+		    reset = true;		   
+   }    	
 }
-
 
 //Change nav clip
 var cntCNC : int = 0;
@@ -96,30 +86,10 @@ curPosNav = curCityPos[0];
 curRotNav = curCityRot[0];
 curVidNav = curCityVid[0];
 
-
 curCityPos.RemoveAt(0);
 curCityRot.RemoveAt(0);
 curCityVid.RemoveAt(0);
 cityPosList[cityNum - 1] = curCityPos;
 cityRotList[cityNum - 1] = curCityRot;
 cityVidList[cityNum - 1] = curCityVid;
-//
-//print("DB..." + curPosNav[0] + ',city num ' + cityNum + ',size of vid array' + curCityPos.length);
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

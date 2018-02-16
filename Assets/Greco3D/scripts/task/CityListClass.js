@@ -269,9 +269,6 @@ var city3_GR_st9_5000_3c=  new City3_st9_5000_3c();
 	city_y_PR_2000[0] = city1_PR_2000.y;
 	city_x_PR_2000[1] = city2_PR_2000.x;
 	city_y_PR_2000[1] = city2_PR_2000.y;
-
-	
-	
 	}
 
 }
