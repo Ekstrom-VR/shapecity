@@ -66,6 +66,7 @@ function FixedUpdate(){
 		   cnt++;
 
 	           if(StartCam){
+				print(CityMorph.trial_action);
 				StartCam = false;
 			    StartCoroutine("TakePic");
 				print("start Takepic");
@@ -73,18 +74,25 @@ function FixedUpdate(){
 		   }	
    }
    else if(CityMorph.trial_action == "reset" && curT < vars.numT || !reset){
-			if(!StartCam){
-			print("stop Takepic");
-			StartCam = true;
-            StopCoroutine("TakePic");
-			}
+
    			cnt =0;
    			if(prepareClip){
    			ChangeNavClip();
    			prepareClip = false;
    			}
-		    reset = true;		   
-   }    	
+		    reset = true;
+
+}
+
+	else{
+			
+			if(!StartCam){
+			print("stop Takepic");
+
+			StartCam = true;
+            StopCoroutine("TakePic");
+			}}		   
+    	
 }
 
 //Change nav clip
