@@ -2,7 +2,6 @@
 
 public class VariablesClass
 {
-
 var version : String = 'GR_st9_5000_3c';
 var taskMode : String =  'trial_compare'; 
 var numVideos : int = 100;    
