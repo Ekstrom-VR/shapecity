@@ -13,6 +13,7 @@ private var intro : boolean = true;
 private var task   : boolean = true;
 var scan : boolean = true;
 private var vars = new VariablesClass();
+public var text	: TextAsset;
 
 function Awake()
 {
@@ -94,6 +95,24 @@ function SetUpTaskType (){
     city_x = cityListInstance.city_x_GR_st9_5000_3c;
 	city_y = cityListInstance.city_y_GR_st9_5000_3c;
 	numCities = 3;
+	}
+
+    if(vars.version == 'CE'){ 
+    
+    curTrialList = trialListInstance.trialList_CE;
+    curStoreList = storeListInstance.stores_CE;
+    city_x = cityListInstance.city_x_CE;
+	city_y = cityListInstance.city_y_CE;
+	numCities = 4;
+    }
+
+	if(vars.version == 'PR_1000'){
+
+	curTrialList = trialListInstance.trialList_PR;
+	curStoreList = storeListInstance.stores_PR;
+	city_x = cityListInstance.city_x_PR;
+	city_y = cityListInstance.city_y_PR;
+	numCities = 2;
 	}	
 	
 	//Play

@@ -5,7 +5,7 @@ public class VariablesClass
 var version : String = 'GR_st9_5000_3c';
 var taskMode : String =  'trial_compare'; 
 var numVideos : int = 100;    
-var trial_time  : float = 20;
+var trial_time  : float = 5;
 var numR  : int = 4;
 var numT : int = 25;
 var feedBackOn : boolean = false;
@@ -21,5 +21,5 @@ var rotate_type : int = 0;
  var iti_time  : float = 5;
  var int_AB_time = .3;
  var ab_num_trials : float=3;
- var activeBL_On : boolean = true;
+ var activeBL_On : boolean = false;
 }
