@@ -13,8 +13,8 @@ private var cityRotList = new Array();
 private var cityVidList = new Array();
 private var cnt : int = 0;
 private var feedBack : FeedBack;
-private var cameraOn : boolean = true;
-public  var StartCam : boolean = false;
+private var UseCamera : boolean = false;
+private  var StartCam : boolean = false;
 private var picN : int = 0;
 private var line;
 private var vars = new VariablesClass();
@@ -126,7 +126,7 @@ function ChangeNavClip(){
 }
 
 function TakePic(){
-	if(cameraOn){
+	if(UseCamera){
 		while(true){
 			yield WaitForSeconds(.1); 
 			
