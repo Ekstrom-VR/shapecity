@@ -1,8 +1,7 @@
 ﻿#pragma strict
 																								
-var instructions1 = 'Navigation task';
-					
-var press_space = '(Press spacebar to begin)';
+var instructions1 = 'Navigation task \n' +
+					'(Press spacebar to begin)';
 
 var curinstruct;
 var cnt : int = 0;
@@ -24,10 +23,10 @@ function Update (){
 function OnGUI(){
 
 		var styleInstrux : GUIStyle = new GUIStyle();
-		styleInstrux.fontSize = 20;
+		styleInstrux.fontSize = 40;
         styleInstrux.normal.textColor = Color.black;
         
-        var buttonWidth : int = 300;
+        var buttonWidth : int = 500;
 		var buttonHeight : int = 100;
 		var buttonRect1 =Rect(
 			Screen.width / 2 - (buttonWidth / 2),
@@ -35,19 +34,9 @@ function OnGUI(){
 			buttonWidth,
 			buttonHeight
 			);
-			
-		var buttonRect2 =Rect(
-			Screen.width/2 - (buttonWidth / 4),
-			(Screen.height * .9) - (buttonHeight / 4),
-			buttonWidth,
-			buttonHeight
-			);
-			
-		
+					
        	if(cnt==0){
        	GUI.Label(buttonRect1,instructions1,styleInstrux);
-       	GUI.Label(buttonRect2,press_space,styleInstrux);
-
        	}			     	
  }
  
