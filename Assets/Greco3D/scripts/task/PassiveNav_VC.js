@@ -84,7 +84,6 @@ function FixedUpdate(){
 
 }
 
-
 else{
 			
 			if(!StartCam){

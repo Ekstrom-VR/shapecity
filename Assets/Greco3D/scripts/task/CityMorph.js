@@ -43,10 +43,10 @@ function OnEnable(){
 		
 		//Config first city
 			CityChange();
-			RotateWalls();
-			if(vars.rotate_mode){
-			RotateStores();
-			}
+//			RotateWalls();
+//			if(vars.rotate_mode){
+//			RotateStores();
+//			}
 }
 
 	function Update(){
@@ -117,7 +117,7 @@ function ChangeCityCo(){
 
  	yield WaitForSeconds(0.5);
 	CityChange();
-	RotateWalls();
+//	RotateWalls();
 	if(vars.rotate_mode){
 		RotateStores();
 	}
@@ -138,62 +138,62 @@ city_currentz =Control.city_y[cityNum -1];
 				  GameObject.Find(Control.curStoreList[i]).transform.position.z =city_currentz[i];
 				  
 				//Setup walls
-				  GameObject.Find("wall" + i).transform.position.x= city_currentx[i];
-				  GameObject.Find("wall" + i).transform.position.z =city_currentz[i];	
+//				  GameObject.Find("wall" + i).transform.position.x= city_currentx[i];
+//				  GameObject.Find("wall" + i).transform.position.z =city_currentz[i];	
 				  			  	  			  			  
 		 }	
 }
 		 		 	 
-function RotateStores(){
-          for( var j : int = 0; j < Control.curStoreList.length; j++){				  
-				  var targetDir : Vector3;
-				  
-				 
-				  if(j != Control.curStoreList.length -1){
-				     targetDir =  GameObject.Find(Control.curStoreList[j+1]).transform.position - GameObject.Find(Control.curStoreList[j]).transform.position;  
-				 }	  	
-			     else {
-				     targetDir =  GameObject.Find(Control.curStoreList[0]).transform.position - GameObject.Find(Control.curStoreList[j]).transform.position;
-				 }
-				  
-				   targetDir.y = 0;
-				   var forward = GameObject.Find(Control.curStoreList[j]).transform.forward;
-				   
-				   
-				   //Rotate stores
-				   if(vars.rotate_type==1){
-				   	GameObject.Find(Control.curStoreList[j]).transform.rotation= Quaternion.LookRotation(targetDir);
-				   	}
-				   else if(vars.rotate_type==2){
-					if(GameObject.Find(Control.curStoreList[j]).tag != "store"){
-					   GameObject.Find(Control.curStoreList[j]).transform.rotation= Quaternion.LookRotation(targetDir);
-					   }
-				   }
-				  		  			  			  
-		 	}
+//function RotateStores(){
+//          for( var j : int = 0; j < Control.curStoreList.length; j++){				  
+//				  var targetDir : Vector3;
+//				  
+//				 
+//				  if(j != Control.curStoreList.length -1){
+//				     targetDir =  GameObject.Find(Control.curStoreList[j+1]).transform.position - GameObject.Find(Control.curStoreList[j]).transform.position;  
+//				 }	  	
+//			     else {
+//				     targetDir =  GameObject.Find(Control.curStoreList[0]).transform.position - GameObject.Find(Control.curStoreList[j]).transform.position;
+//				 }
+//				  
+//				   targetDir.y = 0;
+//				   var forward = GameObject.Find(Control.curStoreList[j]).transform.forward;
+//				   
+//				   
+//				   //Rotate stores
+//				   if(vars.rotate_type==1){
+//				   	GameObject.Find(Control.curStoreList[j]).transform.rotation= Quaternion.LookRotation(targetDir);
+//				   	}
+//				   else if(vars.rotate_type==2){
+//					if(GameObject.Find(Control.curStoreList[j]).tag != "store"){
+//					   GameObject.Find(Control.curStoreList[j]).transform.rotation= Quaternion.LookRotation(targetDir);
+//					   }
+//				   }
+//				  		  			  			  
+//		 	}
+//		 
+//}
 		 
-}
-		 
-function RotateWalls(){
-		for( var k : int = 0; k < Control.curStoreList.length; k++){
-				  
-				  var targetDirW : Vector3;
-				 
-				 
-				  if(k != Control.curStoreList.length -1){
-				     targetDirW =  GameObject.Find(Control.curStoreList[k+1]).transform.position - GameObject.Find(Control.curStoreList[k]).transform.position;  
-				 }	  	
-			     else {
-				     targetDirW =  GameObject.Find(Control.curStoreList[0]).transform.position - GameObject.Find(Control.curStoreList[k]).transform.position;
-				 }
-				  
-				   var forward = GameObject.Find(Control.curStoreList[k]).transform.forward;
-				   GameObject.Find("wall" + k).transform.rotation= Quaternion.LookRotation(targetDirW);
-				   GameObject.Find("wall" + k).transform.localScale.z = targetDirW.magnitude*2;
-				  		  			  			  
-		 	}
-	 
-}
+//function RotateWalls(){
+//		for( var k : int = 0; k < Control.curStoreList.length; k++){
+//				  
+//				  var targetDirW : Vector3;
+//				 
+//				 
+//				  if(k != Control.curStoreList.length -1){
+//				     targetDirW =  GameObject.Find(Control.curStoreList[k+1]).transform.position - GameObject.Find(Control.curStoreList[k]).transform.position;  
+//				 }	  	
+//			     else {
+//				     targetDirW =  GameObject.Find(Control.curStoreList[0]).transform.position - GameObject.Find(Control.curStoreList[k]).transform.position;
+//				 }
+//				  
+//				   var forward = GameObject.Find(Control.curStoreList[k]).transform.forward;
+//				   GameObject.Find("wall" + k).transform.rotation= Quaternion.LookRotation(targetDirW);
+//				   GameObject.Find("wall" + k).transform.localScale.z = targetDirW.magnitude*2;
+//				  		  			  			  
+//		 	}
+//	 
+//}
 
 function NextTaskStage(){
 	Task.task_stage = "End";

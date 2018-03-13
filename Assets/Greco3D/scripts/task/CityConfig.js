@@ -1,21 +1,11 @@
 #pragma strict
 
-
-
-
 function Start(){
-
-	
 	 
 	 AddStores();
-	 AddWalls();
-//	 AddTargets();
-			
+//	 AddWalls();
+//	 AddTargets();			
 	}
-
-
-
-
 
 function AddStores(){
 	var new_city =  new GameObject("City");
@@ -50,16 +40,15 @@ function AddStores(){
 
 }
 
-
-function AddWalls(){
-
-	var new_walls = new GameObject("Walls");
-	for ( var i : int = 0; i < Control.curStoreList.length; i++){
-	var instance : GameObject = Instantiate(Resources.Load("wall",GameObject));
-	instance.name = "wall" + i;
-	instance.transform.parent = new_walls.transform;
-	}
-}
+//function AddWalls(){
+//
+//	var new_walls = new GameObject("Walls");
+//	for ( var i : int = 0; i < Control.curStoreList.length; i++){
+//	var instance : GameObject = Instantiate(Resources.Load("wall",GameObject));
+//	instance.name = "wall" + i;
+//	instance.transform.parent = new_walls.transform;
+//	}
+//}
 
 //function AddTargets(){	
 //	for ( var store in Control.Control.curStoreList){
