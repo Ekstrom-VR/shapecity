@@ -17,28 +17,14 @@ function Start(){
 	
 function Update () {
 
-    var space_up =   Input.GetKeyUp(KeyCode.Space);
-    var esc_up   =   Input.GetKeyUp(KeyCode.Escape);
-    
-  
-    
-    
-    if(space_up){
+    var space_up =   Input.GetKeyUp(KeyCode.Space);    
+   
+    if(space_up && !monRunning){
       StageChange();	
     }
-    
-	
-	if(esc_up){
-	 Application.Quit();
-	}	
 }
 
-
-
-
-
 function RunMontage(){
-
 
    print("Run montage called");
 
@@ -73,15 +59,11 @@ function RunMontage(){
 	
 	}
 	monRunning = false;
-	StageChange();
-
-			
+	StageChange();			
 }
 
-
 function OnGUI(){																		//present instructions
-     
-     
+         
       switch(curStage)
     {
     
@@ -206,6 +188,4 @@ function ConfigureCity(){																//Estabilishes the correct store list
 	else if(version == 'GR_st9'){
 		curStoreList = storeListInstance.stores_GR_st9;
 	}
-
-
 }

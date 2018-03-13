@@ -1,10 +1,8 @@
 ﻿#pragma strict
-																							
-	
-var instructions1 = 'You will be presented with a series \n' +
-					'of videos. Watch each video closely.\n ' ;
+																								
+var instructions1 = 'Navigation task';
 					
-var press_space = '(Press spacebar)';
+var press_space = '(Press spacebar to begin)';
 
 var curinstruct;
 var cnt : int = 0;
@@ -15,34 +13,19 @@ function Update (){
     var esc_up   =   Input.GetKeyUp(KeyCode.Escape);
     
     if(cnt==1){
-
-      NextModule();
+		NextModule();
 	}
-    
-    
-    if(space_up)
-    {
-		 
-	 cnt++;
-						
-	}
-	
-	if(esc_up)
-	{
-	
-	cnt = 0;
-	
+        
+    if(space_up){
+		cnt++;						
 	}	
 }
-
-
-
 
 function OnGUI(){
 
 		var styleInstrux : GUIStyle = new GUIStyle();
 		styleInstrux.fontSize = 20;
-        styleInstrux.normal.textColor = Color.white;
+        styleInstrux.normal.textColor = Color.black;
         
         var buttonWidth : int = 300;
 		var buttonHeight : int = 100;
@@ -65,16 +48,9 @@ function OnGUI(){
        	GUI.Label(buttonRect1,instructions1,styleInstrux);
        	GUI.Label(buttonRect2,press_space,styleInstrux);
 
-       	}
-      
-	       
-
-			     	
+       	}			     	
  }
  
-  	
-
 function NextModule(){
 Destroy(this);
 }  	
-
