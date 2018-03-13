@@ -10,14 +10,13 @@ function Start(){
 	background.SetActive(true);
 }
 
-
-
 function Update (){
  
     var space_up =   Input.GetKeyUp(KeyCode.Space);
     var esc_up   =   Input.GetKeyUp(KeyCode.Escape);
-    var t_trig = 	 Input.GetKeyUp(KeyCode.Alpha5);
-    
+//    var t_trig = 	 Input.GetKeyUp(KeyCode.Alpha5);
+    var t_trig = 	 Input.GetKeyUp(KeyCode.Space);
+
     //
      if(space_up){
   	cnt++;
@@ -30,12 +29,11 @@ function Update (){
     	}
 }
 
-
 function OnGUI(){
 	//guiStyle specs
 	var style1 : GUIStyle = new GUIStyle();
-		style1.normal.textColor = Color.white;
-		style1.fontSize = 60;
+		style1.normal.textColor = Color.black;
+		style1.fontSize = 70;
 		style1.alignment = TextAnchor.MiddleCenter;
 	var buttonWidth : int = 50;
 	var buttonHeight : int = 20;
@@ -43,28 +41,34 @@ function OnGUI(){
 	var message : String;
 	//Configure message
 	if(cnt ==0)
-	         message = "Run over";
-	if(cnt ==1){
-		if (Task.curR >= vars.numR - 1){
+	{
+		if (Task.curR == vars.numR - 1){
 	//	message = "The End!\n" + Output.acc_total + " / "  + (vars.numT-1)  + "\n"+ Mathf.Round((Output.acc_total/(vars.numT-1))*100f) + " %";
 	    message = "The End!\n" + Output.acc_total;
 		}
-		else {
+		else if (Task.curR < vars.numR - 1) {
 	//	message = "Break!\n" + Output.acc_total + " / " + (vars.numT-1)  + "\n"+ Mathf.Round((Output.acc_total/(vars.numT-1))*100f) + " %" +
 	//	         "\n (Experimenter will start next run)";
 		         
 		message = "Break!\n" + Output.acc_total +  "\n (Experimenter will start next run)";
 		
 		}
+
+		
 		startNextRun = true;
 	}
+	if(startNextRun==true)
+	{
+		if (Task.curR == vars.numR - 1){
+	    message = "Press spacebar to start next task";
+		}
+		else if (Task.curR < vars.numR - 1) {   
+		message = "Press spacebar to start next run";
+		}
+	}
 	
-	GUI.Label(rect1,message,style1);		
-				
+	GUI.Label(rect1,message,style1);						
 }
-  
-  
- 
    
 function NextTaskStage(){
 Task.curR++;
@@ -74,8 +78,11 @@ if(Task.curR < vars.numR){
  }
  else {
  
- Application.Quit();
- 
+// Application.Quit();
+var expObj : GameObject = GameObject.Find("Experiment");
+var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
+expScript.LoadNextModule();
+
  }
 }  	 	
 

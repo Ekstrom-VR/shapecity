@@ -1,4 +1,2 @@
 Global_trial_num	run_num	trial_time	resp_key	resp_time	trial_type	acc	currCity	priorCity	trialList	respList	curVidNav
-1	 0	 0.02	nan	0	null	0	3	99			NavClipsFinalCutRand/GR_st9_5000_3c_2/Position/position_1.txt
-2	 0	 10.06175	nan	0	d	0	2	3			NavClipsFinalCutRand/GR_st9_5000_3c_1/Position/position_0.txt
-3	 0	 20.06985	nan	0	d	0	3	2			NavClipsFinalCutRand/GR_st9_5000_3c_2/Position/position_2.txt
+1	 0	 0.01670802	nan	0	null	0	3	99			NavClipsFinalCutRand/GR_st9_5000_3c_2/Position/position_1.txt

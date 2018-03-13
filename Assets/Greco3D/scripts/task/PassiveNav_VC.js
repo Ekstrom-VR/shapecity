@@ -84,7 +84,8 @@ function FixedUpdate(){
 
 }
 
-	else{
+
+else{
 			
 			if(!StartCam){
 			print("stop Takepic");

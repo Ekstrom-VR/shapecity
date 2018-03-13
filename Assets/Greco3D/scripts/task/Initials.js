@@ -127,12 +127,8 @@ function OnGUI(){
 		
 				else {
 					resp += c;
-					resp = resp.ToUpper();
-
-					
+					resp = resp.ToUpper();					
 				}
-				
-				
 					// Normal text input - just append to the end
 				if (c == "\b"[0] && i == 2){
 					i = 0;
@@ -142,11 +138,7 @@ function OnGUI(){
 				
 		}
 		
-	}
-	
-	
-	
-	
+	}	
 	      	
 function NextModule(){
 Destroy(this);

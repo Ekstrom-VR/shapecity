@@ -1,14 +1,14 @@
 ﻿#pragma strict
 
 private var version : String = "GR_st9";//"GR_8st";
-var curStoreList = new Array();
-var monRunning = false;
-var style : GUIStyle = new GUIStyle();
-var stages = new Array("Instructions", "Montage","End");
-var cnt =0;
-var curStage : String;
-var store : GameObject;
-var numRuns : int = 3;
+private var curStoreList = new Array();
+private var monRunning = false;
+private var style : GUIStyle = new GUIStyle();
+private var stages = new Array("Instructions", "Montage","End","Next task");
+private var cnt =0;
+private var curStage : String;
+private var store : GameObject;
+private var numRuns : int = 1;//3
 
 function Start(){
 	ConfigureCity();
@@ -31,10 +31,6 @@ function Update () {
 	if(esc_up){
 	 Application.Quit();
 	}	
-
-
- 
-
 }
 
 
@@ -116,10 +112,8 @@ function OnGUI(){																		//present instructions
 		var rect3 = SetGUIRect(100,50,.5,.1);
        	GUI.Label(rect3,instructions3,style3);
        	
-       	
-       	
        	var style4 = SetGUIStyle(20);
-        var instructions4 = "(Press escape to close)";
+        var instructions4 = "(Press spacebar to continue)";
 		var rect4 = SetGUIRect(100,50,.5,.9);
        	GUI.Label(rect4,instructions4,style4);
        	break;  
@@ -127,8 +121,6 @@ function OnGUI(){																		//present instructions
    
             	     
 }
-
-
 
 function StageChange(){																	//iterate stage index
 	  if(cnt <stages.length-1){
@@ -162,12 +154,17 @@ function StageChange(){																	//iterate stage index
         Destroy(store);
         monRunning = false;
     	break;
+	
+	case "Next task":
+	
+		var expObj : GameObject = GameObject.Find("Experiment");
+		var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
+		expScript.LoadNextModule();
     }
    
 }
 
-function SetGUIStyle(fontsize : int) : GUIStyle{														//set GUIstyle
-//       var style : GUIStyle = new GUIStyle();
+function SetGUIStyle(fontsize : int) : GUIStyle{
       
 	   style.fontSize = fontsize;
        style.normal.textColor = Color.white;

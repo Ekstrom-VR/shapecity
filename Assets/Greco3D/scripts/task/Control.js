@@ -11,9 +11,7 @@ static var player : GameObject;
 private var background : GameObject; 
 private var intro : boolean = true;
 private var task   : boolean = true;
-var scan : boolean = true;
 private var vars = new VariablesClass();
-public var text	: TextAsset;
 
 function Awake()
 {
@@ -39,25 +37,24 @@ function Start ()
     intro = false;
     task = false;
 	}
-	else{
-	GetInitials();
-	}		
+//	else if(vars.initials){
+//	GetInitials();
+//	}		
 }
 
 function Update(){
 
 var initials : Initials = GetComponent(Initials);
-var instructs : Instructs = GetComponent(Instructs);
-var instructs_scan : Instructs_scan = GetComponent(Instructs_scan);
+var instructs : Instructs_short = GetComponent(Instructs_short);
 
 curTrialList_ins = curTrialList;
 
-if(initials == null && instructs == null && instructs_scan == null && intro){
+if(initials == null && instructs == null  && intro){
 //Present instructions
 PresentInstruct();
 intro=false;
 }
-else if(initials == null && instructs == null && instructs_scan == null && !intro && task ){
+else if(initials == null && instructs == null && !intro && task ){
 //Cue up task
 StartTask();
 task=false;
@@ -70,12 +67,8 @@ gameObject.AddComponent(Initials);
 }
 
 function PresentInstruct(){
-	if(scan){
-    gameObject.AddComponent(Instructs_scan);
-	}
-	else{
-	gameObject.AddComponent(Instructs);
-	}
+    gameObject.AddComponent(Instructs_short);
+
 }
 
 function StartTask(){

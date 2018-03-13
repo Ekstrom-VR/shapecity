@@ -8,7 +8,7 @@ var rocketInstance : GameObject;
 function Update(){
 
 //Duplicate
-	if(Input.GetButtonDown("Fire2") && !SelectStore.storeSelected && MD_initials.initCheck)
+	if(Input.GetButtonDown("Fire2") && !SelectStore.storeSelected)
 	{
 			identifier = identifier +1;
 			rocketInstance = Instantiate(rocketPrefab,rocketPrefab.transform.position + new Vector3(1,1,0),  Quaternion.identity);

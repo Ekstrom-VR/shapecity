@@ -21,11 +21,10 @@ var trial_action_ins : String;
 
 var feedBack : FeedBack;
 
-	function OnEnable(){
+function OnEnable(){
 		trial_action = 'reset';
 		iti = GetComponent(ITI); //ITI script
-		origin = GameObject.Find("Roundabout").transform;
-		
+		origin = GameObject.Find("Roundabout").transform;		
 	  
 	    run_trial_order = Control.curTrialList[Task.curR];//Get trial order
 	    
@@ -48,7 +47,7 @@ var feedBack : FeedBack;
 			if(vars.rotate_mode){
 			RotateStores();
 			}
-	}
+}
 
 	function Update(){
 	stopwatch += Time.deltaTime;
@@ -61,8 +60,7 @@ var feedBack : FeedBack;
 	if(getStartTime == true){
       startTime =stopwatch;
       getStartTime = false;
-	}
-	
+	}	
 
     if(timer > vars.iti_time && timer < total_time) {
 	trial_action = "task";
@@ -89,17 +87,13 @@ var feedBack : FeedBack;
 		Task.curT++;
 		
 		}
-		
-		
+				
 //Change City ofter iterating trials. Should go back and modify this code.
-		if(cityChange){
-		
-		
+		if(cityChange){				
 					if(Task.curT < vars.numT){
 						ChangeCityCo();	
 					}
-					cityChange = false;
-		
+					cityChange = false;		
 		}
 	}
 	else if (timer <= 0){
@@ -119,7 +113,6 @@ var feedBack : FeedBack;
 }
 
 
-
 function ChangeCityCo(){
 
  	yield WaitForSeconds(0.5);
@@ -129,9 +122,6 @@ function ChangeCityCo(){
 		RotateStores();
 	}
 }
-
-
-
 
 function CityChange(){
 //print("DB...city change: city num =" + cityNum);
@@ -143,9 +133,7 @@ city_currentz =Control.city_y[cityNum -1];
 
 	//Reposition Control.curStoreList
       for( var i : int = 0; i < Control.curStoreList.length; i++){
-        
-        
-			
+                			
 				  GameObject.Find(Control.curStoreList[i]).transform.position.x= city_currentx[i];
 				  GameObject.Find(Control.curStoreList[i]).transform.position.z =city_currentz[i];
 				  
@@ -155,10 +143,7 @@ city_currentz =Control.city_y[cityNum -1];
 				  			  	  			  			  
 		 }	
 }
-		 
-		 
-		 
-		 
+		 		 	 
 function RotateStores(){
           for( var j : int = 0; j < Control.curStoreList.length; j++){				  
 				  var targetDir : Vector3;
@@ -210,11 +195,7 @@ function RotateWalls(){
 	 
 }
 
-
 function NextTaskStage(){
 	Task.task_stage = "End";
 	this.enabled = false; 
 }  	
-
-
-  
