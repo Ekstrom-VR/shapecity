@@ -16,25 +16,20 @@ private var vars: Config;
 
 function Awake()
 {
-var config : GameObject = GameObject.Find("Config");
-vars = config.GetComponent(Config) as Config;
+	var config : GameObject = GameObject.Find("Config");
+	vars = config.GetComponent(Config) as Config;
  
-
     background = GameObject.Find("Background");
 	SetUpTaskType();
 }
 
 function Start () 
 {
-
-
    //Setup gameobjects
 	gameObject.AddComponent(CityConfig);
 
 	//Load video clips if necessary
-	if(vars.navType=="passive_VC"){
 	gameObject.AddComponent(LoadVideoClips);
-	}
 	
 	//activate player
     player.SetActive(true);
@@ -117,10 +112,6 @@ function SetUpTaskType (){
 	
 	//Play
 	var playerPassive = GameObject.Find("Passive Navigator");
-   
     playerPassive.SetActive(false);
-   
-   if(vars.navType == "passive" || vars.navType == "passive_VC" ){
    	player = playerPassive;
-   }
 }

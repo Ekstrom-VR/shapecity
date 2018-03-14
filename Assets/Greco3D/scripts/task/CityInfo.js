@@ -7,8 +7,6 @@ vars = config.GetComponent(Config) as Config;
 
 }
 
-
-
 function OnGUI(){
 
 //Static variables/classes
@@ -46,7 +44,6 @@ message  = "City " + cityNum;
 			buttonWidth,
 			buttonHeight
 			);
-			
-				
+							
        	GUI.Label(buttonRect1,message,styleInstrux);  	     	
  }

@@ -12,5 +12,3 @@ public class RandPosition
 	  player.transform.Rotate(rot);
 	}
 }
-
-

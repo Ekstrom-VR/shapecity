@@ -182,9 +182,6 @@ function ConfigureCity(){																//Estabilishes the correct store list
 		curStoreList = storeListInstance.stores_PR;
 	}
 	
-	else if(version == 'GR_st8'){
-		curStoreList = storeListInstance.stores_GR_st8;
-	}
 	else if(version == 'GR_st9'){
 		curStoreList = storeListInstance.stores_GR_st9;
 	}

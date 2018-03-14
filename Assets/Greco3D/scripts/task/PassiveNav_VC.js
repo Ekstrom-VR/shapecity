@@ -18,7 +18,7 @@ private  var StartCam : boolean = false;
 private var picN : int = 0;
 private var line;
 //private var vars = new VariablesClass();
-private var vars: Config;
+private var vars : Config;
 private var cntSS : int = 1;
 private var subj : String;
 private var outPath : String;

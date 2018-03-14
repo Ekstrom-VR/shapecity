@@ -11,7 +11,6 @@ var preRun = 'CountDown';//Either 'Task' or 'CountDown'
 var test_mode : boolean= false; 
 var present_city_info = false;
 var pc_run : int = 0;
-var navType = 'passive_VC';
 var rotate_mode : boolean = true;
 var rotate_type : int = 0;
 var initials : boolean = false;
