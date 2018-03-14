@@ -9,14 +9,11 @@ var instructions3 = 'Check?';
 var stage = new Array('initials', 'age','Check');
 var instrux;
 static var start : GameObject;
-var menuOnSpace : MenuOnSpace;
 
 function Start(){
 
 start = GameObject.Find("Start");
 start.SetActive(false);
-menuOnSpace = GetComponent(MenuOnSpace);
-
 }
 
 
@@ -41,20 +38,9 @@ function Update(){
 		//Start Instructions script
 		if(i == 3)
 		{
-		menuOnSpace.enabled = true;
-		this.enabled = false;
-		}	
-		
-		//Abort and menu and start task	
-		if(Input.GetKey(KeyCode.LeftControl)&&Input.GetKeyDown(KeyCode.Q)){
-		
-	
-		PlayerPrefs.SetString('subj_id','JDS99');
-		Application.LoadLevel("Greco3D_CE");
-		
-		}				
-		
-				
+			//add next component
+
+		}					
 }
 		
 
@@ -146,7 +132,3 @@ function Update(){
 		}
 		
 	}
-	
-	
-	
-	

@@ -17,13 +17,19 @@ private var UseCamera : boolean = false;
 private  var StartCam : boolean = false;
 private var picN : int = 0;
 private var line;
-private var vars = new VariablesClass();
+//private var vars = new VariablesClass();
+private var vars: Config;
 private var cntSS : int = 1;
 private var subj : String;
 private var outPath : String;
 private var fname : String;
 
 function OnEnable(){
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+ 
+
 	subj = PlayerPrefs.GetString("subj_id");
 	outPath = "screenshots/" + vars.version + "/";
 	fname = outPath +  subj + "_" + vars.version + "_ss.txt";
@@ -36,6 +42,9 @@ function OnEnable(){
 	}
 }
 function Start(){
+
+
+
 //set from static vars
 cityPosList = LoadVideoClips.cityPosList;
 cityRotList = LoadVideoClips.cityRotList;
@@ -47,7 +56,7 @@ StartCam = true;
 
 function FixedUpdate(){
 	//set from static vars
-	var vars = new VariablesClass();
+//	var vars = new VariablesClass();
 	if(Task.curR < vars.numR){
 	run_trial_order = Control.curTrialList[Task.curR];   
 	}	

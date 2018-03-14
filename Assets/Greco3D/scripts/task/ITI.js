@@ -4,7 +4,7 @@
 private var text : String = "+";
 private var fontSize : int = 200;
 private var activeBL_On : boolean;
-private var vars = new VariablesClass();
+//private var vars = new VariablesClass();
 private var ab_trial_time: float;
 private var collectResp : boolean;
 private var respNum : int;
@@ -12,8 +12,12 @@ private var keyUp : boolean;
 private var cnt : int;
 static var respList = new Array();
 static  var trialList = new Array();
-
+private var vars : Config;
 function Awake(){
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+
 	if(vars.activeBL_On){
 	ab_trial_time = (vars.iti_time - (vars.int_AB_time * (vars.ab_num_trials + 1)))/vars.ab_num_trials;
 	}

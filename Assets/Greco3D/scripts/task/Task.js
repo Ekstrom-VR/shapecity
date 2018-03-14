@@ -12,9 +12,16 @@ static var task_stage : String;
 static var curR : int;
 static var curT : int;
 static var background : Background;
-var vars : VariablesClass = new VariablesClass();
+var vars : Config;
 var curR_ins : int;
 var curT_ins : int;
+
+function Awake(){
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+ 
+}
 
 function Start(){
 
@@ -44,12 +51,10 @@ function Update(){
 		output.enabled=true;
 		objectInView.enabled=true;
 		end.enabled=false;
-		if(vars.navType == "passive"){
-//		Control.player.GetComponent(PassiveNav4).enabled = true;
-		}
-		else if(vars.navType == "passive_VC"){
+		
+
 		Control.player.GetComponent(PassiveNav_VC).enabled = true;
-		}
+
 		
 		if(vars.present_city_info){		
 		cityInfo.enabled = true;		
@@ -64,12 +69,8 @@ function Update(){
 	    objectInView.enabled=false;
 	   	end.enabled=true; 
 	    curT = 0;
-		if(vars.navType == "passive"){
-//		Control.player.GetComponent(PassiveNav4).enabled = true;
-		}
-		else if(vars.navType == "passive_VC"){
+
 		Control.player.GetComponent(PassiveNav_VC).enabled = true;
-		}
 		
 		if(vars.present_city_info){		
 		cityInfo.enabled = false;		
@@ -89,14 +90,11 @@ function SetUpComps(){
     gameObject.AddComponent(CityInfo);
     gameObject.AddComponent(FeedBack);
     
-	if(vars.navType == "passive"){
-//	Control.player.AddComponent(PassiveNav4);	
-//    Control.player.GetComponent(PassiveNav4).enabled = false;
-	}
-	else if(vars.navType == "passive_VC"){
+
+
 	Control.player.AddComponent(PassiveNav_VC);	
     Control.player.GetComponent(PassiveNav_VC).enabled = false;
-	}
+
 	    
     countDown = GetComponent(CountDown); 
     cityMorph = GetComponent(CityMorph);

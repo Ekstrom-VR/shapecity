@@ -32,7 +32,6 @@ var instrux_startScan = 'Get ready! Task will start soon.';
 
 var curinstruct;
 var cnt : int = 0;
-var vars = new VariablesClass();
 
 //For Shape presentation
 

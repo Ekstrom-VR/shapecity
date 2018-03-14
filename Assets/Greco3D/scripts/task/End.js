@@ -1,9 +1,15 @@
 #pragma strict
  
 var background : GameObject;
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
+var vars : Config;
 var startNextRun : boolean = false;
 var cnt : int =0;
+
+function Awake(){
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+}
 
 function Start(){
 	var background = GameObject.Find("Background");

@@ -20,9 +20,14 @@ var trial_order = new Array();
 var start_time : float;
 var acc_curr  : int;
 static var acc_total  : float;
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
+var vars: Config;
 
 function OnEnable() {
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+
 //Initialize variables
 	logTrial = true;
 	acc_curr  = 0;

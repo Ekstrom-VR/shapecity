@@ -1,12 +1,21 @@
 ﻿#pragma strict
 
+var vars : Config;
+function Awake(){
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+
+}
+
+
+
 function OnGUI(){
 
 //Static variables/classes
 var run_trial_order : Array = Control.curTrialList[Task.curR];//Get trial order
 var curT = Task.curT;
 var curR = Task.curR;
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
 
 if(curT < vars.numT){
 var cityNum : int= run_trial_order[curT];

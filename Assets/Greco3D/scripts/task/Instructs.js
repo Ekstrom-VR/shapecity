@@ -29,7 +29,8 @@ var press_space = '(Press spacebar)';
 
 var curinstruct;
 var cnt : int = 0;
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
+var vars : Config;
 
 //For Shape presentation
 
@@ -49,7 +50,10 @@ private var shape2_trial_times = new Array();
 private var shape2_t_dynamic_tx: Texture2D = null;
 
 
-
+function Awake(){
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+}
 
 function Update (){
  

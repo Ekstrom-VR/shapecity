@@ -1,14 +1,19 @@
 ﻿#pragma strict
 import System.IO;
 
-
 static var cityPosList = new Array();
 static var cityRotList = new Array();
 static var cityVidList = new Array();
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
+var vars : Config;
 var path : String = "NavClipsFinalCutRand/";
 
 function Start() {
+
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+ 
 
 	//Setup variables
 	var numCities : int = Control.numCities;
@@ -17,7 +22,6 @@ function Start() {
 	cityRotList = new Array[numCities];
 	cityVidList = new Array[numCities];
 	
-
 	//Read in navigation files
 	for(var iC : int = 0; iC < numCities; iC++){
 		var posNavArray = new Array[numVideos];
@@ -108,7 +112,5 @@ function Start() {
 
 //		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
 	   
-	}
-				
+	}				
 }
-

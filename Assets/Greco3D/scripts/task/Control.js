@@ -11,16 +11,23 @@ static var player : GameObject;
 private var background : GameObject; 
 private var intro : boolean = true;
 private var task   : boolean = true;
-private var vars = new VariablesClass();
+//private var vars = new VariablesClass();
+private var vars: Config;
 
 function Awake()
 {
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+ 
+
     background = GameObject.Find("Background");
 	SetUpTaskType();
 }
 
 function Start () 
 {
+
+
    //Setup gameobjects
 	gameObject.AddComponent(CityConfig);
 
@@ -77,7 +84,7 @@ gameObject.AddComponent(Task);
 
 function SetUpTaskType (){
 
-    var vars = new VariablesClass();
+//    var vars = new VariablesClass();
 	var trialListInstance= new TrialListClass();
 	var storeListInstance = new StoreListClass();
 	var cityListInstance = new CityListClass();

@@ -12,7 +12,8 @@ private var  total_time : float;
 private var feedBackCheck : boolean =true;
 var origin : Transform;
 var timer : float;
-var vars = new VariablesClass();
+//var vars = new VariablesClass();
+var vars : Config;
 var iti : ITI;
 var task = new Task();
 var control = new Control();
@@ -22,6 +23,10 @@ var trial_action_ins : String;
 var feedBack : FeedBack;
 
 function OnEnable(){
+
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+
 		trial_action = 'reset';
 		iti = GetComponent(ITI); //ITI script
 		origin = GameObject.Find("Roundabout").transform;		
@@ -118,9 +123,9 @@ function ChangeCityCo(){
  	yield WaitForSeconds(0.5);
 	CityChange();
 //	RotateWalls();
-	if(vars.rotate_mode){
-		RotateStores();
-	}
+//	if(vars.rotate_mode){
+//		RotateStores();
+//	}
 }
 
 function CityChange(){

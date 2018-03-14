@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;//Allows us to use Lists. 
     
 
-public class Config : MonoBehaviour
+public class Config_test : MonoBehaviour
 {
 	public string version = "GR_st9_5000_3c";
 	public string taskMode  =  "trial_compare"; 
@@ -26,7 +26,7 @@ public class Config : MonoBehaviour
 	public int ab_num_trials = 3;
 	public bool activeBL_On = true;
 
-	public static Config instance = null;
+	public static Config_test instance = null;
 	void Awake()
 	{
 	 	if (instance == null)
