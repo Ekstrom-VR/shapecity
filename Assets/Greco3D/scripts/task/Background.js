@@ -1,14 +1,12 @@
 ﻿#pragma strict
 
-
 var bgGuiText : GUITexture;
 var background : GameObject;
 var fadeMode : boolean = true;
 
 function Awake() {
-background = GameObject.Find("Background");
-bgGuiText = background.GetComponent(GUITexture);
-
+	background = GameObject.Find("Background");
+	bgGuiText = background.GetComponent(GUITexture);
 }
 
 function BackGroundOff() {
@@ -20,7 +18,6 @@ function BackGroundOff() {
 	{	
 	background.SetActive(false);
 	}
-
 }
 
 function BackGroundOn() {
@@ -32,7 +29,6 @@ function BackGroundOn() {
 	{	
 	background.SetActive(true);
 	}
-
 }
 
 function FadeOut(){

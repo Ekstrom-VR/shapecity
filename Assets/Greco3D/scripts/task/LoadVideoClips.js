@@ -4,18 +4,17 @@ import System.IO;
 static var cityPosList = new Array();
 static var cityRotList = new Array();
 static var cityVidList = new Array();
-//var vars = new VariablesClass();
 var vars : Config;
 var path : String = "NavClipsFinalCutRand/";
 
-function Start() {
-
+function Awake(){
 
 var config : GameObject = GameObject.Find("Config");
 vars = config.GetComponent(Config) as Config;
- 
+}
 
-	//Setup variables
+function Start() {
+
 	var numCities : int = Control.numCities;
 	var numVideos : int = vars.numVideos;
 	cityPosList = new Array[numCities];
@@ -99,18 +98,14 @@ vars = config.GetComponent(Config) as Config;
 //		
 		posNavArray[iV] = curPosNav;
 	    rotNavArray[iV] = curRotNav;
-	    vidArray[iV] = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
-//	   
-	    
-		
+	    vidArray[iV] = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";	
 	}
-	   
-	   
+	   	   
 		cityPosList[iC]=posNavArray;
 		cityRotList[iC]=rotNavArray;
 		cityVidList[iC]=vidArray;
 
-//		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
+		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
 	   
 	}				
 }

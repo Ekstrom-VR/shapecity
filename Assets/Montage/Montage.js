@@ -1,6 +1,10 @@
 ﻿#pragma strict
 
-private var version : String = "GR_st9";//"GR_8st";
+//private var version : String = "GR_st9";//"GR_8st";
+
+
+//enum TaskType {GR,CE,PR};
+public var taskType : TaskType;
 private var curStoreList = new Array();
 private var monRunning = false;
 private var style : GUIStyle = new GUIStyle();
@@ -8,7 +12,7 @@ private var stages = new Array("Instructions", "Montage","End","Next task");
 private var cnt =0;
 private var curStage : String;
 private var store : GameObject;
-private var numRuns : int = 1;//3
+public var numRuns : int = 1;//3
 
 function Start(){
 	ConfigureCity();
@@ -171,18 +175,15 @@ function SetGUIRect(buttonWidth : float ,buttonHeight : float,percW : float,perc
 function ConfigureCity(){																//Estabilishes the correct store list
 
     var storeListInstance = new StoreListClass();
-       if(version == 'CE'){ 
+       if(taskType == TaskType.CE){ 
     	curStoreList= storeListInstance.stores_CE;
     }
-    else if(version == 'GR'){    
-   	 	curStoreList = storeListInstance.stores_GR;
-	}
-	
-	else if(version == 'PR'){
+
+	else if(taskType == TaskType.PR){
 		curStoreList = storeListInstance.stores_PR;
 	}
 	
-	else if(version == 'GR_st9'){
+	else if(taskType == TaskType.GR){
 		curStoreList = storeListInstance.stores_GR_st9;
 	}
 }
