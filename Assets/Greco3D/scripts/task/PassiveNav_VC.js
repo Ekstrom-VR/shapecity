@@ -1,18 +1,21 @@
 ﻿#pragma strict
 import System.IO;
 
+public var newPosition;
+public var newRotation;
+
 private var reset : boolean = false;
 private var prepareClip : boolean = true;
-private var curPosNav = new Array();
+public var curPosNav = new Array();
 private var curRotNav = new Array();
 static  var curVidNav : String;
-private var run_trial_order = new Array();
+static var run_trial_order = new Array();
 private var curT : int;
-private var cityPosList = new Array();
-private var cityRotList = new Array();
-private var cityVidList = new Array();
+public var cityPosList = new Array();
+public var cityRotList = new Array();
+public var cityVidList = new Array();
 private var cnt : int = 0;
-private var feedBack : FeedBack;
+//private var feedBack : FeedBack;
 private var UseCamera : boolean = false;
 private  var StartCam : boolean = false;
 private var picN : int = 0;
@@ -23,95 +26,71 @@ private var cntSS : int = 1;
 private var subj : String;
 private var outPath : String;
 private var fname : String;
+var cntCNC : int = 0;
+var control: Control;
+function Awake(){
+var task : GameObject = GameObject.Find("Task");
+control = task.GetComponent(Control) as Control;
 
-function OnEnable(){
+}
+function ConfigurePassiveNav(){
 
-var config : GameObject = GameObject.Find("Config");
-vars = config.GetComponent(Config) as Config;
- 
+	//Config
+	var config : GameObject = GameObject.Find("Config");
+	vars = config.GetComponent(Config) as Config;
 
+	//Screenshot output
 	subj = PlayerPrefs.GetString("subj_id");
 	outPath = "screenshots/" + vars.version + "/";
-	fname = outPath +  subj + "_" + vars.version + "_ss.txt";
-
-	System.IO.Directory.CreateDirectory(outPath);
-
-	if(Task.curR==0){
+	fname = outPath +  subj + "_" + vars.version + "_ss.txt";	
+	System.IO.Directory.CreateDirectory(outPath);	
 	var newFile = System.IO.File.Create(fname);
 	newFile.Close();
-	}
+
+	cityPosList = LoadVideoClips.cityPosList;
+	cityRotList = LoadVideoClips.cityRotList;
+	cityVidList = LoadVideoClips.cityVidList;
+	ChangeNavClip();
+	yield;
 }
-function Start(){
 
+function ConfigureRun(){
+	run_trial_order = control.run_trial_order;   
+}
 
+function SetupTrial(){
+    curT =control.curT;
+	cnt =0;
+	yield;
+}
 
-//set from static vars
-cityPosList = LoadVideoClips.cityPosList;
-cityRotList = LoadVideoClips.cityRotList;
-cityVidList = LoadVideoClips.cityVidList;
+function PassiveNav(){
+while(true){
+newPosition =  curPosNav[cnt];
+newRotation =  curRotNav[cnt];
+transform.position = newPosition;
+transform.rotation = newRotation;
+cnt++;
+yield WaitForSeconds(.1);
+}
+}	
+
+function StartTrial(){
+yield StartCoroutine(SetupTrial());
+StartCoroutine(PassiveNav());
 ChangeNavClip();
-feedBack = GetComponent(FeedBack);
-StartCam = true;
 }
 
-function FixedUpdate(){
-	//set from static vars
-//	var vars = new VariablesClass();
-	if(Task.curR < vars.numR){
-	run_trial_order = Control.curTrialList[Task.curR];   
-	}	
-
-    curT =Task.curT;
-	
-    if(CityMorph.trial_action == "task"){
-	   
-		   //Update rotation and translation
-		   prepareClip = true;
-		   if(cnt < curPosNav.length){
-		   var newPosition =  curPosNav[cnt];
-		   var newRotation =  curRotNav[cnt];
-	       transform.position = newPosition;
-	       transform.rotation = newRotation;
-		   cnt++;
-
-	           if(StartCam){
-				print(CityMorph.trial_action);
-				StartCam = false;
-			    StartCoroutine("TakePic");
-				print("start Takepic");
-				}
-		   }	
-   }
-   else if(CityMorph.trial_action == "reset" && curT < vars.numT || !reset){
-
-   			cnt =0;
-   			if(prepareClip){
-   			ChangeNavClip();
-   			prepareClip = false;
-   			}
-		    reset = true;
-
+function StopTrial(){
+StopCoroutine(PassiveNav());
+ChangeNavClip();
 }
 
-else{
-			
-			if(!StartCam){
-			print("stop Takepic");
 
-			StartCam = true;
-            StopCoroutine("TakePic");
-			}}		   
-    	
-}
-
-//Change nav clip
-var cntCNC : int = 0;
 function ChangeNavClip(){
-	run_trial_order = Control.curTrialList[Task.curR];//Get trial order
-	curT =Task.curT;
+	run_trial_order = control.run_trial_order;//Get trial order
+	curT =control.curT;
 	cntCNC++;
-	//City number/code
-	//print("DB... run_trial_order" +run_trial_order + " and curT: " + curT);
 	var cityNum : int= run_trial_order[curT];
 	var curCityPos = new Array();
 	var curCityRot = new Array();
@@ -135,7 +114,6 @@ function ChangeNavClip(){
 }
 
 function TakePic(){
-	if(UseCamera){
 		while(true){
 			yield WaitForSeconds(.1); 
 			
@@ -151,7 +129,6 @@ function TakePic(){
 		 	line =  (Output.cntT+1) + "\t" + PassiveNav_VC.curVidNav + "\t" + CityMorph.stopwatch  + "\t" + cntSS + "\t" + transform.position + "\t" + transform.rotation.eulerAngles + "\n";
 			Addline();
 		}
-	}
 }
 
 function Addline(){

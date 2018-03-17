@@ -25,7 +25,6 @@ vars = config.GetComponent(Config) as Config;
 }
 
 function OnEnable(){
-		print('DB ITI enable!');
 	
 	if(vars.activeBL_On && CityMorph.trial_action == "iti"){
 	
@@ -35,7 +34,6 @@ function OnEnable(){
 	StartCoroutine(ActiveBL());
 	}
 }
-
 
 function ActiveBL(){
 
@@ -57,10 +55,7 @@ function ActiveBL(){
 
 function RandArrow(){
 		var tog : int = Random.Range(0,2);
-	
-	
-	
-		
+			
 		if(tog){
 		 text = "<";
 		 }
@@ -69,7 +64,6 @@ function RandArrow(){
 		 }
 		 
 }
-
 
 function OnGUI(){
 		//guiStyle specs
@@ -101,5 +95,3 @@ function Update(){
 		}
 	}
 }
-	  
-	

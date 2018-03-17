@@ -3,9 +3,9 @@
 var version : String = 'GR_st9_5000_3c'; //'GR_st9_5000_3c' 'CE'
 var taskMode : String =  'trial_compare'; 
 var numVideos : int = 100;//100
-var trial_time  : float = 2;//20
-var numR  : int = 1;//4
-var numT : int = 1;//25
+var trial_time  : float = 20;//20
+var numR  : int = 4;//4
+var numT : int = 25;//25
 var feedBackOn : boolean = false;
 var preRun = 'CountDown';//Either 'Task' or 'CountDown'
 var test_mode : boolean= false; 
