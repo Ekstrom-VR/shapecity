@@ -78,8 +78,11 @@ function StartRun(){
 print("start iti timer");
 trial_action = "iti";
 yield StartCoroutine(StartTimerITI());
-while(cnt_trial<numTrials){
+
+do
+{
 yield StartCoroutine(TrialTimer());
+}while(cnt_trial<numTrials);
+
 trial_action = "run_end";
-}
 }

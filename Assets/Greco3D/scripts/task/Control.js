@@ -1,9 +1,7 @@
 #pragma strict
 import System.Collections.Generic;
 
-//private var countDown : CountDown;
-//private var cityMorph : CityMorph;
-//private var iti : ITI;
+
 private var output : Output1;
 private var objectInView : ObjectInView;
 private var end : End;
@@ -14,6 +12,7 @@ public var curT : int =0;
 public var curCity : int;
 public var priorCity : int = 99;
 public var trial_type : String = "null";
+public var curVidNav : String;
 
 static var background : Background;
 static var task_action : String;
@@ -35,7 +34,7 @@ private var vars: Config;
 
 
 //Scripts
-private var pasNav : PassiveNav_VC;
+private var pasNav : PassiveNav;
 private var timer : Timer;
 private var trial : Trial;
 
@@ -80,6 +79,7 @@ function Update(){
  	curT = timer.cnt_trial;
 	run_trial_order = curTrialList[curR];
 	curCity = run_trial_order[curT];
+ 	curVidNav = pasNav.curVidNav;
 
 	if(curT != 0){
 	priorCity = run_trial_order[curT-1];
@@ -99,14 +99,17 @@ function Update(){
 
 		if(task_task){
 		task_task = false;
+		pasNav.StartTrial();
 		trial.StopITI();
 		task_iti = true;
+		
 		}
   	}
 
   	else if(get_task_action == 'iti'){
 		if(task_iti){
 			task_iti = false;
+			pasNav.StopTrial();
 			trial.StartITI();
 			CityChange();
 			task_task = true;
@@ -196,43 +199,15 @@ function SetUpTaskType (){
 	vars = config.GetComponent(Config) as Config;
 	 
 	var player : GameObject = GameObject.Find("Player");
-	pasNav = player.GetComponent(PassiveNav_VC) as PassiveNav_VC;
+	pasNav = player.GetComponent(PassiveNav) as PassiveNav;
 	
 	timer = GetComponent(Timer) as Timer;
 	trial = GetComponent(Trial) as Trial;
-      //Setup gameobjects
 
+	//Load video clips
+	gameObject.AddComponent(LoadVideoClips);
 
-	//Load video clips if necessary
-//	gameObject.AddComponent(LoadVideoClips);
-
-	
-//    if(vars.version == 'GR_st9_5000_3c'){
-//    curTrialList = trialListInstance.trialList_GR_3c;
-//    curStoreList = storeListInstance.stores_GR_st9;
-//    city_x = cityListInstance.city_x_GR_st9_5000_3c;
-//	city_y = cityListInstance.city_y_GR_st9_5000_3c;
-//	numCities = 3;
-//	}
-//
-//    if(vars.version == 'CE'){ 
-//    
-//    curTrialList = trialListInstance.trialList_CE;
-//    curStoreList = storeListInstance.stores_CE;
-//    city_x = cityListInstance.city_x_CE;
-//	city_y = cityListInstance.city_y_CE;
-//	numCities = 4;
-//    }
-//
-//	if(vars.version == 'PR_1000'){
-//
-//	curTrialList = trialListInstance.trialList_PR;
-//	curStoreList = storeListInstance.stores_PR;
-//	city_x = cityListInstance.city_x_PR;
-//	city_y = cityListInstance.city_y_PR;
-//	numCities = 2;
-//	}	
-//	print(curTrialList);
+	//Load city stuff
 	var	cityBuilder = new CityBuilder();
 	var city : City = cityBuilder.BuildCity(vars.version);	
 	curTrialList = city.trialList;
@@ -243,7 +218,6 @@ function SetUpTaskType (){
 	Debug.Log(vars.version);
 	Debug.Log(numCities);
 	Debug.Log(curStoreList);
-
 	yield;
 }
 
@@ -264,4 +238,11 @@ function CityChange(){
 				  GameObject.Find(curStoreList[i]).transform.position.x = city_currentx[i];
 				  GameObject.Find(curStoreList[i]).transform.position.z = city_currentz[i];  			  	  			  			  
 		 }	
+}
+
+public class TrialVars
+{
+
+
+
 }

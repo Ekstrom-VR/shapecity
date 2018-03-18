@@ -8,7 +8,6 @@ var resp_time : float;
 var resp_key_list = new Array();
 var resp_time_list = new Array();
 var cntR : int  = 0;
-static var logTrial : boolean;
 var line;
 var subj;
 var outputName = 'Output';
@@ -27,7 +26,6 @@ vars = config.GetComponent(Config) as Config;
 control = GetComponent(Control) as Control;
 
 //Initialize variables
-	logTrial = true;
 	acc_curr  = 0;
 	acc_total = 0;
 	resp_key  = 'nan';
@@ -44,7 +42,6 @@ control = GetComponent(Control) as Control;
 
 
 function ResetVariables(){
-		logTrial  = false;
 		cntR = 0;
 		resp_key = 'nan';
 		resp_time = 00;
@@ -52,7 +49,6 @@ function ResetVariables(){
 		resp_time_list = [];
 
 }
-
 
 function Addline(){
 
@@ -68,7 +64,7 @@ acc_curr = 0;
 //Add for total accuracy score
 acc_total += acc_curr;	
 
-line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + PassiveNav_VC.curVidNav +"\n"; 
+line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + control.curVidNav +"\n"; 
 
 
 //Write out data
@@ -98,5 +94,4 @@ if (Input.GetKeyDown('left') || Input.GetKeyDown(KeyCode.Alpha1) )
 	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
-
 }

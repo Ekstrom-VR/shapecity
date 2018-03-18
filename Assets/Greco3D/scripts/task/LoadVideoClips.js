@@ -72,22 +72,10 @@ function Start() {
 		posNavArray[iV] = curPosNav;
 	    rotNavArray[iV] = curRotNav;
 	    vidArray[iV] = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
-	   
-	    
-		
-	}
-	   
-	   
+	   	
+	}   
 		cityPosList[iC]=posNavArray;
 		cityRotList[iC]=rotNavArray;
-		cityVidList[iC]=vidArray;
-		
-		
-		
-		print('DB...City #: '+ iC+ ', Number of videos: ' +  posNavArray.length);
-	   
-	}
-		
-		
+		cityVidList[iC]=vidArray;	   
+	}		
 }
-
