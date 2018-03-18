@@ -204,38 +204,46 @@ function SetUpTaskType (){
 
 
 	//Load video clips if necessary
-	gameObject.AddComponent(LoadVideoClips);
+//	gameObject.AddComponent(LoadVideoClips);
 
-	var trialListInstance= new TrialListClass();
-	var storeListInstance = new StoreListClass();
-	var cityListInstance = new CityListClass();
 	
-    if(vars.version == 'GR_st9_5000_3c'){
-    curTrialList = trialListInstance.trialList_GR_3c;
-    curStoreList = storeListInstance.stores_GR_st9;
-    city_x = cityListInstance.city_x_GR_st9_5000_3c;
-	city_y = cityListInstance.city_y_GR_st9_5000_3c;
-	numCities = 3;
-	}
+//    if(vars.version == 'GR_st9_5000_3c'){
+//    curTrialList = trialListInstance.trialList_GR_3c;
+//    curStoreList = storeListInstance.stores_GR_st9;
+//    city_x = cityListInstance.city_x_GR_st9_5000_3c;
+//	city_y = cityListInstance.city_y_GR_st9_5000_3c;
+//	numCities = 3;
+//	}
+//
+//    if(vars.version == 'CE'){ 
+//    
+//    curTrialList = trialListInstance.trialList_CE;
+//    curStoreList = storeListInstance.stores_CE;
+//    city_x = cityListInstance.city_x_CE;
+//	city_y = cityListInstance.city_y_CE;
+//	numCities = 4;
+//    }
+//
+//	if(vars.version == 'PR_1000'){
+//
+//	curTrialList = trialListInstance.trialList_PR;
+//	curStoreList = storeListInstance.stores_PR;
+//	city_x = cityListInstance.city_x_PR;
+//	city_y = cityListInstance.city_y_PR;
+//	numCities = 2;
+//	}	
+//	print(curTrialList);
+	var	cityBuilder = new CityBuilder();
+	var city : City = cityBuilder.BuildCity(vars.version);	
+	curTrialList = city.trialList;
+	curStoreList = city.stores;
+	city_x = city.city_x;
+	city_y = city.city_y;
+	numCities = city_x.length;
+	Debug.Log(vars.version);
+	Debug.Log(numCities);
+	Debug.Log(curStoreList);
 
-    if(vars.version == 'CE'){ 
-    
-    curTrialList = trialListInstance.trialList_CE;
-    curStoreList = storeListInstance.stores_CE;
-    city_x = cityListInstance.city_x_CE;
-	city_y = cityListInstance.city_y_CE;
-	numCities = 4;
-    }
-
-	if(vars.version == 'PR_1000'){
-
-	curTrialList = trialListInstance.trialList_PR;
-	curStoreList = storeListInstance.stores_PR;
-	city_x = cityListInstance.city_x_PR;
-	city_y = cityListInstance.city_y_PR;
-	numCities = 2;
-	}	
-	print(curTrialList);
 	yield;
 }
 
