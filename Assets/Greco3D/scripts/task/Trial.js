@@ -3,7 +3,7 @@ var numStr : String;
 var timer : float;
 var gui_on : boolean;
 private var background : Background;
-
+private var runbreak : boolean = true;
 
 function Start(){
 background = GetComponent("Background");
@@ -40,15 +40,14 @@ function StartCountDown(){
 	    }
 		yield;
 	}
-//	gui_on = false;	
-//	background.BackGroundOff();	
 }
 
 
 function StartITI(){
+	numStr ="+";
+	print(numStr);
 	gui_on = true;
 	background.BackGroundOn();
-	numStr ="+";
 }
 
 function StopITI(){
@@ -57,3 +56,21 @@ function StopITI(){
 	numStr ="";
 }
 
+function RunBreak(){
+numStr = "Press SPACE to continue";
+gui_on = true;
+background.BackGroundOn();
+runbreak = true;
+yield StartCoroutine(WaitForSpace());
+numStr ="";
+}
+
+function WaitForSpace(){
+	while(runbreak){
+		if(Input.GetKeyUp(KeyCode.Space)){
+			print("Spacebar pressed");
+			runbreak = false;
+		}
+		yield;
+	}
+}

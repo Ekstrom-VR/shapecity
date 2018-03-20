@@ -31,7 +31,7 @@ var control: Control;
 
 var cityPosTrial = new Array();
 var cityRotTrial = new Array();
-var cityVidTrial = new Array();
+var cityVidTrial;
 
 var cityPosArray = new Array();
 var cityRotArray = new Array();
@@ -39,8 +39,6 @@ var cityVidArray = new Array();
 var navigate : boolean;
 
 var cityNum : int;
-
-
 
 function Awake(){
 var task : GameObject = GameObject.Find("Task");
@@ -88,8 +86,6 @@ newRotation =  cityRotTrial[cnt];
 transform.position = newPosition;
 transform.rotation = newRotation;
 cnt++;
-print(cnt);
-print(cityPosTrial.length);
 yield WaitForFixedUpdate;
 }
 }	
@@ -118,11 +114,6 @@ function ChangeNavClip(){
 	cityRotTrial = cityRotArray[0];
 	cityVidTrial = cityVidArray[0];
 	
-
-	Debug.Log(cityPosTrial.length);
-	Debug.Log(cityRotTrial.length);
-	Debug.Log(cityVidTrial);
-
 
 
 	cityPosArray.RemoveAt(0);

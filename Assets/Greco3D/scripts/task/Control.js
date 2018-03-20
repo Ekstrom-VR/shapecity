@@ -63,10 +63,9 @@ public var run_trial_order = new Array();
 function Start(){	
 yield StartCoroutine(SetUpTaskType());
 run_trial_order = curTrialList[curR];
-print(run_trial_order);
 yield StartCoroutine(SetUpComps());
 yield StartCoroutine(pasNav.ConfigurePassiveNav());
-task_stage = 'Task';
+task_stage = 'TaskSetup';
 
 }
 
@@ -74,25 +73,28 @@ function Update(){
 	//Listeners
 	///////////////////////////////////
 
+	if(task_stage == "TaskOn"){
 	get_task_action = timer.GetAction();
 	get_timer = timer.GetTime('trial');
  	curT = timer.cnt_trial;
 	run_trial_order = curTrialList[curR];
 	curCity = run_trial_order[curT];
- 	curVidNav = pasNav.curVidNav;
+ 	curVidNav = pasNav.cityVidTrial as String;
 
 	if(curT != 0){
 	priorCity = run_trial_order[curT-1];
 	}
-
 
   	if(priorCity == curCity){
        trial_type = 's';
       } else {
        trial_type = 'd';
      }
+	}
+
 
 	//Task action
+///////////////////////////////////
 	if(get_task_action == 'trial'){
 		
 		output.GetTrialResponse();
@@ -117,50 +119,66 @@ function Update(){
 		}
   	}
 
-  	else if(get_task_action == 'run_end' & task_run_end){
+  	else if(get_task_action == 'run_end'){
     	if(task_run_end){
 		task_run_end = false;
-		background.BackGroundOn();
+		task_iti = true;
+ 		 RunEnd();
 		}
 	}
 
-	else if(get_task_action == 'run_start' & task_run_start){
-	task_run_start = false;
-							
+	else if(get_task_action == 'run_start'){
+		get_task_action = "run_starting...";
+		RunStart();						
 	}
 
 
 
-	if(task_stage == "Task"){
-		StartTask();
+	if(task_stage == "TaskSetup"){
+		StartCoroutine(StartTask());
 	}
 	
 	if(task_stage == "End"){
-		if(stage_end){
-		stage_end = false;
-		stage_task = true;
- 	    StartEnd();
-		}
+	
 	}
+}
+
+function RunEnd(){
+	task_stage = "TaskOff";
+	yield StartCoroutine(trial.RunBreak());
+	curR +=1;
+	if(curR < vars.numR){
+	get_task_action = 'run_start';
+	}
+	else {
+	get_task_action = 'task_over';
+	}
+	task_run_end = true;
 }
 
 
 function StartTask(){
-
-	if(stage_task){
- 		stage_task = false;
+		task_stage = "TaskStarting...";
 
 //		yield StartCoroutine(trial.StartCountDown());
 		print("timer setup");
 		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT));  
-
+		task_stage = "TaskOn";
 		print("timer startrun");
 		yield StartCoroutine(timer.StartRun());  
-}
 }
 
 function StartEnd(){
 	curT = 0;
+}
+
+function RunStart(){
+//		yield StartCoroutine(trial.StartCountDown());
+		print("timer setup");
+		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
+		task_stage = "TaskOn";
+		print("timer startrun");
+		yield StartCoroutine(timer.StartRun());  
 }
 
 function SetUpComps(){
@@ -215,9 +233,6 @@ function SetUpTaskType (){
 	city_x = city.city_x;
 	city_y = city.city_y;
 	numCities = city_x.length;
-	Debug.Log(vars.version);
-	Debug.Log(numCities);
-	Debug.Log(curStoreList);
 	yield;
 }
 
@@ -238,11 +253,4 @@ function CityChange(){
 				  GameObject.Find(curStoreList[i]).transform.position.x = city_currentx[i];
 				  GameObject.Find(curStoreList[i]).transform.position.z = city_currentz[i];  			  	  			  			  
 		 }	
-}
-
-public class TrialVars
-{
-
-
-
 }

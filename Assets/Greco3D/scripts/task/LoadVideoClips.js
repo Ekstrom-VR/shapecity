@@ -1,10 +1,11 @@
 ﻿#pragma strict
 import System.IO;
-
+import System.Collections.Generic;
 
 static var cityPosList = new Array();
 static var cityRotList = new Array();
 static var cityVidList = new Array();
+//static var cityVidList String = new List.<String>();
 private var vars : Config;
 var path : String = "NavClipsFinalRand/";
 function Awake(){
@@ -71,7 +72,9 @@ function Start() {
 		
 		posNavArray[iV] = curPosNav;
 	    rotNavArray[iV] = curRotNav;
-	    vidArray[iV] = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
+
+		var videopath : String = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
+	    vidArray[iV] = videopath;
 	   	
 	}   
 		cityPosList[iC]=posNavArray;

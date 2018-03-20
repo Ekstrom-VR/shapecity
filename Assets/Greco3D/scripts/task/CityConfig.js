@@ -4,9 +4,6 @@ private var city : GameObject;
 
 function OnEnable () {
 city = GameObject.Find("City");
-
-print(Control.curStoreList);
-
 }
 
 function Start(){
