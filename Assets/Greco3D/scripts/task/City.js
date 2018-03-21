@@ -2,28 +2,16 @@
 
 public class City
 {
-
 	public var trialList = new Array();
 	public var stores = new Array();
 	public var city_x = new Array();
 	public var city_y = new Array();
     
-    public function City(tri : Array, sto : Array, x : Array, y : Array){
-		trialList = tri;
-		stores = sto;
-		city_x = x;
-		city_y = y;
+    public function City(name : String){
+		BuildCity(name);
 	}
-}
 
-// trial lists
-public var trialList = new Array();
-public var city_x = new Array();
-public var city_y = new Array();
-public var stores = new Array();
-public var new_city : City;
-
-public function BuildCity(cityName : String):City{
+    function BuildCity(cityName : String){
 
 	switch(cityName)
 	{
@@ -43,8 +31,6 @@ public function BuildCity(cityName : String):City{
 		city_y[3] =[286.09,244.99,225.91,213.44,225.91,267.01,286.09,298.56];
 
 		stores = ["Toy Store","1ST Bank", "Book Store", "Camera Store", "Coffee Shop","Craft Shop","Dentist","Fast Food Shop"];
-		new_city = City(trialList,stores,city_x,city_y);
-		return new_city;
 		break;
 	case 'Greco':
 
@@ -61,9 +47,6 @@ public function BuildCity(cityName : String):City{
 		city_y[2] =[283.05,316.80,290.67,255.97,209.71,210.50,211.55,231.35,257.75,283.05];
 
 		stores = new Array("Bakery","Cell Phones", "Gym", "Chinese Food", "Florist","Toy Store","Music Store", "Ice Cream", "Dentist");
-
-	new_city = City(trialList,stores,city_x,city_y);
-		return new_city;
 		break;
 	case 'Practice':
 
@@ -76,9 +59,7 @@ public function BuildCity(cityName : String):City{
 		city_y[1] =[276.62,263.94,235.01,242.62];
 
 		stores = ["Book Store","Coffee Shop", "Craft Shop","1ST Bank"];
-
-		new_city = City(trialList,stores,city_x,city_y);
-		return new_city;
 		break;
 	}
+}
 }

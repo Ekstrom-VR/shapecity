@@ -8,11 +8,19 @@ public var taskType : TaskType;
 private var curStoreList = new Array();
 private var monRunning = false;
 private var style : GUIStyle = new GUIStyle();
-private var stages = new Array("Instructions", "Montage","End","Next task");
+//private var stages = new Array("Instructions", "Montage","End","Next task");
+
+private var stages = ["Instructions", "Montage","End","Next task"];
+
 private var cnt =0;
 private var curStage : String;
 private var store : GameObject;
 public var numRuns : int = 1;//3
+private var vars: Config;
+var config : GameObject = GameObject.Find("Config");
+vars = config.GetComponent(Config) as Config;
+
+
 
 function Start(){
 	ConfigureCity();
@@ -174,16 +182,25 @@ function SetGUIRect(buttonWidth : float ,buttonHeight : float,percW : float,perc
 
 function ConfigureCity(){																//Estabilishes the correct store list
 
-    var storeListInstance = new StoreListClass();
-       if(taskType == TaskType.CE){ 
-    	curStoreList= storeListInstance.stores_CE;
-    }
+//    var storeListInstance = new StoreListClass();
+//       if(taskType == TaskType.CE){ 
+//    	curStoreList= storeListInstance.stores_CE;
+//    }
+//
+//	else if(taskType == TaskType.PR){
+//		curStoreList = storeListInstance.stores_PR;
+//	}
+//	
+//	else if(taskType == TaskType.GR){
+//		curStoreList = storeListInstance.stores_GR_st9;
+//	}
 
-	else if(taskType == TaskType.PR){
-		curStoreList = storeListInstance.stores_PR;
-	}
-	
-	else if(taskType == TaskType.GR){
-		curStoreList = storeListInstance.stores_GR_st9;
-	}
+//var	cityBuilder = new CityBuilder();
+////	var cityBuilder : CityBuilder = GetComponent(CityBuilder) as CityBuilder;
+//
+////	var city = new City(); 
+//    var city : City = cityBuilder.BuildCity(vars.version);
+	var	city : City = new City(vars.version);
+
+	curStoreList = city.stores;
 }

@@ -1,7 +1,7 @@
 ﻿#pragma strict
 import System.IO;
 import System.Collections.Generic;
-
+	
 static var cityPosList = new Array();
 static var cityRotList = new Array();
 static var cityVidList = new Array();
@@ -18,18 +18,26 @@ function Start() {
 	var numCities : int = Control.numCities;
 	var numVideos : int = vars.numVideos;
 	cityPosList = new Array[numCities];
-	cityRotList = new Array[numCities];
-	cityVidList = new Array[numCities];
-	
+//	cityRotList = new Array[numCities];
+//	cityVidList = new Array[numCities];
+	var videoList = new List.<VideoClip>();
+	var cityRoll =  new List.<VideoRoll>();
 
 	//Read in navigation files
 	for(var iC : int = 0; iC < numCities; iC++){
-		var posNavArray = new Array[numVideos];
-   	    var rotNavArray = new Array[numVideos];
-   	    var vidArray = new String[numVideos];
+//		var posNavArray = new Array[numVideos];
+//   	    var rotNavArray = new Array[numVideos];
+//		var posNavArray = new List.<>();
+//   	    var rotNavArray = new List.<>();
+
+//		var vidArray = new List.<String>();            
+
+
 		for(var iV : int = 0; iV < numVideos; iV++){
-		    var curPosNav = new Array();
-			var curRotNav = new Array();
+//		    var curPosNav = new Array();
+			var curPosNav = new List.<Vector3>();
+//			var curRotNav = new Array();
+			var curRotNav = new List.<Quaternion>();
 			
 		  	var x : float;
 			var y : float;
@@ -70,15 +78,19 @@ function Start() {
 		readerPos.Close();
 		readerRot.Close();
 		
-		posNavArray[iV] = curPosNav;
-	    rotNavArray[iV] = curRotNav;
+//		posNavArray[iV] = curPosNav;
+//	    rotNavArray[iV] = curRotNav;
 
 		var videopath : String = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
-	    vidArray[iV] = videopath;
-	   	
+//	    vidArray[iV] = videopath;
+
+//		var newVideo : VideoC= 
+	   	videoList.Add(new VideoClip(curPosNav,curRotNav,videopath));
 	}   
-		cityPosList[iC]=posNavArray;
-		cityRotList[iC]=rotNavArray;
-		cityVidList[iC]=vidArray;	   
-	}		
+//		cityPosList[iC]=posNavArray;
+//		cityRotList[iC]=rotNavArray;
+//		cityVidList[iC]=vidArray;	   
+//	}	
+	cityRoll.Add(new VideoRoll(videoList));
+	}	
 }

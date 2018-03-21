@@ -55,7 +55,7 @@ private var task_run_end : boolean = true;
 private var task_run_start : boolean = true;
 
 private var get_countdown_over : boolean = false;
-
+private var task_over : boolean = true;
 
 public var run_trial_order = new Array();
 
@@ -127,6 +127,10 @@ function Update(){
 		}
 	}
 
+	else if(get_task_action == 'task_over'){
+		StartCoroutine(TaskOver());
+	}
+
 	else if(get_task_action == 'run_start'){
 		get_task_action = "run_starting...";
 		RunStart();						
@@ -135,12 +139,9 @@ function Update(){
 
 
 	if(task_stage == "TaskSetup"){
-		StartCoroutine(StartTask());
+		StartCoroutine(RunStart());
 	}
 	
-	if(task_stage == "End"){
-	
-	}
 }
 
 function RunEnd(){
@@ -157,27 +158,14 @@ function RunEnd(){
 }
 
 
-function StartTask(){
-		task_stage = "TaskStarting...";
-
-//		yield StartCoroutine(trial.StartCountDown());
-		print("timer setup");
-		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT));  
-		task_stage = "TaskOn";
-		print("timer startrun");
-		yield StartCoroutine(timer.StartRun());  
-}
-
 function StartEnd(){
 	curT = 0;
 }
 
 function RunStart(){
 //		yield StartCoroutine(trial.StartCountDown());
-		print("timer setup");
 		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
 		task_stage = "TaskOn";
-		print("timer startrun");
 		yield StartCoroutine(timer.StartRun());  
 }
 
@@ -221,13 +209,13 @@ function SetUpTaskType (){
 	
 	timer = GetComponent(Timer) as Timer;
 	trial = GetComponent(Trial) as Trial;
-
 	//Load video clips
 	gameObject.AddComponent(LoadVideoClips);
 
 	//Load city stuff
-	var	cityBuilder = new CityBuilder();
-	var city : City = cityBuilder.BuildCity(vars.version);	
+	var	city : City = new City(vars.version);
+	print(city.stores);
+	print(vars.version);
 	curTrialList = city.trialList;
 	curStoreList = city.stores;
 	city_x = city.city_x;
@@ -253,4 +241,12 @@ function CityChange(){
 				  GameObject.Find(curStoreList[i]).transform.position.x = city_currentx[i];
 				  GameObject.Find(curStoreList[i]).transform.position.z = city_currentz[i];  			  	  			  			  
 		 }	
+}
+
+function TaskOver(){
+	get_task_action = "task_over..";
+	yield StartCoroutine(trial.TaskOver());
+	var expObj : GameObject = GameObject.Find("Experiment");
+	var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
+	expScript.LoadNextModule();
 }

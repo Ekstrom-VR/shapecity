@@ -1,9 +1,12 @@
 #pragma strict
+import UnityEngine.UI;
+
 var numStr : String;
 var timer : float;
 var gui_on : boolean;
 private var background : Background;
 private var runbreak : boolean = true;
+public var taskText : Text; 
 
 function Start(){
 background = GetComponent("Background");
@@ -73,4 +76,13 @@ function WaitForSpace(){
 		}
 		yield;
 	}
+}
+
+function TaskOver(){
+numStr = "Task over";
+gui_on = true;
+background.BackGroundOn();
+runbreak = true;
+yield StartCoroutine(WaitForSpace());
+numStr ="";
 }
