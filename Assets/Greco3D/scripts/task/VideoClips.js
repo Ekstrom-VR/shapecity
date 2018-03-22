@@ -71,8 +71,9 @@ class VideoClips extends MonoBehaviour{
 	
 		   	videoList.Add(new Clip(curPosNav,curRotNav,videopath));
 //			print(videopath);
-		}   
-		cityRoll.Add(new Roll(videoList));
+		}  
+		 
+		cityRoll.Add(new Roll(ShuffleList(videoList)));
 		}
 	yield;
 	}
@@ -86,7 +87,7 @@ class VideoClips extends MonoBehaviour{
 	}
 
 
-	public class Clip{
+	class Clip{
 		var pos = new List.<Vector3>();
 		var rot = new List.<Quaternion>();
 		var path : String;
@@ -98,12 +99,23 @@ class VideoClips extends MonoBehaviour{
 		}
 	}
 
-	public class Roll{
+	class Roll{
 		
 		var roll = new List.<Clip>();
 	
 		public function Roll(roll:List.<VideoClips.Clip>){
 			 this.roll = roll;
 		}
+	}
+
+	function ShuffleList(list : List.<Clip>):List.<Clip>
+	{
+	   for (var i : int = 0; i < list.Count; i++) {
+	         var temp : Clip = list[i];
+	         var randomIndex : int = Random.Range(i, list.Count);
+	         list[i] = list[randomIndex];
+	         list[randomIndex] = temp;
+			return list;
+	     }
 	}
 }
