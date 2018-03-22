@@ -1,11 +1,9 @@
 ﻿#pragma strict
-
-//private var version : String = "GR_st9";//"GR_8st";
-
+import System.Collections.Generic;
 
 //enum TaskType {GR,CE,PR};
 public var taskType : TaskType;
-private var curStoreList = new Array();
+private var curStoreList = new List.<String>();
 private var monRunning = false;
 private var style : GUIStyle = new GUIStyle();
 //private var stages = new Array("Instructions", "Montage","End","Next task");

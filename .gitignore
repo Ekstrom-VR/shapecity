@@ -39,3 +39,4 @@ sysinfo.txt
 # Exclude screenshots
 # exclude data from source control by default
 /screenshots/
+/NavClipsFinalRand/

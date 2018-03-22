@@ -11,4 +11,3 @@ public class VideoClip{
 		 this.path = path;
 	}
 }
-

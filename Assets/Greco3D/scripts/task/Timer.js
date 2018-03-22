@@ -65,17 +65,14 @@ function StartTimerTrial(){
 }
 
 function TrialTimer(){
-print("start trial timer");
 trial_action = "trial";
 yield StartCoroutine(StartTimerTrial());
-print("start iti timer");
 trial_action = "iti";
 yield StartCoroutine(StartTimerITI());
 cnt_trial++;
 }
 
 function StartRun(){
-print("start iti timer");
 trial_action = "iti";
 yield StartCoroutine(StartTimerITI());
 

@@ -2,14 +2,13 @@
 import System.IO;
  
 static var cntT: int;
-var pressTime;
 var resp_key : String = 'nan';
 var resp_time : float;
 var resp_key_list = new Array();
 var resp_time_list = new Array();
 var cntR : int  = 0;
-var line;
-var subj;
+var line : String;
+var subj : String;
 var outputName = 'Output';
 var getTime: float;
 var trial_type : String;
@@ -64,8 +63,9 @@ acc_curr = 0;
 //Add for total accuracy score
 acc_total += acc_curr;	
 
-line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + control.curVidNav +"\n"; 
+//line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + control.curVidNav +"\n"; 
 
+line =  (cntT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +"\n"; 
 
 //Write out data
 System.IO.File.AppendAllText(  "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt",line);
@@ -77,21 +77,21 @@ function GetTrialResponse(){
 
 if (Input.GetKeyDown('left') || Input.GetKeyDown(KeyCode.Alpha1) )
 	{
-	print ('left arrow key down at ' + CityMorph.stopwatch);
+	print ('left arrow key down');
 	resp_key = 's';
-	resp_time = CityMorph.stopwatch;
+//	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = CityMorph.stopwatch;
+//	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 	
 	if (Input.GetKeyDown('right') || Input.GetKeyDown(KeyCode.Alpha2))
 	{
-	print ('right arrow key down at ' + CityMorph.stopwatch);
+	print ('right arrow key down');
 	resp_key = 'd';
-	resp_time = CityMorph.stopwatch;
+//	resp_time = CityMorph.stopwatch;
 	resp_key_list[cntR] = resp_key;
-	resp_time_list[cntR] = CityMorph.stopwatch;
+//	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
 	}
 }

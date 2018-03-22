@@ -1,27 +1,24 @@
 ﻿#pragma strict
 import System.IO;
 
-public var newPosition;
-public var newRotation;
-
 private var reset : boolean = false;
 private var prepareClip : boolean = true;
-public var curPosNav = new Array();
-private var curRotNav = new Array();
-static  var curVidNav : String;
-static var run_trial_order = new Array();
+
+private var cityPosTrial = new List.<Vector3>();
+private var cityRotTrial = new List.<Quaternion>();
+static  var cityVidTrial : String;
+private var run_trial_order = new List.<int>();
 private var curT : int;
-public var cityPosList = new Array();
-public var cityRotList = new Array();
-public var cityVidList = new Array();
 private var cnt : int = 0;
+
 //private var feedBack : FeedBack;
 private var UseCamera : boolean = false;
 private  var StartCam : boolean = false;
 private var picN : int = 0;
-private var line;
+private var line : String;
 //private var vars = new VariablesClass();
 private var vars : Config;
+private var videoClips : VideoClips;
 private var cntSS : int = 1;
 private var subj : String;
 private var outPath : String;
@@ -29,20 +26,13 @@ private var fname : String;
 var cntCNC : int = 0;
 var control: Control;
 
-var cityPosTrial = new Array();
-var cityRotTrial = new Array();
-var cityVidTrial;
-
-var cityPosArray = new Array();
-var cityRotArray = new Array();
-var cityVidArray = new Array();
 var navigate : boolean;
-
 var cityNum : int;
 
 function Awake(){
-var task : GameObject = GameObject.Find("Task");
-control = task.GetComponent(Control) as Control;
+   var task : GameObject = GameObject.Find("Task");
+   control = task.GetComponent(Control) as Control;
+   videoClips = task.GetComponent(VideoClips) as VideoClips;
 }
 
 function ConfigurePassiveNav(){
@@ -58,11 +48,6 @@ function ConfigurePassiveNav(){
 	System.IO.Directory.CreateDirectory(outPath);	
 	var newFile = System.IO.File.Create(fname);
 	newFile.Close();
-
-	cityPosList = LoadVideoClips.cityPosList;
-	cityRotList = LoadVideoClips.cityRotList;
-	cityVidList = LoadVideoClips.cityVidList;
-	ChangeNavClip();
 	yield;
 }
 
@@ -79,12 +64,9 @@ function SetupTrial(){
 
 function PassiveNav(){
 cnt = 0;
-print(cityVidTrial);
 while(navigate){
-newPosition =  cityPosTrial[cnt];
-newRotation =  cityRotTrial[cnt];
-transform.position = newPosition;
-transform.rotation = newRotation;
+transform.position = cityPosTrial[cnt];
+transform.rotation = cityRotTrial[cnt];
 cnt++;
 yield WaitForFixedUpdate;
 }
@@ -104,24 +86,13 @@ function ChangeNavClip(){
 	run_trial_order = control.run_trial_order;//Get trial order
 	curT =control.curT;
 	cityNum = run_trial_order[curT];
-		
-	//Get city specific navigation route list of arrays
-	cityPosArray = cityPosList[cityNum - 1];
-	cityRotArray = cityRotList[cityNum - 1];
-	cityVidArray = cityVidList[cityNum - 1];
-	
-	cityPosTrial = cityPosArray[0];
-	cityRotTrial = cityRotArray[0];
-	cityVidTrial = cityVidArray[0];
-	
+	print("Change video: cityNum:" + cityNum + " ; curTrial:" + curT);
+	var videoClip : VideoClip = videoClips.GetVideo(cityNum-1);
+	print(videoClip.path);
+	cityPosTrial = videoClip.pos;
+	cityRotTrial = videoClip.rot;
+	cityVidTrial = videoClip.path;
 
-
-	cityPosArray.RemoveAt(0);
-	cityRotArray.RemoveAt(0);
-	cityVidArray.RemoveAt(0);
-	cityPosList[cityNum - 1] = cityPosArray;
-	cityRotList[cityNum - 1] = cityRotArray;
-	cityVidList[cityNum - 1] = cityVidArray;
 }
 
 function TakePic(){

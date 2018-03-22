@@ -1,83 +1,189 @@
 #pragma strict
 import System.Collections.Generic;
 
-
 private var output : Output1;
-private var objectInView : ObjectInView;
 private var end : End;
 private var cityInfo : CityInfo;
-static var task_stage : String;
 public var curR : int = 0;
 public var curT : int =0;
 public var curCity : int;
 public var priorCity : int = 99;
 public var trial_type : String = "null";
 public var curVidNav : String;
+public var coordsList = new List.<City.Coords>();
 
-static var background : Background;
 static var task_action : String;
 
 //from control
-public var curTrialList = new Array();
-static var curStoreList = new Array();
-//static var storeList = new Array();
+public var curTrialList = new List.<City.Run>();
+static var curStoreList = new List.<String>();
+
 static var storeList : List.<String> = new List.<String>();
 
-
-static var numCities : int;
+public var numCities : int;
 static var city_x = new Array();
 static var city_y = new Array();
 private var intro : boolean = true;
 private var task   : boolean = true;
 private var vars: Config;
 
-
-
 //Scripts
 private var pasNav : PassiveNav;
 private var timer : Timer;
 private var trial : Trial;
+private var videoClips: VideoClips;
 
 //Stage gates
-private var stage_count : boolean = true;
-private var stage_task : boolean = true;
-private var stage_end : boolean = true;
-
+public var taskOn : boolean = false;
+private var task_iti : boolean = true;
+private var task_trial : boolean = true;
+private var task_run_end : boolean = true;
 //Public vars
 public var get_timer: float;
 public var get_task_action : String;
 
-
-//Task gates
-private var task_task : boolean = true;
-private var task_iti : boolean = true;
-private var task_run_end : boolean = true;
-private var task_run_start : boolean = true;
-
-private var get_countdown_over : boolean = false;
-private var task_over : boolean = true;
-
-public var run_trial_order = new Array();
+public var run_trial_order =new List.<int>();
 
 
 function Start(){	
 yield StartCoroutine(SetUpTaskType());
-run_trial_order = curTrialList[curR];
 yield StartCoroutine(SetUpComps());
 yield StartCoroutine(pasNav.ConfigurePassiveNav());
-task_stage = 'TaskSetup';
-
+get_task_action ='run_start';
 }
 
 function Update(){
-	//Listeners
-	///////////////////////////////////
 
-	if(task_stage == "TaskOn"){
+
+    TaskVariables();
+
+    if(get_task_action == 'iti'){
+        
+	    if(task_iti){
+		task_iti = false;
+		task_trial = true;
+	    pasNav.StopTrial();
+	    trial.StartITI();
+	    CityChange();
+	    output.Addline();
+        }
+  	}
+	else if(get_task_action == 'trial'){
+		output.GetTrialResponse();
+		if(task_trial){
+		task_trial = false;
+		task_iti = true;
+		pasNav.StartTrial();
+		trial.StopITI();
+		}
+  	}
+	else if(get_task_action == 'run_end'){
+ 		if(task_run_end){
+		task_run_end = false;
+        RunEnd();
+		}
+	}
+
+	else if(get_task_action == 'run_start'){
+		get_task_action = "run_starting...";
+		RunStart();						
+	}
+	else if(get_task_action == 'task_over'){
+		get_task_action = 'task_over..';
+		StartCoroutine(TaskOver());
+	}
+
+}
+
+function RunStart(){
+		run_trial_order = curTrialList[curR].trials;
+//		yield StartCoroutine(trial.StartCountDown());
+		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
+		taskOn = true;
+		yield StartCoroutine(timer.StartRun());  
+}
+
+function RunEnd(){
+	taskOn = false;
+	yield StartCoroutine(trial.RunBreak());
+	curR +=1;
+	if(curR < vars.numR){
+	get_task_action = 'run_start';
+	taskOn = true;
+	task_run_end = true;
+	}
+	else {
+
+	get_task_action = 'task_over';
+	}
+}
+
+function SetUpComps(){
+	gameObject.AddComponent(Output1); 
+	yield StartCoroutine(CityConfig());
+	output = GetComponent(Output1);
+	videoClips = GetComponent(VideoClips);
+	yield;
+	yield StartCoroutine(videoClips.Setup());	
+}
+
+function SetUpTaskType (){
+
+	var config : GameObject = GameObject.Find("Config");
+	vars = config.GetComponent(Config) as Config;
+	 
+	var player : GameObject = GameObject.Find("Player");
+	pasNav = player.GetComponent(PassiveNav) as PassiveNav;
+	
+	timer = GetComponent(Timer) as Timer;
+	trial = GetComponent(Trial) as Trial;
+
+	//Load city stuff
+	var	city : City = new City(vars.version);
+	curTrialList = city.trialList;
+	curStoreList = city.stores;
+//	city_x = city.city_x;
+//	city_y = city.city_y;
+	coordsList = city.coordsList;
+	numCities = city.coordsList.Count;
+	yield;
+}
+
+function CityChange(){
+    yield WaitForSeconds(0.1);
+
+//    var city_currentx = new Array();
+//    var city_currentz = new Array();
+	var x =  new List.<float>();
+    var y =  new List.<float>();
+
+    var cityNum : int = run_trial_order[curT];
+
+//    city_currentx =city_x[cityNum -1];
+//    city_currentz =city_y[cityNum -1];
+	x = coordsList[cityNum-1].x;
+	y = coordsList[cityNum-1].y;
+
+	//Reposition Control.curStoreList
+	for( var i : int = 0; i < curStoreList.Count; i++){
+        GameObject.Find(curStoreList[i]).transform.position.x = x[i];
+		GameObject.Find(curStoreList[i]).transform.position.z = y[i];  			  	  			  			  
+	}	
+}
+
+function TaskOver(){
+	get_task_action = "task_over..";
+	yield StartCoroutine(trial.TaskOver());
+	var expObj : GameObject = GameObject.Find("Experiment");
+	var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
+	expScript.LoadNextModule();
+}
+
+function TaskVariables(){
+	if(taskOn){
 	get_task_action = timer.GetAction();
 	get_timer = timer.GetTime('trial');
  	curT = timer.cnt_trial;
-	run_trial_order = curTrialList[curR];
 	curCity = run_trial_order[curT];
  	curVidNav = pasNav.cityVidTrial as String;
 
@@ -91,162 +197,57 @@ function Update(){
        trial_type = 'd';
      }
 	}
+}
 
+function CityConfig(){
 
-	//Task action
-///////////////////////////////////
-	if(get_task_action == 'trial'){
+	var city : GameObject = GameObject.Find("City");
+	var	cityTrans : Transform = city.transform;
+	yield;
+	for ( var store : int = 0; store < Control.curStoreList.Count; store++){
+			Control.storeList.Add(Control.curStoreList[store]);
+		}
+	yield;
+
+	//Remotes stores not used in task
+	for (var child : Transform in cityTrans) {
+	
+		if(!Control.storeList.Contains(child.name)){
 		
-		output.GetTrialResponse();
-
-		if(task_task){
-		task_task = false;
-		pasNav.StartTrial();
-		trial.StopITI();
-		task_iti = true;
-		
-		}
-  	}
-
-  	else if(get_task_action == 'iti'){
-		if(task_iti){
-			task_iti = false;
-			pasNav.StopTrial();
-			trial.StartITI();
-			CityChange();
-			task_task = true;
-			output.Addline();
-		}
-  	}
-
-  	else if(get_task_action == 'run_end'){
-    	if(task_run_end){
-		task_run_end = false;
-		task_iti = true;
- 		 RunEnd();
-		}
+			Destroy(GameObject.Find(child.name));
+	    }
 	}
-
-	else if(get_task_action == 'task_over'){
-		StartCoroutine(TaskOver());
-	}
-
-	else if(get_task_action == 'run_start'){
-		get_task_action = "run_starting...";
-		RunStart();						
-	}
-
-
-
-	if(task_stage == "TaskSetup"){
-		StartCoroutine(RunStart());
-	}
-	
-}
-
-function RunEnd(){
-	task_stage = "TaskOff";
-	yield StartCoroutine(trial.RunBreak());
-	curR +=1;
-	if(curR < vars.numR){
-	get_task_action = 'run_start';
-	}
-	else {
-	get_task_action = 'task_over';
-	}
-	task_run_end = true;
-}
-
-
-function StartEnd(){
-	curT = 0;
-}
-
-function RunStart(){
-//		yield StartCoroutine(trial.StartCountDown());
-		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
-		task_stage = "TaskOn";
-		yield StartCoroutine(timer.StartRun());  
-}
-
-function SetUpComps(){
-
-//	gameObject.AddComponent(CountDown);
-//	gameObject.AddComponent(CityMorph);
-//	gameObject.AddComponent(End); 
-	gameObject.AddComponent(Output1); 
-	gameObject.AddComponent(Background); 
-//	gameObject.AddComponent(ITI);
-//	gameObject.AddComponent(CityInfo);
-	gameObject.AddComponent(CityConfig);
-
-	
-//	countDown = GetComponent(CountDown); 
-//	cityMorph = GetComponent(CityMorph);
-	output = GetComponent(Output1);
-//	end = GetComponent(End); 
-	background = GetComponent(Background);
-//	iti = GetComponent(ITI);
-//	cityInfo = GetComponent(CityInfo);
-	
-//	countDown.enabled = false;
-//	cityMorph.enabled = false;
-//	output.enabled = false;
-//	end.enabled = false;
-	background.enabled = true;	 	
-//	iti.enabled = false;
-	
 	yield;
 }
 
-function SetUpTaskType (){
-
-	var config : GameObject = GameObject.Find("Config");
-	vars = config.GetComponent(Config) as Config;
-	 
-	var player : GameObject = GameObject.Find("Player");
-	pasNav = player.GetComponent(PassiveNav) as PassiveNav;
-	
-	timer = GetComponent(Timer) as Timer;
-	trial = GetComponent(Trial) as Trial;
-	//Load video clips
-	gameObject.AddComponent(LoadVideoClips);
-
-	//Load city stuff
-	var	city : City = new City(vars.version);
-	print(city.stores);
-	print(vars.version);
-	curTrialList = city.trialList;
-	curStoreList = city.stores;
-	city_x = city.city_x;
-	city_y = city.city_y;
-	numCities = city_x.length;
-	yield;
+function CheckInView(objectName : String):boolean{
+	var inView : boolean;
+	var store = GameObject.Find(objectName);
+	var allChildren : Renderer[] =store.GetComponentsInChildren(Renderer) as Renderer[];
+		for(var i : Renderer in allChildren){
+			 if(i.isVisible){
+			 inView =true;	 
+			 }
+			 else{
+			 inView =false;
+			 }	 
+		}		
+		return inView;
 }
 
-function CityChange(){
-    yield WaitForSeconds(0.3);
-
-    var city_currentx = new Array();
-    var city_currentz = new Array();
-
-	
-    var cityNum : int = run_trial_order[curT];
-
-    city_currentx =city_x[cityNum -1];
-    city_currentz =city_y[cityNum -1];
-
-	//Reposition Control.curStoreList
-      for( var i : int = 0; i < curStoreList.length; i++){
-				  GameObject.Find(curStoreList[i]).transform.position.x = city_currentx[i];
-				  GameObject.Find(curStoreList[i]).transform.position.z = city_currentz[i];  			  	  			  			  
-		 }	
+function CountInView(stores : List.<String>){
+ 	var cnt: int =0;
+	for( var i : int = 0;i < stores.Count; i++){
+	 cnt += i;
+	}
+	return cnt;
 }
 
-function TaskOver(){
-	get_task_action = "task_over..";
-	yield StartCoroutine(trial.TaskOver());
-	var expObj : GameObject = GameObject.Find("Experiment");
-	var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
-	expScript.LoadNextModule();
+function GetInViewList(storeList:List.<String>){
+	var storesInView = new List.<String>();
+	for( var store : String in storeList){
+	 	if(CheckInView(store)){
+		storesInView.Add(store);
+		}
+	}
 }
