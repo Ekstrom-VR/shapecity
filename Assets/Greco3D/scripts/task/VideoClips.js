@@ -2,9 +2,10 @@
 import System.IO;
 import System.Collections.Generic;
 
+class VideoClips extends MonoBehaviour{
 	private var vars : Config;
 	private var  path : String = "NavClipsFinalRand/";
-	static var cityRoll =  new List.<VideoRoll>();
+	static var cityRoll =  new List.<VideoClips.Roll>();
 	private var control : Control;
 
 	function Setup(){
@@ -24,7 +25,7 @@ import System.Collections.Generic;
 		//Read in navigation files
 		for(var iC : int = 0; iC < numCities; iC++){
 
-		   var videoList = new List.<VideoClip>();
+		   var videoList = new List.<VideoClips.Clip>();
 
 			for(var iV : int = 0; iV < numVideos; iV++){
 				var curPosNav = new List.<Vector3>();
@@ -68,19 +69,41 @@ import System.Collections.Generic;
 			
 			var videopath : String = path + vars.version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
 	
-		   	videoList.Add(new VideoClip(curPosNav,curRotNav,videopath));
+		   	videoList.Add(new Clip(curPosNav,curRotNav,videopath));
 //			print(videopath);
 		}   
-		cityRoll.Add(new VideoRoll(videoList));
+		cityRoll.Add(new Roll(videoList));
 		}
 	yield;
 	}
 
-	function GetVideo(city : int): VideoClip{
+	function GetVideo(city : int): VideoClips.Clip{
 		var videoRoll = cityRoll[city];
-		var video : VideoClip = videoRoll.roll[0];
+		var video : VideoClips.Clip = videoRoll.roll[0];
 		videoRoll.roll.RemoveAt(0);
 		cityRoll[city] = videoRoll;
 		return video;
 	}
 
+
+	public class Clip{
+		var pos = new List.<Vector3>();
+		var rot = new List.<Quaternion>();
+		var path : String;
+	
+		public function Clip(pos:List.<Vector3>,rot:List.<Quaternion>,path : String){
+			 this.pos = pos;
+			 this.rot = rot;
+			 this.path = path;
+		}
+	}
+
+	public class Roll{
+		
+		var roll = new List.<Clip>();
+	
+		public function Roll(roll:List.<VideoClips.Clip>){
+			 this.roll = roll;
+		}
+	}
+}

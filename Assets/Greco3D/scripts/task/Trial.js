@@ -1,9 +1,9 @@
 #pragma strict
 import UnityEngine.UI;
 
-var numStr : String;
-var timer : float;
-var gui_on : boolean;
+public var numStr : String;
+public var timer : float;
+private var gui_on : boolean;
 private var background : Background;
 private var runbreak : boolean = true;
 public var taskText : Text; 

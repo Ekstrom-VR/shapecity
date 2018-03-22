@@ -138,25 +138,19 @@ function SetUpTaskType (){
 	var	city : City = new City(vars.version);
 	curTrialList = city.trialList;
 	curStoreList = city.stores;
-//	city_x = city.city_x;
-//	city_y = city.city_y;
 	coordsList = city.coordsList;
 	numCities = city.coordsList.Count;
 	yield;
 }
 
 function CityChange(){
-    yield WaitForSeconds(0.1);
+    yield WaitForSeconds(0.5);
 
-//    var city_currentx = new Array();
-//    var city_currentz = new Array();
+
 	var x =  new List.<float>();
     var y =  new List.<float>();
-
     var cityNum : int = run_trial_order[curT];
 
-//    city_currentx =city_x[cityNum -1];
-//    city_currentz =city_y[cityNum -1];
 	x = coordsList[cityNum-1].x;
 	y = coordsList[cityNum-1].y;
 

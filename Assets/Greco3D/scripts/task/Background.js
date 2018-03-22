@@ -3,7 +3,7 @@
 private var bgGuiText : GUITexture;
 private var background : GameObject;
 private var fadeMode : boolean = true;
-public var backgroundon : boolean = false;
+private var backgroundon : boolean = false;
 
 function Awake() {
 	background = GameObject.Find("Background");
@@ -11,7 +11,6 @@ function Awake() {
 }
 
 function BackGroundOff() {
-//print("background off");
 	if(backgroundon){
 	backgroundon = false;
 	if(fadeMode){
@@ -25,7 +24,6 @@ function BackGroundOff() {
 }
 
 function BackGroundOn() {
-//	print("background on");
 	if(!backgroundon){
 	backgroundon = true;
 	if(fadeMode){
@@ -47,7 +45,7 @@ function FadeOut(){
 
 function FadeIn(){
 	while(bgGuiText.color.a <.5){
-	bgGuiText.color.a += .05;
+	bgGuiText.color.a += .02;
 	yield new WaitForFixedUpdate ();
 	}
 }

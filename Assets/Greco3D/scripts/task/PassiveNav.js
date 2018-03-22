@@ -38,8 +38,9 @@ function SetupTrial(){
 function PassiveNav(){
 cnt = 0;
 while(navigate){
-transform.position = cityPosTrial[cnt];
-transform.rotation = cityRotTrial[cnt];
+transform.localPosition.x = cityPosTrial[cnt].x;
+transform.localPosition.z = cityPosTrial[cnt].z;
+transform.localRotation = cityRotTrial[cnt];
 cnt++;
 yield WaitForFixedUpdate;
 }
@@ -60,10 +61,9 @@ function ChangeNavClip(){
 	curT =control.curT;
 	cityNum = run_trial_order[curT];
 	print("Change video: cityNum:" + cityNum + " ; curTrial:" + curT);
-	var videoClip : VideoClip = videoClips.GetVideo(cityNum-1);
+	var videoClip : VideoClips.Clip = videoClips.GetVideo(cityNum-1);
 	print(videoClip.path);
 	cityPosTrial = videoClip.pos;
 	cityRotTrial = videoClip.rot;
 	cityVidTrial = videoClip.path;
-
 }
