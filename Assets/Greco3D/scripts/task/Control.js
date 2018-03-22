@@ -1,9 +1,7 @@
 #pragma strict
 import System.Collections.Generic;
 
-private var output : Output1;
-private var end : End;
-private var cityInfo : CityInfo;
+private var output : Output;
 public var curR : int = 0;
 public var curT : int =0;
 public var curCity : int;
@@ -48,12 +46,10 @@ public var run_trial_order =new List.<int>();
 function Start(){	
 yield StartCoroutine(SetUpTaskType());
 yield StartCoroutine(SetUpComps());
-yield StartCoroutine(pasNav.ConfigurePassiveNav());
 get_task_action ='run_start';
 }
 
 function Update(){
-
 
     TaskVariables();
 
@@ -119,9 +115,9 @@ function RunEnd(){
 }
 
 function SetUpComps(){
-	gameObject.AddComponent(Output1); 
+	gameObject.AddComponent(Output); 
 	yield StartCoroutine(CityConfig());
-	output = GetComponent(Output1);
+	output = GetComponent(Output);
 	videoClips = GetComponent(VideoClips);
 	yield;
 	yield StartCoroutine(videoClips.Setup());	
@@ -202,7 +198,6 @@ function TaskVariables(){
 function CityConfig(){
 
 	var city : GameObject = GameObject.Find("City");
-	var	cityTrans : Transform = city.transform;
 	yield;
 	for ( var store : int = 0; store < Control.curStoreList.Count; store++){
 			Control.storeList.Add(Control.curStoreList[store]);
@@ -210,7 +205,7 @@ function CityConfig(){
 	yield;
 
 	//Remotes stores not used in task
-	for (var child : Transform in cityTrans) {
+	for (var child : Transform in city.transform) {
 	
 		if(!Control.storeList.Contains(child.name)){
 		
