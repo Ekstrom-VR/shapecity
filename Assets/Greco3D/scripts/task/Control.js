@@ -36,6 +36,7 @@ public var taskOn : boolean = false;
 private var task_iti : boolean = true;
 private var task_trial : boolean = true;
 private var task_run_end : boolean = true;
+private var task_start : boolean = true;
 //Public vars
 public var get_timer: float;
 public var get_task_action : String;
@@ -60,19 +61,28 @@ function Update(){
 		task_trial = true;
 	    pasNav.StopTrial();
 	    trial.StartITI();
-	    CityChange();
+	    NextTrialSetup();
 	    output.Addline();
         }
   	}
 	else if(get_task_action == 'trial'){
 		output.GetTrialResponse();
 		if(task_trial){
-		task_trial = false;
-		task_iti = true;
-		pasNav.StartTrial();
-		trial.StopITI();
+		    task_trial = false;
+		    task_iti = true;
+		    pasNav.StartTrial();
+		    trial.StopITI();
 		}
   	}
+	else if (get_task_action == 'start'){
+		if(task_start){
+			task_start = false;
+			task_trial = true;
+	    	trial.StartITI();
+	    	NextTrialSetup();
+        }
+
+	}
 	else if(get_task_action == 'run_end'){
  		if(task_run_end){
 		task_run_end = false;
@@ -95,6 +105,7 @@ function RunStart(){
 		run_trial_order = curTrialList[curR].trials;
 //		yield StartCoroutine(trial.StartCountDown());
 		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
+		task_start = true;
 		taskOn = true;
 		yield StartCoroutine(timer.StartRun());  
 }
@@ -143,9 +154,13 @@ function SetUpTaskType (){
 	yield;
 }
 
-function CityChange(){
-    yield WaitForSeconds(0.5);
+function NextTrialSetup(){
+    
 
+
+	yield WaitForSeconds(0.5);
+
+	pasNav.SetupTrial();
 
 	var x =  new List.<float>();
     var y =  new List.<float>();

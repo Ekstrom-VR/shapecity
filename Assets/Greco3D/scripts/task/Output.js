@@ -65,7 +65,7 @@ acc_total += acc_curr;
 
 //line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + control.curVidNav +"\n"; 
 
-line =  (cntT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +"\n"; 
+line =  (control.curT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +"\n"; 
 
 //Write out data
 System.IO.File.AppendAllText(  "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt",line);
@@ -79,7 +79,7 @@ if (Input.GetKeyDown('left') || Input.GetKeyDown(KeyCode.Alpha1) )
 	{
 	print ('left arrow key down');
 	resp_key = 's';
-//	resp_time = CityMorph.stopwatch;
+	resp_time = control.get_timer;
 	resp_key_list[cntR] = resp_key;
 //	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;
@@ -89,7 +89,7 @@ if (Input.GetKeyDown('left') || Input.GetKeyDown(KeyCode.Alpha1) )
 	{
 	print ('right arrow key down');
 	resp_key = 'd';
-//	resp_time = CityMorph.stopwatch;
+	resp_time = control.get_timer;
 	resp_key_list[cntR] = resp_key;
 //	resp_time_list[cntR] = CityMorph.stopwatch;
 	cntR++;

@@ -32,6 +32,7 @@ function SetupTrial(){
     curT =control.curT;
 	cnt =0;
 	navigate = true;
+	ChangeNavClip();
 	yield;
 }
 
@@ -47,13 +48,11 @@ yield WaitForFixedUpdate;
 }	
 
 function StartTrial(){
-yield StartCoroutine(SetupTrial());
 yield StartCoroutine(PassiveNav());
 }
 
 function StopTrial(){
 navigate = false;
-ChangeNavClip();
 }
 
 function ChangeNavClip(){
