@@ -1,11 +1,12 @@
 ﻿#pragma strict
 import System.Collections.Generic;
+import Shuffle;
 
-class City
+class City extends MonoBehaviour
 {
 	public var stores = new List.<String>();
 	public var coordsList = new List.<Coords>();
-    public var trialList = new List.<Run>();
+    public var runList = new List.<Run>();
 	var x =  new List.<float>();
     var y =  new List.<float>();
 
@@ -13,10 +14,8 @@ class City
 		
 		public var trials = new List.<int>();
 		
-		public function Run(tri:int[]){
-			for(var i :int in tri){
-			   this.trials.Add(tri[i]);
-			}
+		public function Run(tri : List.<int>){
+			this.trials = tri;
 		}
 	}
 
@@ -48,13 +47,15 @@ class City
 
 	switch(cityName)
 	{
+	
 	case 'CE':
-		run1 = new Run([3,3,4,1,1,1,1,4,4,2,3,3,1,2,4,4,4,4,2,3,3,3,3,4]);
-		run2 = new Run([3,2,2,1,4,4,2,3,4,4,4,4,1,1,2,1,3,3,1,2,2,1,3,3]);
-		run3 = new Run([1,1,1,1,3,4,4,4,4,3,1,1,2,2,2,2,3,1,1,4,2,2,4,1]);
-		run4 = new Run([1,1,1,4,3,3,3,3,2,4,3,3,2,2,2,2,1,3,2,2,2,2,4,4]);
-		trialList = new List.<Run>([run1,run2,run3,run4]);
+		run1 = new Run(List.<int>([3,3,4,1,1,1,1,4,4,2,3,3,1,2,4,4,4,4,2,3,3,3,3,4]));
+		run2 = new Run(List.<int>([3,2,2,1,4,4,2,3,4,4,4,4,1,1,2,1,3,3,1,2,2,1,3,3]));
+		run3 = new Run(List.<int>([1,1,1,1,3,4,4,4,4,3,1,1,2,2,2,2,3,1,1,4,2,2,4,1]));
+		run4 = new Run(List.<int>([1,1,1,4,3,3,3,3,2,4,3,3,2,2,2,2,1,3,2,2,2,2,4,4]));
+		runList = new List.<Run>([run1,run2,run3,run4]);
 		
+
 		//City 1
 		x = new List.<float>([293.50,293.50,293.50,256.00,218.50,218.50,218.50,256.00]);
 		y = new List.<float>([293.50,243.50,218.50,218.50,218.50,268.50,293.50,293.50]);
@@ -80,11 +81,11 @@ class City
 		stores = new List.<String>(["Toy Store","1ST Bank", "Book Store", "Camera Store", "Coffee Shop","Craft Shop","Dentist","Fast Food Shop"]);
 		break;
 	case 'Greco':
-		run1 = new Run([3,2,3,1,1,3,1,1,3,3,3,3,1,2,2,2,1,1,1,3,3,3,2,3,2]);
-		run2 = new Run([1,2,1,2,1,3,3,1,1,1,2,2,2,3,2,3,3,1,2,2,1,1,3,1,1]);
-		run3 = new Run([2,2,1,1,2,2,2,3,2,2,3,3,3,3,1,1,3,1,1,1,3,3,3,3,2]);
-		run4 = new Run([1,1,2,2,2,3,3,3,2,1,1,3,3,2,1,2,3,1,3,3,1,1,1,1,3]);
-		trialList = new List.<Run>([run1,run2,run3,run4]);
+		run1 = new Run(List.<int>([3,2,3,1,1,3,1,1,3,3,3,3,1,2,2,2,1,1,1,3,3,3,2,3,2]));
+		run2 = new Run(List.<int>([1,2,1,2,1,3,3,1,1,1,2,2,2,3,2,3,3,1,2,2,1,1,3,1,1]));
+		run3 = new Run(List.<int>([2,2,1,1,2,2,2,3,2,2,3,3,3,3,1,1,3,1,1,1,3,3,3,3,2]));
+		run4 = new Run(List.<int>([1,1,2,2,2,3,3,3,2,1,1,3,3,2,1,2,3,1,3,3,1,1,1,1,3]));
+		runList = new List.<Run>([run1,run2,run3,run4]);
 
 		x = new List.<float>([279.74,251.32,229.88,201.28,226.39,264.04,289.14,290.84,293.10,279.74]);
 		y = new List.<float>([282.20,306.13,284.86,256.50,240.93,217.58,202.01,225.77,257.44,282.20]);
@@ -104,9 +105,9 @@ class City
 		break;
 	case 'Practice':
 
-		run1 = new Run([1,1,2,1,1,2,1,2,2,1]);
-		run2 = new Run([2,1,1,2,2,2,1,1,2,2]);
-		trialList = new List.<Run>([run1,run2]);
+		run1 = new Run(List.<int>([1,1,2,1,1,2,1,2,2,1]));
+		run2 = new Run(List.<int>([2,1,1,2,2,2,1,1,2,2]));
+		runList = new List.<Run>([run1,run2]);
 
 		x = new List.<float>([267.54,234.22,257.60,270.85]);
 		y = new List.<float>([273.49,274.33,227.98,241.26]);
@@ -121,5 +122,8 @@ class City
 		stores = new List.<String>(["Book Store","Coffee Shop", "Craft Shop","1ST Bank"]);
 		break;
 	}
+
+	//Shuffle run order
+	runList = ShuffleList(runList);
 }
 }

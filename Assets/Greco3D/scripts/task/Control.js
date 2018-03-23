@@ -13,7 +13,7 @@ public var coordsList = new List.<City.Coords>();
 static var task_action : String;
 
 //from control
-public var curTrialList = new List.<City.Run>();
+public var runList = new List.<City.Run>();
 static var curStoreList = new List.<String>();
 
 static var storeList : List.<String> = new List.<String>();
@@ -37,6 +37,8 @@ private var task_iti : boolean = true;
 private var task_trial : boolean = true;
 private var task_run_end : boolean = true;
 private var task_start : boolean = true;
+private var task_run_start: boolean = true;
+
 //Public vars
 public var get_timer: float;
 public var get_task_action : String;
@@ -91,8 +93,10 @@ function Update(){
 	}
 
 	else if(get_task_action == 'run_start'){
-		get_task_action = "run_starting...";
-		RunStart();						
+		if(task_run_start){
+		task_run_start = false;
+		RunStart();
+		}						
 	}
 	else if(get_task_action == 'task_over'){
 		get_task_action = 'task_over..';
@@ -102,12 +106,14 @@ function Update(){
 }
 
 function RunStart(){
-		run_trial_order = curTrialList[curR].trials;
+	
+		run_trial_order = runList[curR].trials;
+		print("run_trial_order");
+
 //		yield StartCoroutine(trial.StartCountDown());
 		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
-		task_start = true;
+		timer.StartRun();
 		taskOn = true;
-		yield StartCoroutine(timer.StartRun());  
 }
 
 function RunEnd(){
@@ -115,9 +121,11 @@ function RunEnd(){
 	yield StartCoroutine(trial.RunBreak());
 	curR +=1;
 	if(curR < vars.numR){
+	task_run_start = true;
 	get_task_action = 'run_start';
-	taskOn = true;
 	task_run_end = true;
+	task_start = true;
+
 	}
 	else {
 
@@ -147,7 +155,8 @@ function SetUpTaskType (){
 
 	//Load city stuff
 	var	city : City = new City(vars.version);
-	curTrialList = city.trialList;
+	print(vars.version);
+	runList = city.runList;
 	curStoreList = city.stores;
 	coordsList = city.coordsList;
 	numCities = city.coordsList.Count;
@@ -156,8 +165,6 @@ function SetUpTaskType (){
 
 function NextTrialSetup(){
     
-
-
 	yield WaitForSeconds(0.5);
 
 	pasNav.SetupTrial();

@@ -1,6 +1,7 @@
 ﻿#pragma strict
 import System.IO;
 import System.Collections.Generic;
+import Shuffle;
 
 class VideoClips extends MonoBehaviour{
 	private var vars : Config;
@@ -106,16 +107,5 @@ class VideoClips extends MonoBehaviour{
 		public function Roll(roll:List.<VideoClips.Clip>){
 			 this.roll = roll;
 		}
-	}
-
-	function ShuffleList(list : List.<Clip>):List.<Clip>
-	{
-	   for (var i : int = 0; i < list.Count; i++) {
-	         var temp : Clip = list[i];
-	         var randomIndex : int = Random.Range(i, list.Count);
-	         list[i] = list[randomIndex];
-	         list[randomIndex] = temp;
-			return list;
-	     }
 	}
 }

@@ -49,13 +49,12 @@ function StartCountDown(){
 function StartITI(){
 	
 	numStr ="+";
-	print('start iti');
 	gui_on = true;
 	background.BackGroundOn();
 }
 
 function StopITI(){
-	print('stop iti');
+
 	gui_on = false;
 	background.BackGroundOff();
 	numStr ="";

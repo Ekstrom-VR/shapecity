@@ -53,10 +53,10 @@ function Addline(){
 
 if(resp_key ==control.trial_type){
 acc_curr = 1;
-print("Correct!");
+//print("Correct!");
 }
 else{
-print("Incorrect!");
+//print("Incorrect!");
 acc_curr = 0;
 }
 
