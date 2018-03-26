@@ -17,25 +17,32 @@ var acc_curr  : int;
 static var acc_total  : float;
 var vars: Config;
 var control: Control;
+var dir_data : String;
+var fpath_output : String;
+var new_line : String;
 
 function OnEnable() {
 
 var config : GameObject = GameObject.Find("Config");
 vars = config.GetComponent(Config) as Config;
 control = GetComponent(Control) as Control;
+new_line = System.Environment.NewLine;
 
 //Initialize variables
 	acc_curr  = 0;
 	acc_total = 0;
 	resp_key  = 'nan';
-	    
+	var sep : String ="/";
 	subj = PlayerPrefs.GetString("subj_id");
-	System.IO.Directory.CreateDirectory("Data/" + vars.version + "/");
+	dir_data = Application.dataPath + sep +"Data" + sep + vars.version;
+	print(dir_data);
+	System.IO.Directory.CreateDirectory(dir_data);
+	fpath_output =  dir_data + sep + subj + "_" + vars.version + "_output.txt";
 	if(control.curR==0){
-	var newFile = System.IO.File.Create( "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt");
+	var newFile = System.IO.File.Create(fpath_output);
 	newFile.Close();
-	line =  'Global_trial_num'  + '\t'+ 'run_num' +'\t' + 'trial_time' + '\t' + 'resp_key' + '\t' + 'resp_time' + '\t' +  'trial_type' + '\t' + 'acc' + '\t' + 'currCity'+ '\t' + 'priorCity'  +  '\t' + 'trialList'+  '\t' + 'respList'+'\t' + 'curVidNav'+'\n';
-	System.IO.File.AppendAllText(  "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt",line);
+	line =  'Global_trial_num'  + '\t'+ 'run_num' +'\t' + 'trial_time' + '\t' + 'resp_key' + '\t' + 'resp_time' + '\t' +  'trial_type' + '\t' + 'acc' + '\t' + 'currCity'+ '\t' + 'priorCity'  +  '\t' + 'trialList'+  '\t' + 'respList'+'\t' + 'curVidNav'+new_line;
+	System.IO.File.AppendAllText(  fpath_output,line);
 	}	
 }
 
@@ -65,10 +72,11 @@ acc_total += acc_curr;
 
 //line =  (cntT+1) +  "\t "+ control.curR +"\t " + CityMorph.startTime + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + ITI.trialList +  '\t' + ITI.respList +'\t' + control.curVidNav +"\n"; 
 
-line =  (control.curT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +"\n"; 
+line =  (control.curT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +new_line; 
 
 //Write out data
-System.IO.File.AppendAllText(  "Data/" + vars.version + "/" + subj + "_" + vars.version + "_output.txt",line);
+System.IO.File.AppendAllText(fpath_output,line);
+print(fpath_output);
 }
 
 
