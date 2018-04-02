@@ -9,9 +9,10 @@ function Update(){
 	//Exit task an enable output script when Escape is pressed
 	if(Input.GetKeyUp(KeyCode.Escape)){
 	    	
-		var expObj : GameObject = GameObject.Find("Experiment");
-		var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
-		expScript.LoadNextModule();
+//		var expObj : GameObject = GameObject.Find("Experiment");
+//		var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
+//		expScript.LoadNextModule();
+		Manager.experiment.LoadNextModule();
 
 	}
 								

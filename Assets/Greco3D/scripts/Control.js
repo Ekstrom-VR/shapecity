@@ -42,9 +42,7 @@ private var task_run_start: boolean = true;
 //Public vars
 public var get_timer: float;
 public var get_task_action : String;
-
 public var run_trial_order =new List.<int>();
-
 
 function Start(){	
 yield StartCoroutine(SetUpTaskType());

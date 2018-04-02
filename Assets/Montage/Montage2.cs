@@ -142,10 +142,9 @@ public class Montage2 : MonoBehaviour {
 
 		case "Next":
 
-			Manager.experiment.LoadNextModule ();
+			Manager.experiment.LoadNextModule();
 			break;
 		}
-
 	}
 
 	GUIStyle SetGUIStyle ( int fontsize  ){
