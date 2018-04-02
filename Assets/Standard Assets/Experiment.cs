@@ -7,25 +7,13 @@ using UnityEngine.SceneManagement;
 public class Experiment : MonoBehaviour {
 
 	public List<string> tasks = new List<string>();
-	private static List<string> tasksS;
-	public static int curModule = 0;
+	private  int curModule = 0;
 	public bool debug_mode;
-	private static Experiment instance;
+//	private static Experiment instance;
 	public bool startExperiment  = false;
 
-	void Awake() {
-
-		if (instance != null) {
-			Destroy (gameObject);
-			print("destroying game object");
-		} else {
-			instance = this;
-			GameObject.DontDestroyOnLoad(gameObject);		
-		}
-	}
-
 	void Start () {
-		tasksS = tasks;
+//		tasksS = tasks;
 
 		if(startExperiment){
 		StartTask();			
@@ -44,16 +32,16 @@ public class Experiment : MonoBehaviour {
 		print("load level" + name);
 	}
 
-	 public static void QuitRequest(){
+	 public void QuitRequest(){
 		Debug.Log ("Quit requested");
-		Application.Quit ();
+		Application.Quit();
 	}
 
-	 public static void LoadNextModule(){
+	 public void LoadNextModule(){
 
 		curModule ++;
-		SceneManager.LoadScene(tasksS[curModule]);
-		print("loading module " +curModule + " " + tasksS[curModule]);
+		SceneManager.LoadScene(tasks[curModule]);
+		print("loading module " +curModule + " " + tasks[curModule]);
 		
 	}
 
@@ -61,17 +49,11 @@ public class Experiment : MonoBehaviour {
 		Scene scene = SceneManager.GetActiveScene();
 		SceneManager.LoadScene(scene.name);
 	}
-
-
-	void OnGUI(){
+		
+	public void OnGUI(){
 		if(debug_mode){
 		if (GUILayout.Button("Debug-skip"))
 			LoadNextModule();
-
 	    }
     }
-
-
-
-
 }

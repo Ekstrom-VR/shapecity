@@ -2,7 +2,7 @@
 import System.Collections.Generic;
 
 //enum TaskType {GR,CE,PR};
-public var taskType : TaskType;
+//public var taskType : TaskType;
 private var curStoreList = new List.<String>();
 private var monRunning = false;
 private var style : GUIStyle = new GUIStyle();
@@ -15,12 +15,10 @@ private var curStage : String;
 private var store : GameObject;
 public var numRuns : int = 1;//3
 private var vars: Config;
-var config : GameObject = GameObject.Find("Config");
-vars = config.GetComponent(Config) as Config;
-
-
 
 function Start(){
+	var config : GameObject = GameObject.Find("Config");
+	vars = config.GetComponent(Config) as Config;
 	ConfigureCity();
 	curStage=stages[cnt]; 
 }

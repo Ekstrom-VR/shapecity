@@ -1,5 +1,9 @@
 Global_trial_num	run_num	trial_time	resp_key	resp_time	trial_type	acc	currCity	priorCity	trialList	respList	curVidNav
-2	 0	 CityMorph.startTime	nan	0		0	2	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_39.txt
-3	 0	 CityMorph.startTime	s	2.004463		0	1	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_1.txt
-4	 0	 CityMorph.startTime	s	1.457868		1	1	1	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_0/Position/position_19.txt
-5	 0	 CityMorph.startTime	s	3.876598		0	2	1	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_0/Position/position_1.txt
+2	 0	 CityMorph.startTime	nan	0		0	2	1	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_0/Position/position_62.txt
+3	 0	 CityMorph.startTime	nan	0		0	1	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_75.txt
+2	 1	 CityMorph.startTime	nan	0		0	2	3	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_2/Position/position_85.txt
+3	 1	 CityMorph.startTime	d	1.043704		1	3	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_1.txt
+2	 2	 CityMorph.startTime	d	1.043704		0	2	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_2.txt
+3	 2	 CityMorph.startTime	s	1.374949		0	1	2	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_1/Position/position_3.txt
+2	 3	 CityMorph.startTime	s	1.374949		1	1	1	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_0/Position/position_3.txt
+3	 3	 CityMorph.startTime	d	1.722931		1	2	1	ITI.trialList	ITI.respList	NavClipsFinalRand/Greco_0/Position/position_4.txt
