@@ -6,7 +6,7 @@ private var cityRotTrial = new List.<Quaternion>();
 static  var cityVidTrial : String;
 private var run_trial_order = new List.<int>();
 private var curT : int;
-private var cnt : int = 0;
+public var cnt : int = 0;
 
 private var line : String;
 private var vars : Config_cs;

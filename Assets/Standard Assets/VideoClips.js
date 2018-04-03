@@ -4,26 +4,11 @@ import System.Collections.Generic;
 import Shuffle;
 
 class VideoClips extends MonoBehaviour{
-//	private var vars : Config;
-	private var  path : String = "NavClipsFinalRand/";
-	static var cityRoll =  new List.<VideoClips.Roll>();
-//	private var control : Control;
 
+		private var  path : String = "NavClipsFinalRand/";
+	static var cityRoll =  new List.<VideoClips.Roll>();
 	function Setup(numCities : int, numVideos : int, version : String){
 
-//	var config : GameObject = GameObject.Find("Config");
-//	vars = config.GetComponent(Config) as Config;
-//	control = GetComponent(Control) as Control;
-
-//	yield;
-//	yield StartCoroutine(Load());
-//	}
-//	
-//	function Load(){
-//		var numCities : int = control.numCities;
-//		var numVideos : int = vars.numVideos;
-	
-		//Read in navigation files
 		for(var iC : int = 0; iC < numCities; iC++){
 
 		   var videoList = new List.<VideoClips.Clip>();
@@ -71,7 +56,6 @@ class VideoClips extends MonoBehaviour{
 			var videopath : String = path + version + "_" + iC.ToString() + "/Position/position_" + iV.ToString() + ".txt";
 	
 		   	videoList.Add(new Clip(curPosNav,curRotNav,videopath));
-//			print(videopath);
 		}  
 		 
 		cityRoll.Add(new Roll(ShuffleList(videoList)));

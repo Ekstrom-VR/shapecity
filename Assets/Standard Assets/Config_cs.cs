@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Config_cs : MonoBehaviour {
-
     public string version = "Greco";
     public int numVideos = 100;//100
     public float trial_time = 20f;//20

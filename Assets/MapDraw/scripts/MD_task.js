@@ -69,7 +69,7 @@ function SetUpTaskType (){
 	numCities = 3;
 	}
 	
-	if(task_type == "PR"){
+	if(task_type == "Practice"){
 	curStoreList = storeListInstance.stores_PR;
 //	task_type = 'PR';
 	numCities = 2;

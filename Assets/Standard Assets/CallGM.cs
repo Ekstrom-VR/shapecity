@@ -6,6 +6,6 @@ public class CallGM : MonoBehaviour {
 
 	public void QuitRequest()
 	{
-	Manager.genBehav.QuitRequest();
+	Manager.experiment.QuitRequest();
 	}
 }

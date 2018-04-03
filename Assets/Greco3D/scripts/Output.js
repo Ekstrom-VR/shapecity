@@ -33,15 +33,17 @@ function OnEnable() {
 	acc_total = 0;
 	resp_key  = 'nan';
 	var sep : String ="/";
-	subj = PlayerPrefs.GetString("subj_id");
-	dir_data = Application.dataPath + sep +"Data" + sep + vars.version;
+subj = PlayerPrefs.GetString("subj_id");
+//	dir_data = sep +"Data" + sep + vars.version + sep;
+	dir_data = "Data/Nav/"+ vars.version + "/";
 	System.IO.Directory.CreateDirectory(dir_data);
+	print(dir_data);
 	fpath_output =  dir_data + sep + subj + "_" + vars.version + "_output.txt";
 	if(control.curR==0){
 	    var newFile = System.IO.File.Create(fpath_output);
 	    newFile.Close();
 	    line =  'Global_trial_num'  + '\t'+ 'run_num' +'\t' + 'trial_time' + '\t' + 'resp_key' + '\t' + 'resp_time' + '\t' +  'trial_type' + '\t' + 'acc' + '\t' + 'currCity'+ '\t' + 'priorCity'  +  '\t' + 'trialList'+  '\t' + 'respList'+'\t' + 'curVidNav'+new_line;
-	    System.IO.File.AppendAllText(  fpath_output,line);
+	    System.IO.File.AppendAllText(fpath_output,line);
 	}	
 }
 

@@ -3,18 +3,15 @@
 public static class Manager
 {
 
-	public static GenBehav genBehav;
     public static Config_cs config;
 	public static Experiment experiment;
 
 	static Manager()
 	{
 		GameObject m;
-		m = safeFind("_holder");
-		genBehav = (GenBehav)SafeComponent(m,"GenBehav");
+		m = safeFind("Experiment");
         config = (Config_cs)SafeComponent(m, "Config_cs");
 		experiment = (Experiment)SafeComponent(m, "Experiment");
-
 	}
 
 	public static void TestManager()

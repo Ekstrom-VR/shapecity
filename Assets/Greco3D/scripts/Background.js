@@ -38,14 +38,14 @@ function BackGroundOn() {
 
 function FadeOut(){
 	while(bgGuiText.color.a >0){
-	bgGuiText.color.a -= .01;
+	bgGuiText.color.a -= .02;
 	yield new WaitForFixedUpdate ();	
 	}
 }
 
 function FadeIn(){
 	while(bgGuiText.color.a <.5){
-	bgGuiText.color.a += .02;
+	bgGuiText.color.a += .03;
 	yield new WaitForFixedUpdate ();
 	}
 }

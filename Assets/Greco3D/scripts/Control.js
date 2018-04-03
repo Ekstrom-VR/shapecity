@@ -162,14 +162,16 @@ function SetUpTaskType (){
 }
 
 function NextTrialSetup(){
-    
+    if(curT < vars.numT){
 	yield WaitForSeconds(0.5);
 
 	pasNav.SetupTrial();
 
 	var x =  new List.<float>();
     var y =  new List.<float>();
+   
     var cityNum : int = run_trial_order[curT];
+
 
 	x = coordsList[cityNum-1].x;
 	y = coordsList[cityNum-1].y;
@@ -178,6 +180,7 @@ function NextTrialSetup(){
 	for( var i : int = 0; i < curStoreList.Count; i++){
         GameObject.Find(curStoreList[i]).transform.position.x = x[i];
 		GameObject.Find(curStoreList[i]).transform.position.z = y[i];  			  	  			  			  
+	}
 	}	
 }
 
@@ -194,7 +197,9 @@ function TaskVariables(){
 	get_task_action = timer.GetAction();
 	get_timer = timer.GetTime('trial');
  	curT = timer.cnt_trial;
+ 	if(curT < vars.numT){
 	curCity = run_trial_order[curT];
+	}
  	curVidNav = pasNav.cityVidTrial as String;
 
 	if(curT != 0){
