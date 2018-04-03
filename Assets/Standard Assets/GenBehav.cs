@@ -12,8 +12,11 @@ public class GenBehav : MonoBehaviour {
 	}
 
 	 public void QuitRequest(){
-		Debug.Log ("Quit requested");
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#else
 		Application.Quit();
+		#endif
 	}		
 
 	public void ReloadCurrentScene(){

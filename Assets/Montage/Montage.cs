@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Montage2 : MonoBehaviour {
+public class Montage : MonoBehaviour {
 
 	private List<string> curStoreList= new List<string>();
 	private bool monRunning= false;
