@@ -9,7 +9,9 @@ public class Experiment : MonoBehaviour {
 	public bool debug_mode;
     public Video video;
 
-
+	void Start(){
+		print(Application.persistentDataPath);
+}
  
 
     public void LoadVideos()
@@ -33,6 +35,11 @@ public class Experiment : MonoBehaviour {
 
 
     }
+
+	public void testXML()
+	{
+		video.WriteXML();
+	}
     public void StartTask()
 	{	
 		SceneManager.LoadScene(tasks[curModule]);

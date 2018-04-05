@@ -5,12 +5,19 @@ using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Text;
+
+[XmlRoot("CityCollection")]
 public class Video {
 
-    public List<CityRoutes> TaskVideos = new List<CityRoutes>();
-    public int numCities;
-    public string path;
+	[XmlAttribute("name")]
     public string version;
+	public int numCities;
+    public string path;
+
+	[XmlArray("Cities")]
+	[XmlArrayItem("Routes")]
+    public List<CityRoutes> TaskVideos = new List<CityRoutes>();
+    
 
     public Video(string navPath, string taskName, int num)
     {
@@ -26,7 +33,13 @@ public class Video {
             }
     }
 
-
+	public Video()
+    {
+        numCities = 2;
+        version = "Practice";
+        path = "NavClipsFinalRand";
+		TaskVideos = new List<CityRoutes>();
+    }
 
 
     public CityRoutes BuildCityVideos(string navPath, string taskName, int cityNum)
@@ -77,11 +90,15 @@ public class Video {
 	}
 
 	public class PosRot{
+
 		public Vector3 position = new Vector3();
 		public Quaternion rotation;
 		public PosRot(Vector3 P, Quaternion R){
 			position = P;
 			rotation = R;
+		}
+
+		public PosRot(){
 		}
 	}
 
@@ -101,6 +118,10 @@ public class Video {
                 list.Add(new PosRot(posList[i], rotList[i]));
             }
         }
+
+		public Route(){
+		}
+
     }
 
     public class CityRoutes
@@ -110,6 +131,9 @@ public class Video {
         {
             list = routeList;
         }
+		public CityRoutes()
+		{
+		}	
     }
 
     public List<Vector3> LoadPosition(string fpath){
@@ -176,14 +200,21 @@ public class Video {
     }
 
 
-    public void CreateXML()
+	public void WriteXML()
     {
-
+ var serializer = new XmlSerializer(typeof(Video));
+ var stream = new FileStream(Application.dataPath + "/" + "video.xml", FileMode.Create);
+ serializer.Serialize(stream, this);
+ stream.Close();
 
     }
 
-    public void LoadXML()
+	public void ReadXML(string path)
     {
-
+ var serializer = new XmlSerializer(typeof(Video));
+ var stream = new FileStream(path, FileMode.Open);
+ var container = serializer.Deserialize(stream) as Video;
+ stream.Close();
     }
+
 }
