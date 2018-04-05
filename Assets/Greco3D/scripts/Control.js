@@ -26,10 +26,10 @@ private var task   : boolean = true;
 //private var vars: Config;
 private var vars: Config_cs;
 //Scripts
-private var pasNav : PassiveNav;
+private var pasNav : PassiveNavC;
 private var timer : Timer;
 private var trial : Trial;
-private var videoClips: VideoClips;
+//private var videoClips: VideoClips;
 
 //Stage gates
 public var taskOn : boolean = false;
@@ -135,9 +135,9 @@ function SetUpComps(){
 	gameObject.AddComponent(Output); 
 	yield StartCoroutine(CityConfig());
 	output = GetComponent(Output);
-	videoClips = GetComponent(VideoClips);
-	yield;
-	yield StartCoroutine(videoClips.Setup(numCities,vars.numVideos,vars.version));	
+	//videoClips = GetComponent(VideoClips);
+	//yield;
+	//yield StartCoroutine(videoClips.Setup(numCities,vars.numVideos,vars.version));	
 }
 
 function SetUpTaskType (){
@@ -146,7 +146,7 @@ function SetUpTaskType (){
 //	vars = config.GetComponent(Config) as Config;
 	vars = Manager.config;
 	var player : GameObject = GameObject.Find("Player");
-	pasNav = player.GetComponent(PassiveNav) as PassiveNav;
+	pasNav = player.GetComponent(PassiveNavC) as PassiveNavC;
 	
 	timer = GetComponent(Timer) as Timer;
 	trial = GetComponent(Trial) as Trial;
@@ -164,17 +164,18 @@ function SetUpTaskType (){
 function NextTrialSetup(){
     if(curT < vars.numT){
 	yield WaitForSeconds(0.5);
+	var cityNum : int = run_trial_order[curT];
 
-	pasNav.SetupTrial();
+	Debug.Log("setup city number" + cityNum);
+	pasNav.SetupTrial(cityNum);
 
 	var x =  new List.<float>();
     var y =  new List.<float>();
    
-    var cityNum : int = run_trial_order[curT];
 
 
-	x = coordsList[cityNum-1].x;
-	y = coordsList[cityNum-1].y;
+	x = coordsList[cityNum].x;
+	y = coordsList[cityNum].y;
 
 	//Reposition Control.curStoreList
 	for( var i : int = 0; i < curStoreList.Count; i++){
@@ -200,7 +201,7 @@ function TaskVariables(){
  	if(curT < vars.numT){
 	curCity = run_trial_order[curT];
 	}
- 	curVidNav = pasNav.cityVidTrial as String;
+ 	//curVidNav = pasNav.cityVidTrial as String;
 
 	if(curT != 0){
 	priorCity = run_trial_order[curT-1];

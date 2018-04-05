@@ -12,7 +12,9 @@ public class Config_cs : MonoBehaviour {
     public string preRun = "CountDown";//Either 'Task' or 'CountDown'
     public bool test_mood = false; 
     public bool initials = false;
+    public int numCities;
 
+    public string navPath = "NavClipsFinalRand";
     //Active baseline
     public float iti_time = 3;
     public float int_AB_time = .3f;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour {
 
 	private string subjectID;
-	private string[] taskList = {"Practice","CE","Greco"};
+	private string[] taskList = {"","Practice","CE","Greco"};
 	List<Dropdown.OptionData> m_Messages = new List<Dropdown.OptionData>();
 	public Dropdown dropTask;
 	private Dropdown.OptionData newData;
@@ -33,15 +33,22 @@ public class Menu : MonoBehaviour {
 		dropTask.captionText.text = "Task type";
 		foreach (string i in taskList) {
 			print (i);
-			newData = new Dropdown.OptionData ();
-			newData.text = i;
+            newData = new Dropdown.OptionData
+            {
+                text = i
+            };
+
 			m_Messages.Add (newData);
 		}
 			
 		foreach (Dropdown.OptionData message in m_Messages) {
 			dropTask.options.Add (message);
 		}
-	}
+   
+        //dropTask.value = 0; // optional
+        //dropTask.Select(); // optional
+        //dropTask.RefreshShownValue(); // this is the key
+    }
 
 	public void ConfigureTask(){
 		//Keep the current index of the Dropdown in a variable

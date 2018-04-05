@@ -1,18 +1,39 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-
 
 public class Experiment : MonoBehaviour {
 
 	public List<string> tasks = new List<string>();
-	private  int curModule = 0;
+	private int curModule = 0;
 	public bool debug_mode;
-//	private static Experiment instance;
-	public bool startExperiment  = false;
+    public Video video;
 
-	 public void StartTask()
+
+ 
+
+    public void LoadVideos()
+    {
+        video = new Video(Manager.config.navPath,Manager.config.version, Manager.config.numCities);
+        VideoTest();
+    }
+
+    public void VideoTest()
+    {
+
+        print(video.TaskVideos.Count);
+        Video.CityRoutes cityRoutes = video.TaskVideos[0];
+        print(cityRoutes.list.Count);
+        Video.Route route = cityRoutes.list[0];
+        print(route.list.Count);
+        Video.PosRot posrot = route.list[0];
+        print(posrot.position);
+        print(posrot.rotation);
+
+
+
+    }
+    public void StartTask()
 	{	
 		SceneManager.LoadScene(tasks[curModule]);
 		print("loading module " +curModule);	
@@ -58,21 +79,35 @@ public class Experiment : MonoBehaviour {
 			Manager.config.trial_time = 20f;
 			Manager.config.numR = 4;
 			Manager.config.numT = 25;
-			break;
+            Manager.config.numCities = 3;
+                LoadVideos();
+                break;
 
 		case "CE":
 			Manager.config.numVideos = 100;
 			Manager.config.trial_time = 20f;
 			Manager.config.numR = 4;
 			Manager.config.numT = 25;
-			break;
+            Manager.config.numCities = 4;
+                LoadVideos();
+                break;
 		case "Practice":
 			Manager.config.numVideos = 20;
 			Manager.config.trial_time = 20f;
 			Manager.config.numR = 1;
 			Manager.config.numT = 10;
-			break;
+            Manager.config.numCities = 2;
+                LoadVideos();
+                break;
+        case "":
+            Manager.config.numVideos = 0;
+            Manager.config.trial_time = 0;
+            Manager.config.numR = 0;
+            Manager.config.numT = 0;
+            Manager.config.numCities = 0;
+            break;
+
 		}
 
-	}
+    }
 }
