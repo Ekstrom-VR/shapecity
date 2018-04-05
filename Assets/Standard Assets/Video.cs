@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Text;
 public class Video {
 
     public List<CityRoutes> TaskVideos = new List<CityRoutes>();
@@ -21,6 +25,9 @@ public class Video {
                 Debug.Log("Loading " + taskName + " city " + iCity.ToString() + "...");
             }
     }
+
+
+
 
     public CityRoutes BuildCityVideos(string navPath, string taskName, int cityNum)
     {
@@ -159,7 +166,6 @@ public class Video {
     //Return route from video
     public Route NavGetRoute(int cityNum)
     {
-   
         CityRoutes cityRoutes = this.TaskVideos[cityNum];
         Debug.Log(cityRoutes.list.Count);
         Route route = cityRoutes.list[0];
@@ -169,4 +175,15 @@ public class Video {
         return route;
     }
 
+
+    public void CreateXML()
+    {
+
+
+    }
+
+    public void LoadXML()
+    {
+
+    }
 }
