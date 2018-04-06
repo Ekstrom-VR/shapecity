@@ -8,8 +8,9 @@ public class Experiment : MonoBehaviour {
 	private int curModule = 0;
 	public bool debug_mode;
     public Video video;
+    public Video.Paths paths;
 
-	void Start(){
+    void Start(){
 		print(Application.persistentDataPath);
 }
  
@@ -22,7 +23,6 @@ public class Experiment : MonoBehaviour {
 
     public void VideoTest()
     {
-
         print(video.TaskVideos.Count);
         Video.CityRoutes cityRoutes = video.TaskVideos[0];
         print(cityRoutes.list.Count);
@@ -31,15 +31,26 @@ public class Experiment : MonoBehaviour {
         Video.PosRot posrot = route.list[0];
         print(posrot.position);
         print(posrot.rotation);
-
-
-
     }
 
-	public void testXML()
+    public void PathsTest()
+    {
+        print(paths.TaskPaths.Count);
+        List<Video.Paths.PosRotPath> cityPaths = paths.TaskPaths[0];
+        print(cityPaths.Count);
+        Video.Paths.PosRotPath posrotpath = cityPaths[0];
+        print(posrotpath.posPath);
+        print(posrotpath.rotPath);
+    }
+
+
+    public void LoadPaths()
 	{
-		video.WriteXML();
-	}
+        paths = new Video.Paths(Manager.config.navPath, Manager.config.version, Manager.config.numCities);
+
+        Debug.Log(paths);
+
+    }
     public void StartTask()
 	{	
 		SceneManager.LoadScene(tasks[curModule]);
@@ -66,6 +77,11 @@ public class Experiment : MonoBehaviour {
 		print("loading module " +curModule + " " + tasks[curModule]);	
 	}
 
+	public void LoadExperiment(){
+		curModule = 0;
+		SceneManager.LoadScene("Experiment");
+	}
+
 	public void ReloadCurrentScene(){
 		Scene scene = SceneManager.GetActiveScene();
 		SceneManager.LoadScene(scene.name);
@@ -75,9 +91,16 @@ public class Experiment : MonoBehaviour {
 		if(debug_mode){
 		if (GUILayout.Button("Debug-skip"))
 			LoadNextModule();
+		if (GUILayout.Button("Debug-exit"))
+			QuitRequest();
 	    }
+
     }
 
+	public void DebugToggle(){
+		debug_mode = !debug_mode;
+	}
+		
 	public void SetUpTask(){
 
 		switch (Manager.config.version) {
@@ -87,7 +110,7 @@ public class Experiment : MonoBehaviour {
 			Manager.config.numR = 4;
 			Manager.config.numT = 25;
             Manager.config.numCities = 3;
-                LoadVideos();
+                LoadPaths();
                 break;
 
 		case "CE":
@@ -96,7 +119,7 @@ public class Experiment : MonoBehaviour {
 			Manager.config.numR = 4;
 			Manager.config.numT = 25;
             Manager.config.numCities = 4;
-                LoadVideos();
+                LoadPaths();
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
@@ -104,7 +127,7 @@ public class Experiment : MonoBehaviour {
 			Manager.config.numR = 1;
 			Manager.config.numT = 10;
             Manager.config.numCities = 2;
-                LoadVideos();
+                LoadPaths();
                 break;
         case "":
             Manager.config.numVideos = 0;
@@ -113,8 +136,6 @@ public class Experiment : MonoBehaviour {
             Manager.config.numT = 0;
             Manager.config.numCities = 0;
             break;
-
 		}
-
     }
 }

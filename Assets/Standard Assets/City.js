@@ -105,6 +105,7 @@ class City extends MonoBehaviour
 		break;
 	case 'Practice':
 
+	    print("setup practice");
 		run1 = new Run(List.<int>([1,1,2,1,1,2,1,2,2,1]));
 		run2 = new Run(List.<int>([2,1,1,2,2,2,1,1,2,2]));
 		runList = new List.<Run>([run1,run2]);

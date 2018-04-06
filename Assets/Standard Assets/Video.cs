@@ -41,12 +41,22 @@ public class Video {
 		TaskVideos = new List<CityRoutes>();
     }
 
+    public static Route LoadSingleVideo(Paths.PosRotPath posrotpath)
+    {
+        List<Vector3> posList = LoadPosition(posrotpath.posPath);
+        List<Quaternion> rotList = LoadRotation(posrotpath.rotPath);
+
+        Route newroute = new Route(posList, rotList, posrotpath.posPath, posrotpath.rotPath);
+
+
+        return newroute;
+    }
 
     public CityRoutes BuildCityVideos(string navPath, string taskName, int cityNum)
     {
-        List<string> posFilePathList = LoadCityRoutes(navPath, taskName, cityNum, "Position");
+        List<string> posFilePathList = Paths.LoadCityRoutePaths(navPath, taskName, cityNum, "Position");
 
-        List<string> rotFilePathList = LoadCityRoutes(navPath, taskName, cityNum, "Rotation");
+        List<string> rotFilePathList = Paths.LoadCityRoutePaths(navPath, taskName, cityNum, "Rotation");
 
         List<Route> routeList = new List<Route>();
 
@@ -65,29 +75,8 @@ public class Video {
         }
         return(new CityRoutes(routeList));
     }
-    public List<string> GetFilePaths (string path){
-		List<string> FilePathList = new List<string>();
-		foreach(string file in System.IO.Directory.GetFiles(path)) 
-		{ 
-			FilePathList.Add(file);
-		}
+  
 
-		return FilePathList;
-	}
-
-	public List<string> LoadCityRoutes(string navPath, string taskName, int cityNum,string type){
-		string path = BuildPath(navPath,taskName + "_" + cityNum.ToString (),type);
-			return GetFilePaths (path);
-	}
-		
-	public string BuildPath(params string[] list){
-		string sep = "/";
-		string path = "";
-		foreach(string i in list) {
-			path = path + i + sep;
-		}
-		return path;
-	}
 
 	public class PosRot{
 
@@ -136,7 +125,7 @@ public class Video {
 		}	
     }
 
-    public List<Vector3> LoadPosition(string fpath){
+    public static List<Vector3> LoadPosition(string fpath){
 		StreamReader reader = new StreamReader(fpath);
 		string line = "";
 		string[] lineArray;
@@ -158,7 +147,7 @@ public class Video {
         return list;
 	}
 
-    public List<Quaternion> LoadRotation(string fpath)
+    public static List<Quaternion> LoadRotation(string fpath)
     {
         StreamReader reader = new StreamReader(fpath);
         string line = "";
@@ -200,7 +189,8 @@ public class Video {
     }
 
 
-	public void WriteXML()
+
+    public void WriteXML()
     {
  var serializer = new XmlSerializer(typeof(Video));
  var stream = new FileStream(Application.dataPath + "/" + "video.xml", FileMode.Create);
@@ -217,4 +207,99 @@ public class Video {
  stream.Close();
     }
 
+    public class Paths
+    {
+        public string version;
+        public int numCities;
+        public string path;
+        public List<List<PosRotPath>> TaskPaths = new List<List<PosRotPath>>();
+
+        public Paths(string navPath, string taskName, int num)
+        {
+            numCities = num;
+            version = taskName;
+            path = navPath;
+
+            for (int iCity = 0; iCity < numCities; iCity++)
+            {
+                List<PosRotPath> newCityPaths = GetCityRoutePaths(navPath, taskName, iCity);
+                TaskPaths.Add(newCityPaths);
+                Debug.Log("Loading " + taskName + " city " + iCity.ToString() + "...");
+            }
+        }
+
+        public class PosRotPath
+        {
+            public string posPath;
+            public string rotPath;
+
+            public PosRotPath(string ppath, string rpath)
+            {
+                posPath = ppath;
+                rotPath = rpath;
+            }
+
+        }
+
+        public List<PosRotPath> GetCityRoutePaths(string navPath, string taskName, int cityNum)
+        {
+            List<string> posFilePathList = LoadCityRoutePaths(navPath, taskName, cityNum, "Position");
+
+            List<string> rotFilePathList = LoadCityRoutePaths(navPath, taskName, cityNum, "Rotation");
+
+            List<PosRotPath> posrotPathList = new List<PosRotPath>();
+
+            if (posFilePathList.Count != rotFilePathList.Count)
+            {
+                Debug.LogError("Route position files do not match rotation files");
+            }
+
+            for (int i = 0; i < posFilePathList.Count; i++)
+            {
+                posrotPathList.Add(new PosRotPath(posFilePathList[i], rotFilePathList[i]));
+            }
+            return posrotPathList;
+        }
+
+        public static List<string> LoadCityRoutePaths(string navPath, string taskName, int cityNum, string type)
+        {
+            string path = BuildPath(navPath, taskName + "_" + cityNum.ToString(), type);
+            return GetFilePaths(path);
+        }
+
+        public static string BuildPath(params string[] list)
+        {
+            string sep = "/";
+            string path = "";
+            foreach (string i in list)
+            {
+                path = path + i + sep;
+            }
+            return path;
+        }
+
+        public static List<string> GetFilePaths(string path)
+        {
+            List<string> FilePathList = new List<string>();
+            foreach (string file in System.IO.Directory.GetFiles(path))
+            {
+                FilePathList.Add(file);
+            }
+
+            return FilePathList;
+        }
+
+        public Route NavGetRouteFromPaths(int cityNum)
+        {
+            List<PosRotPath> cityPaths = TaskPaths[cityNum];
+            Debug.Log(cityPaths.Count);
+            PosRotPath posrotpath = cityPaths[0];
+            Route route = LoadSingleVideo(posrotpath);
+            cityPaths.RemoveAt(0);
+            TaskPaths[cityNum] = cityPaths;
+            Debug.Log("Video route updated");
+            Debug.Log(route.fpathPos);
+            return route;
+        }
+    }
 }

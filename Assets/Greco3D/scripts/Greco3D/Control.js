@@ -4,8 +4,8 @@ import System.Collections.Generic;
 private var output : Output;
 public var curR : int = 0;
 public var curT : int =0;
-public var curCity : int;
 public var priorCity : int = 99;
+public var cityNum : int;
 public var trial_type : String = "null";
 public var curVidNav : String;
 public var coordsList = new List.<City.Coords>();
@@ -108,7 +108,7 @@ function RunStart(){
 		run_trial_order = runList[curR].trials;
 		print("run_trial_order");
 
-//		yield StartCoroutine(trial.StartCountDown());
+		yield StartCoroutine(trial.StartCountDown());
 		yield StartCoroutine(timer.SetUpTime(vars.iti_time,vars.trial_time,vars.numT)); 
 		timer.StartRun();
 		taskOn = true;
@@ -164,7 +164,7 @@ function SetUpTaskType (){
 function NextTrialSetup(){
     if(curT < vars.numT){
 	yield WaitForSeconds(0.5);
-	var cityNum : int = run_trial_order[curT];
+	cityNum = run_trial_order[curT] -1;
 
 	Debug.Log("setup city number" + cityNum);
 	pasNav.SetupTrial(cityNum);
@@ -198,16 +198,13 @@ function TaskVariables(){
 	get_task_action = timer.GetAction();
 	get_timer = timer.GetTime('trial');
  	curT = timer.cnt_trial;
- 	if(curT < vars.numT){
-	curCity = run_trial_order[curT];
-	}
  	//curVidNav = pasNav.cityVidTrial as String;
 
 	if(curT != 0){
 	priorCity = run_trial_order[curT-1];
 	}
 
-  	if(priorCity == curCity){
+  	if(priorCity == cityNum){
        trial_type = 's';
       } else {
        trial_type = 'd';

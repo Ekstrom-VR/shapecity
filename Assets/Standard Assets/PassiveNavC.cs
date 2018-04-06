@@ -19,8 +19,10 @@ public class PassiveNavC : MonoBehaviour {
     {
         navigate = true;
         //int cityNum = 0;
-        print(Manager.experiment.video);
-        route = Manager.experiment.video.NavGetRoute(cityNum - 1);
+        //print(Manager.experiment.video);
+        //route = Manager.experiment.video.NavGetRoute(cityNum - 1);
+
+        route = Manager.experiment.paths.NavGetRouteFromPaths(cityNum);
     }
 
     public void StartTrial()

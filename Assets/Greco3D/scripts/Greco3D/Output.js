@@ -71,7 +71,7 @@ acc_curr = 0;
 //Add for total accuracy score
 acc_total += acc_curr;
 print('Accuracy: ' + acc_total);
-line =  (control.curT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.curCity + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +new_line; 
+line =  (control.curT+1) +  "\t "+ control.curR +"\t " + 'CityMorph.startTime' + "\t" + resp_key + "\t" + resp_time + "\t" + trial_type + '\t' + acc_curr + '\t' + control.cityNum + '\t' + control.priorCity  +  '\t' + 'ITI.trialList' +  '\t' + 'ITI.respList' +'\t' + control.curVidNav +new_line; 
 
 //Write out data
 System.IO.File.AppendAllText(fpath_output,line);

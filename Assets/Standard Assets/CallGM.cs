@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CallGM : MonoBehaviour {
 
-	public void QuitRequest()
+	public void LoadExperiment()
 	{
-	Manager.experiment.QuitRequest();
+		Manager.experiment.LoadExperiment();
 	}
 }
