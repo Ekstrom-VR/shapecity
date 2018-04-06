@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Experiment : MonoBehaviour {
 
@@ -9,17 +11,32 @@ public class Experiment : MonoBehaviour {
 	public bool debug_mode;
     public Video video;
     public Video.Paths paths;
+	public Image black;
+	public Animator anim;
 
     void Start(){
 		print(Application.persistentDataPath);
-}
+	}
  
-
     public void LoadVideos()
     {
         video = new Video(Manager.config.navPath,Manager.config.version, Manager.config.numCities);
         VideoTest();
     }
+
+	public IEnumerator NavigationTestSetup(){
+		Manager.config.version = "Practice";
+		yield return null;
+		SetUpTask ();
+		yield return null;
+		Debug.Log ("starting fading");
+		StartCoroutine(FadeTest());
+	}
+
+	public void StartTest(){
+
+		StartCoroutine ("NavigationTestSetup");
+	}
 
     public void VideoTest()
     {
@@ -47,8 +64,6 @@ public class Experiment : MonoBehaviour {
     public void LoadPaths()
 	{
         paths = new Video.Paths(Manager.config.navPath, Manager.config.version, Manager.config.numCities);
-
-        Debug.Log(paths);
 
     }
     public void StartTask()
@@ -123,7 +138,7 @@ public class Experiment : MonoBehaviour {
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 20f;
+			Manager.config.trial_time = 3f;
 			Manager.config.numR = 1;
 			Manager.config.numT = 10;
             Manager.config.numCities = 2;
@@ -138,4 +153,12 @@ public class Experiment : MonoBehaviour {
             break;
 		}
     }
+
+	IEnumerator FadeTest()
+	{
+		Debug.Log ("fading");
+		anim.SetBool ("fade", true);
+		yield return new WaitUntil (() => black.color.a == 1);
+		SceneManager.LoadScene ("Greco3D");
+	}
 }

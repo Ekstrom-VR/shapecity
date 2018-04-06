@@ -4,12 +4,12 @@ import UnityEngine.UI;
 public var numStr : String;
 public var timer : float;
 private var gui_on : boolean;
-private var background : Background;
+private var background : Background_cs;
 private var runbreak : boolean = true;
 public var taskText : Text; 
 
 function Start(){
-background = GetComponent("Background") as Background;
+background = GetComponent("Background_cs") as Background_cs;
 }
 
 function OnGUI(){
