@@ -47,7 +47,6 @@ public class Control : MonoBehaviour {
 
             if (task_iti)
             {
-                Debug.Log("iti working");
                 task_iti = false;
                 task_trial = true;
                 pasNav.StopTrial();
@@ -76,7 +75,7 @@ public class Control : MonoBehaviour {
                 task_start = false;
                 task_trial = true;
                 trial.StartITI();
-                NextTrialSetup();
+                StartCoroutine(NextTrialSetup());
             }
 
         }
