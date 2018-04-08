@@ -13,11 +13,20 @@ public class Experiment : MonoBehaviour {
     public Video.Paths paths;
 	public Image black;
 	public Animator anim;
+    public string taskName;
 
-    void Start(){
-		print(Application.persistentDataPath);
-	}
+    private void OnEnable()
+    {
+        EventManager.onStartTask += StartNextTask;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.onStartTask -= StartNextTask;
+    }
+
  
+
     public void LoadVideos()
     {
         video = new Video(Manager.config.navPath,Manager.config.version, Manager.config.numCities);
@@ -66,16 +75,11 @@ public class Experiment : MonoBehaviour {
         paths = new Video.Paths(Manager.config.navPath, Manager.config.version, Manager.config.numCities);
 
     }
-    public void StartTask()
-	{	
-		SceneManager.LoadScene(tasks[curModule]);
-		print("loading module " +curModule);	
-	}
+   
 
-	 public void LoadLevel(string name){
+	 public void LoadTask(string name){
 		Debug.Log ("New Level load: " + name);
 		SceneManager.LoadScene(name);
-		print("load level" + name);
 	}
 
 	 public void QuitRequest(){
@@ -85,12 +89,7 @@ public class Experiment : MonoBehaviour {
 		Application.Quit();
 		#endif
 	}
-
-	 public void LoadNextModule(){
-		curModule ++;
-		SceneManager.LoadScene(tasks[curModule]);
-		print("loading module " +curModule + " " + tasks[curModule]);	
-	}
+ 
 
 	public void LoadExperiment(){
 		curModule = 0;
@@ -105,8 +104,8 @@ public class Experiment : MonoBehaviour {
 	public void OnGUI(){
 		if(debug_mode){
 		if (GUILayout.Button("Debug-skip"))
-			LoadNextModule();
-		if (GUILayout.Button("Debug-exit"))
+               EventManager.StartTask();
+            if (GUILayout.Button("Debug-exit"))
 			QuitRequest();
 	    }
 
@@ -157,8 +156,43 @@ public class Experiment : MonoBehaviour {
 	IEnumerator FadeTest()
 	{
 		Debug.Log ("fading");
-		anim.SetBool ("fade", true);
+		anim.SetTrigger ("fade");
 		yield return new WaitUntil (() => black.color.a == 1);
 		SceneManager.LoadScene ("Greco3D");
+		yield return null;
+		anim.SetTrigger ("fade");
 	}
+
+    public void StartNextTask()
+    {
+        StartCoroutine(SetupNextTask());
+    }
+
+    public void StartNextTask(string name)
+    {
+        StartCoroutine(SetupNextTask(name));
+    }
+
+    IEnumerator SetupNextTask()
+    {
+        curModule++;
+        taskName = tasks[curModule];
+        anim.SetTrigger("fade");
+        yield return new WaitUntil(() => black.color.a == 1);
+        SceneManager.LoadScene(taskName);
+        yield return null;
+        anim.SetTrigger("fade");
+    }
+
+    IEnumerator SetupNextTask(string newTask)
+    {
+        curModule = tasks.IndexOf(newTask);
+        taskName = tasks[curModule];
+        anim.SetTrigger("fade");
+        yield return new WaitUntil(() => black.color.a == 1);
+        SceneManager.LoadScene(taskName);
+        yield return null;
+        anim.SetTrigger("fade");
+    }
+
 }

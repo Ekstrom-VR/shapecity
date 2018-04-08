@@ -9,14 +9,38 @@ public class Menu : MonoBehaviour {
 	private string[] taskList = {"","Practice","CE","Greco"};
 	public Dropdown dropTask;
 	public Dropdown dropTaskDebug;
+    bool panelHidden = false;
+    [SerializeField] GameObject panel;
 
+    private void OnEnable()
+    {
+        EventManager.onStartTask += HidePanel;
+    }
 
-	void Start(){
+    private void OnDisable()
+    {
+        EventManager.onStartTask -= HidePanel;
+    }
+
+    void HidePanel()
+    {
+        panelHidden = !panelHidden;
+        if (panelHidden)
+        {
+            panel.SetActive(false);
+        }
+        else
+        {
+            panel.SetActive(true);
+        }
+    }
+
+    void Start(){
 		SetupDropTask();
 		SetupDropTaskDebug ();
 	}
 	public void AdvanceLevel(){
-		Manager.experiment.LoadNextModule();
+		Manager.experiment.StartNextTask();
 	}
 
 	 public void GetID(){
@@ -100,7 +124,7 @@ public class Menu : MonoBehaviour {
 		string m_Message = dropTaskDebug.options[m_DropdownValue].text;
 
 		print(m_Message);
-		Manager.experiment.LoadLevel(m_Message);
+		Manager.experiment.StartNextTask(m_Message);
 
 	}
 }

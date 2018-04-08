@@ -142,7 +142,7 @@ public class Montage : MonoBehaviour {
 
 		case "Next":
 
-			Manager.experiment.LoadNextModule();
+			Manager.experiment.StartNextTask();
 			break;
 		}
 	}

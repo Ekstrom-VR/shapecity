@@ -12,7 +12,7 @@ function Update(){
 //		var expObj : GameObject = GameObject.Find("Experiment");
 //		var expScript: Experiment = expObj.GetComponent("Experiment") as Experiment;
 //		expScript.LoadNextModule();
-		Manager.experiment.LoadNextModule();
+	    Manager.experiment.StartNextTask();
 
 	}
 								
