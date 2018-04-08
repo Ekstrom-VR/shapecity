@@ -14,11 +14,12 @@ private var end : GameObject;
 private var city_x_all  = new Array();
 private var city_z_all   = new Array();
 static var curStoreList : String[];
-private var vars: Config_cs;
+//private var vars: Config_cs;
 
 function Start(){
-	vars = Manager.config;
-	task_type = vars.version;
+	//vars = Manager.config;
+	//task_type = vars.version;
+	task_type = Manager.config.version;
   	mapDraw = GameObject.Find("MapDraw");
   	intro = GameObject.Find("Intro");
   	end = GameObject.Find("End");

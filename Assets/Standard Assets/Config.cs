@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Config_cs : MonoBehaviour {
+public class Config : MonoBehaviour {
     public string version = "Greco";
     public int numVideos = 100;//100
     public float trial_time = 20f;//20
@@ -16,8 +16,8 @@ public class Config_cs : MonoBehaviour {
 
     public string navPath = "NavClipsFinalRand";
     //Active baseline
-    public float iti_time = 3;
-    public float int_AB_time = .3f;
-    public float ab_num_trials =3;
+    public float iti_time = 3.0f;
+    public float int_AB_time = 0.3f;
+    public int ab_num_trials =3;
     public bool activeBL_On = false;
 }

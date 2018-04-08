@@ -3,14 +3,14 @@
 public static class Manager
 {
 
-    public static Config_cs config;
+    public static Config config;
 	public static Experiment experiment;
 
 	static Manager()
 	{
 		GameObject m;
 		m = safeFind("Experiment");
-        config = (Config_cs)SafeComponent(m, "Config_cs");
+        config = (Config)SafeComponent(m, "Config");
 		experiment = (Experiment)SafeComponent(m, "Experiment");
 	}
 

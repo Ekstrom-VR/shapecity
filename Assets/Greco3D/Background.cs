@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Background_cs : MonoBehaviour {
+public class Background : MonoBehaviour {
 
 	private Image image;
 

@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassiveNavC : MonoBehaviour {
+public class PassiveNav : MonoBehaviour {
 
     private Video.CityRoutes cityRoutes;
     private List<int> run_trial_order = new List<int>();
-    private Config_cs vars;
     private bool navigate;
     private Video.Route route;
-    private void Awake()
-    {
-        vars = Manager.config;
-
-    }
-
+ 
     public void SetupTrial(int cityNum)
     {
+        Debug.Log("Passive Nav: Setting up trial");
         navigate = true;
         //int cityNum = 0;
         //print(Manager.experiment.video);
@@ -27,7 +22,7 @@ public class PassiveNavC : MonoBehaviour {
 
     public void StartTrial()
     {
-        StartCoroutine(PassiveNav());
+        StartCoroutine(Navigate());
     }
 
     public void StopTrial()
@@ -35,10 +30,11 @@ public class PassiveNavC : MonoBehaviour {
         navigate = false;
     }
 
-    public IEnumerator PassiveNav()
+    public IEnumerator Navigate()
     {
         while (navigate)
         {
+            Debug.Log("navigating");
             Video.PosRot posrot = route.list[0];
             route.list.RemoveAt(0);
             transform.localPosition = posrot.position;

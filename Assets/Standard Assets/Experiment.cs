@@ -38,9 +38,8 @@ public class Experiment : MonoBehaviour {
 		yield return null;
 		SetUpTask ();
 		yield return null;
-		Debug.Log ("starting fading");
-		StartCoroutine(FadeTest());
-	}
+        EventManager.StartTask();
+    }
 
 	public void StartTest(){
 
@@ -153,15 +152,6 @@ public class Experiment : MonoBehaviour {
 		}
     }
 
-	IEnumerator FadeTest()
-	{
-		Debug.Log ("fading");
-		anim.SetTrigger ("fade");
-		yield return new WaitUntil (() => black.color.a == 1);
-		SceneManager.LoadScene ("Greco3D");
-		yield return null;
-		anim.SetTrigger ("fade");
-	}
 
     public void StartNextTask()
     {
@@ -194,5 +184,4 @@ public class Experiment : MonoBehaviour {
         yield return null;
         anim.SetTrigger("fade");
     }
-
 }

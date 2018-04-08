@@ -28,8 +28,8 @@ public class City : MonoBehaviour {
 
     public class Coords
     {
-        List<float> x = new List<float>();
-        List<float> y = new List<float>();
+        public List<float> x = new List<float>();
+        public List<float> y = new List<float>();
 
         public Coords(List<float> X, List<float> Y)
             {

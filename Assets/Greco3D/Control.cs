@@ -5,13 +5,17 @@ using UnityEngine;
 public class Control : MonoBehaviour {
 
     OutputManager output;
-    int curR, curT, priorCity, cityNum, numCities;
-    string trialType, curVidNav, taskAction, get_task_action;
-    bool taskOn, task_iti, task_trial, task_run_end, task_start, task_run_start;
-    List<City.Coords> coordsList = new List<City.Coords>();
-    List<string> curStoreList = new List<string>();
-    List<City.Run> runList = new List<City.Run>();
-    List<int> run_trial_order = new List<int>();
+    public int curR, curT, priorCity, cityNum, numCities;
+    public string trialType, curVidNav, taskAction, getTaskAction;
+    public float getTimer;
+    public bool taskOn, task_iti, task_trial, task_run_end, task_start, task_run_start;
+    [SerializeField]List<City.Coords> coordsList = new List<City.Coords>();
+    [SerializeField] List<string> curStoreList = new List<string>();
+    [SerializeField] List<City.Run> runList = new List<City.Run>();
+    [SerializeField] List<int> run_trial_order = new List<int>();
+    PassiveNav pasNav;
+    Timer timer;
+    Trial trial;
 
     void Start () {
         StartCoroutine(StartTask());
@@ -30,63 +34,69 @@ public class Control : MonoBehaviour {
         yield return null;
         StartCoroutine(SetupComps());
         yield return null;
-        get_task_action = "run_start";
+        getTaskAction = "run_start";
+
     }
 
-	void Update () {
+    void Update () {
 
         TaskVariables();
 
-        if (get_task_action == "iti")
+        if (getTaskAction == "iti")
         {
 
             if (task_iti)
             {
+                Debug.Log("iti working");
                 task_iti = false;
                 task_trial = true;
-                //pasNav.StopTrial();
-                //trial.StartITI();
-                NextTrialSetup();
+                pasNav.StopTrial();
+                trial.StartITI();
+                StartCoroutine(NextTrialSetup());
                 //output.Addline();
             }
         }
-        else if (get_task_action == "trial")
+        else if (getTaskAction == "trial")
         {
             //output.GetTrialResponse();
             if (task_trial)
             {
+                Debug.Log("Trial control");
                 task_trial = false;
                 task_iti = true;
-                //pasNav.StartTrial();
-                //trial.StopITI();
+                pasNav.StartTrial();
+                trial.StopITI();
             }
         }
-        else if (get_task_action == "start")
+        else if (getTaskAction == "start")
         {
             if (task_start)
             {
+                Debug.Log("Start control");
                 task_start = false;
                 task_trial = true;
-                //trial.StartITI();
+                trial.StartITI();
                 NextTrialSetup();
             }
 
         }
-        else if(get_task_action == "run_end"){
+        else if(getTaskAction == "run_end"){
          	if(task_run_end){
         	task_run_end = false;
             RunEnd();
             }
         }
 
-        else if(get_task_action == "run_start"){
-        	if(task_run_start){
-        	task_run_start = false;
-        	RunStart();
+        else if(getTaskAction == "run_start"){
+
+            if (task_run_start){
+             print("start task");
+             task_run_start = false;
+        	StartCoroutine(RunStart());
         	}						
         }
-        else if(get_task_action == "task_over"){
-        	get_task_action = "task_over..";
+        else if(getTaskAction == "task_over"){
+            getTaskAction = "task_over..";
         	StartCoroutine(TaskOver());
         }
 
@@ -100,14 +110,20 @@ public class Control : MonoBehaviour {
 
         yield return null;
 
-        //StartCoroutine(trial.StartCountDown());
+        StartCoroutine(trial.StartCountDown());
+        Debug.Log("finish countdown");
 
         yield return null;
         
-        //StartCoroutine(timer.SetUpTime(vars.iti_time, vars.trial_time, vars.numT));
-        //timer.StartRun();
+        StartCoroutine(timer.SetUpTime(Manager.config.iti_time, Manager.config.trial_time, Manager.config.numT));
+
+        Debug.Log("finish setup");
+
+        StartCoroutine(timer.StartRun());
+        Debug.Log("run ended");
 
         taskOn = true;
+        Debug.Log("task on");
     }
 
     IEnumerator RunEnd()
@@ -115,20 +131,20 @@ public class Control : MonoBehaviour {
         taskOn = false;
         yield return null;
         
-        //StartCoroutine(trial.RunBreak());
+        StartCoroutine(trial.RunBreak());
 
         curR += 1;
         if (curR < Manager.config.numR)
         {
             task_run_start = true;
-            get_task_action = "run_start";
+            getTaskAction = "run_start";
             task_run_end = true;
             task_start = true;
 
         }
         else
         {
-            get_task_action = "task_over";
+            getTaskAction = "task_over";
         }
     }
 
@@ -141,10 +157,10 @@ public class Control : MonoBehaviour {
     IEnumerator SetUpTaskType()
     {
         GameObject player = GameObject.Find("Player");
-        PassiveNavC pasNav = player.GetComponent(typeof(PassiveNavC)) as PassiveNavC;
+        pasNav = player.GetComponent(typeof(PassiveNav)) as PassiveNav;
 
-        //timer = GetComponent(typeof(Timer)) as Timer;
-        //trial = GetComponent(typeof(Timer)) as Trial;
+        timer = GetComponent(typeof(Timer)) as Timer;
+        trial = GetComponent(typeof(Trial)) as Trial;
 
         //Load city stuff
         City city = new City(Manager.config.version);
@@ -157,48 +173,47 @@ public class Control : MonoBehaviour {
 
     IEnumerator NextTrialSetup()
     {
-        if (curt < Manager.config.numT)
+        if (curT < Manager.config.numT)
         {
-            yield return WaitForSeconds(0.5);
-            citynum = run_trial_order[curt] - 1;
+            yield return new WaitForSeconds(0.5f);
+            cityNum = run_trial_order[curT] - 1;
 
-            debug.log("setup city number" + citynum);
-            pasnav.setuptrial(citynum);
+            Debug.Log("setup city number" + cityNum);
+            pasNav.SetupTrial(cityNum);
 
-            var x = new list.< float > ();
-            var y = new list.< float > ();
+            var x = new List<float> ();
+            var y = new List<float> ();
+
+            x = coordsList[cityNum].x;
+            y = coordsList[cityNum].y;
 
 
+            for (int i = 0; i < curStoreList.Count; i++){
+                Vector3 newPosition = GameObject.Find(curStoreList[i]).transform.position;
 
-            x = coordslist[citynum].x;
-            y = coordslist[citynum].y;
-
-            reposition control.curstorelist
-            for (var i : int = 0; i < curstorelist.count; i++){
-                gameobject.find(curstorelist[i]).transform.position.x = x[i];
-                gameobject.find(curstorelist[i]).transform.position.z = y[i];
+                newPosition.x = x[i];
+                newPosition.z = y[i];
+      
+                GameObject.Find(curStoreList[i]).transform.position = newPosition;
             }
         }
     }
 
     IEnumerator TaskOver()
     {
-        get_task_action = "task_over..";
+        getTaskAction = "task_over..";
         yield return null;
-        //StartCoroutine(trial.TaskOver());
-        GameObject expObj = GameObject.Find("Experiment");
-        Experiment expScript = expObj.GetComponent("Experiment") as Experiment;
-        expScript.StartNextTask();
+        StartCoroutine(trial.TaskOver());
+        Manager.experiment.StartNextTask();
     }
 
     void TaskVariables()
     {
         if (taskOn)
         {
-            //get_task_action = timer.getaction();
-            //get_timer = timer.gettime("trial");
-            //curT = timer.cnt_trial;
-            //curvidnav = pasnav.cityvidtrial as string;
+            getTaskAction = timer.GetAction();
+            getTimer = timer.GetTime("trial");
+            curT = timer.cntTrial;
 
             if (curT != 0)
             {
@@ -220,11 +235,6 @@ public class Control : MonoBehaviour {
     {
 
         GameObject city = GameObject.Find("City");
-        //yield return null;
-
-        //for (int store = 0; store < curStoreList.Count; store++){
-        //    storeList.Add(curStoreList[store]);
-        //}
         yield return null;
 
         //Remotes stores not used in task
