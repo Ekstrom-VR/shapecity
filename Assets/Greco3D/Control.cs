@@ -17,7 +17,12 @@ public class Control : MonoBehaviour {
     Timer timer;
     Trial trial;
 
+    string respKey = "null";
+    float respTime = 0f;
+    int acc = 99;
+
     void Start () {
+
         StartCoroutine(StartTask());
 	}
 	
@@ -161,6 +166,16 @@ public class Control : MonoBehaviour {
         timer = GetComponent(typeof(Timer)) as Timer;
         trial = GetComponent(typeof(Trial)) as Trial;
 
+        string subj = PlayerPrefs.GetString("subj_id");
+        string fname = subj + "_" + Manager.config.version + "_output";
+        string dir = Manager.genBehav.BuildPath("Data","Nav", Manager.config.version);
+
+        output = GetComponent(typeof(OutputManager)) as OutputManager;
+        yield return null;
+        output.Setup(dir,fname);
+        output.AddLine("Global_trial_num","run_num", "trial_time","resp_key","resp_time",
+            "trial_type","acc","currCity","priorCity","trialList","respList","curVidNav");
+
         //Load city stuff
         City city = new City(Manager.config.version);
         runList = city.runList;
@@ -174,6 +189,7 @@ public class Control : MonoBehaviour {
     {
         if (curT < Manager.config.numT)
         {
+            LogOutput();
             yield return new WaitForSeconds(0.5f);
             cityNum = run_trial_order[curT] - 1;
 
@@ -249,6 +265,14 @@ public class Control : MonoBehaviour {
         yield return null;
     }
 
+    void LogOutput()
+    {
+
+
+        output.AddLine(curT.ToString(),curR.ToString(),"timeStart.ToString()",
+            respKey,respTime.ToString(),trialType,acc.ToString(),cityNum.ToString(),priorCity.ToString(),"itiTrialList","itiRespList",curVidNav);
+
+    }
     //bool CheckInView(string objectName){
     //	bool inView;
     //	GameObject store = GameObject.Find(objectName);

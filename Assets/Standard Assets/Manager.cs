@@ -5,13 +5,15 @@ public static class Manager
 
     public static Config config;
 	public static Experiment experiment;
+    public static GenBehav genBehav;
 
 	static Manager()
 	{
 		GameObject m;
-		m = safeFind("Experiment");
+		m = SafeFind("Experiment");
         config = (Config)SafeComponent(m, "Config");
 		experiment = (Experiment)SafeComponent(m, "Experiment");
+        genBehav = (GenBehav)SafeComponent(m, "GenBehav");
 	}
 
 	public static void TestManager()
@@ -19,7 +21,7 @@ public static class Manager
 		Debug.Log ("Manager is working.");
 	}
 
-	public static GameObject safeFind(string s)
+	public static GameObject SafeFind(string s)
 	{
 		GameObject m = GameObject.Find (s);
 		if (m == null) BigProblem ("The" +s+ " game object is not in this scene.");

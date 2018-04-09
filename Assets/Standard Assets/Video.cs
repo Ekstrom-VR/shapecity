@@ -188,8 +188,6 @@ public class Video {
         return route;
     }
 
-
-
     public void WriteXML()
     {
  var serializer = new XmlSerializer(typeof(Video));
@@ -263,21 +261,11 @@ public class Video {
 
         public static List<string> LoadCityRoutePaths(string navPath, string taskName, int cityNum, string type)
         {
-            string path = BuildPath(navPath, taskName + "_" + cityNum.ToString(), type);
+            string path = Manager.genBehav.BuildPath(navPath, taskName + "_" + cityNum.ToString(), type);
             return GetFilePaths(path);
         }
 
-        public static string BuildPath(params string[] list)
-        {
-            string sep = "/";
-            string path = "";
-            foreach (string i in list)
-            {
-                path = path + i + sep;
-            }
-            return path;
-        }
-
+  
         public static List<string> GetFilePaths(string path)
         {
             List<string> FilePathList = new List<string>();

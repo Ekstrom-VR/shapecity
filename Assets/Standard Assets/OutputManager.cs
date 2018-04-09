@@ -4,27 +4,38 @@ using UnityEngine;
 using System.IO;
 
 public class OutputManager : MonoBehaviour {
+    public string fpath, newLineChar;
 
-  
-	void CreateOutputDirectory () {
- 
-    }
-
-    void CreateOutputFile()
+    private void Awake()
     {
+        newLineChar = System.Environment.NewLine;
 
     }
-
-    void CreateOutputFile(string header)
+    public void Setup(string dataDir, string fname)
     {
+        //Create output directory
+        Directory.CreateDirectory(dataDir);
 
+        //CreateOutputFile
+        fpath = dataDir + fname;
+        FileStream fs = File.Create(fpath);
+        fs.Close();
     }
 
-    void Addline()
+    private string BuildLine(string[] varList)
     {
-
+        string line = "";
+        foreach (string var in varList)
+        {
+            line = line + var + "\t ";
+        }
+        line = line + newLineChar;
+        return line;
+    }
+    public void AddLine(params string[] varList)
+    {
+        string line = BuildLine(varList);
+        File.AppendAllText(fpath,line);
 
     }
-
-
 }
