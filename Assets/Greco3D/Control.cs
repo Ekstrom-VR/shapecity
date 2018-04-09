@@ -16,10 +16,17 @@ public class Control : MonoBehaviour {
     PassiveNav pasNav;
     Timer timer;
     Trial trial;
+    List<string> itiRespKeyList = new List<string>();
+    List<float> itiRespTimeList = new List<float>();
+    List<string> taskRespKeyList = new List<string>();
+    List<float> taskRespTimeList = new List<float>();
 
     string respKey = "null";
     float respTime = 0f;
     int acc = 99;
+    string itiRespKey;
+    float itiRespTime;
+    float trialStartTime = 0f;
 
     void Start () {
 
@@ -57,15 +64,14 @@ public class Control : MonoBehaviour {
                 pasNav.StopTrial();
                 trial.StartITI();
                 StartCoroutine(NextTrialSetup());
-                //output.Addline();
             }
         }
         else if (getTaskAction == "trial")
         {
-            //output.GetTrialResponse();
+            GetTrialResponse();
             if (task_trial)
             {
-                Debug.Log("Trial control");
+                trialStartTime = timer.GetTime("task");
                 task_trial = false;
                 task_iti = true;
                 pasNav.StartTrial();
@@ -167,7 +173,7 @@ public class Control : MonoBehaviour {
         trial = GetComponent(typeof(Trial)) as Trial;
 
         string subj = PlayerPrefs.GetString("subj_id");
-        string fname = subj + "_" + Manager.config.version + "_output";
+        string fname = subj + "_" + Manager.config.version + "_output.txt";
         string dir = Manager.genBehav.BuildPath("Data","Nav", Manager.config.version);
 
         output = GetComponent(typeof(OutputManager)) as OutputManager;
@@ -189,9 +195,33 @@ public class Control : MonoBehaviour {
     {
         if (curT < Manager.config.numT)
         {
-            LogOutput();
+            if(curT > 0)
+            {
+                LogOutput();
+            }
+     
             yield return new WaitForSeconds(0.5f);
             cityNum = run_trial_order[curT] - 1;
+
+            if(curT == 0)
+            {
+                priorCity = 99;
+            }
+            else
+            {
+                priorCity = run_trial_order[curT - 1] - 1;
+            }
+
+            //response variables
+            respKey = "null";
+            respTime = 0f;
+            taskRespKeyList.Clear();
+            taskRespTimeList.Clear();
+            itiRespKeyList.Clear();
+            itiRespTimeList.Clear();
+
+
+            //
 
             Debug.Log("setup city number" + cityNum);
             pasNav.SetupTrial(cityNum);
@@ -268,11 +298,56 @@ public class Control : MonoBehaviour {
     void LogOutput()
     {
 
-
-        output.AddLine(curT.ToString(),curR.ToString(),"timeStart.ToString()",
+        output.AddLine(curT.ToString(),curR.ToString(),trialStartTime.ToString(),
             respKey,respTime.ToString(),trialType,acc.ToString(),cityNum.ToString(),priorCity.ToString(),"itiTrialList","itiRespList",curVidNav);
-
     }
+
+
+    void GetTrialResponse()
+    {
+
+        if (Input.GetKeyDown("left") || Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("left arrow key down");
+            respKey = "s";
+            respTime = timer.GetTime("task");
+            taskRespKeyList.Add(respKey);
+            taskRespTimeList.Add(respTime);
+        }
+
+        if (Input.GetKeyDown("right") || Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            print("right arrow key down");
+            respKey = "d";
+            respTime = timer.GetTime("task");
+            taskRespKeyList.Add(respKey);
+            taskRespTimeList.Add(respTime);
+        }
+    }
+
+    void GetITIResponse()
+    {
+
+        if (Input.GetKeyDown("left") || Input.GetKeyDown("KeyCode.Alpha1"))
+        {
+            Debug.Log("left arrow key down");
+            itiRespKey = "<";
+            itiRespTime = timer.GetTime("task");
+            itiRespKeyList.Add(itiRespKey);
+            taskRespTimeList.Add(itiRespTime);
+        }
+
+        if (Input.GetKeyDown("right") || Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            print("right arrow key down");
+            itiRespKey = ">";
+            itiRespTime = timer.GetTime("task");
+            itiRespKeyList.Add(itiRespKey);
+            itiRespTimeList.Add(itiRespTime);
+        }
+    }
+
+
     //bool CheckInView(string objectName){
     //	bool inView;
     //	GameObject store = GameObject.Find(objectName);

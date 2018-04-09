@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PassiveNav : MonoBehaviour {
-
-    private Video.CityRoutes cityRoutes;
-    private List<int> run_trial_order = new List<int>();
+    //private List<int> run_trial_order = new List<int>();
     private bool navigate;
     private Video.Route route;
  
@@ -34,7 +32,6 @@ public class PassiveNav : MonoBehaviour {
     {
         while (navigate)
         {
-            Debug.Log("navigating");
             Video.PosRot posrot = route.list[0];
             route.list.RemoveAt(0);
             transform.localPosition = posrot.position;
