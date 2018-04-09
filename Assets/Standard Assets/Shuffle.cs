@@ -15,4 +15,16 @@ public class Shuffle : MonoBehaviour {
         return list;
     }
 
+    static public List<Video.Paths.PosRotPath> ShuffleList(List<Video.Paths.PosRotPath> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Video.Paths.PosRotPath temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+        return list;
+    }
+
 }

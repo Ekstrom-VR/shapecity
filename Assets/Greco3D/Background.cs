@@ -21,7 +21,6 @@ public class Background : MonoBehaviour {
 	}
 	
 	public void BackGroundOff () {
-		Debug.Log ("Background off");
 		if(backgroundon){
 			backgroundon = false;
 			if(fadeMode){
@@ -35,7 +34,6 @@ public class Background : MonoBehaviour {
 	}
 
 	public void BackGroundOn() {
-		Debug.Log ("Background on");
 		if(!backgroundon){
 			backgroundon = true;
 			if(fadeMode){

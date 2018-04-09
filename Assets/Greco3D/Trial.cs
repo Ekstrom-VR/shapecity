@@ -60,7 +60,6 @@ public class Trial : MonoBehaviour {
         numStr = "+";
         guiOn = true;
         background.BackGroundOn();
-        Debug.Log("Start iti");
     }
 
     public void StopITI()
@@ -68,16 +67,17 @@ public class Trial : MonoBehaviour {
         guiOn = false;
         background.BackGroundOff();
         numStr = "";
-        Debug.Log("Stop iti");
     }
 
     public IEnumerator RunBreak()
     {
+
         numStr = "Press SPACE to continue";
         guiOn = true;
         background.BackGroundOn();
         runBreak = true;
         yield return StartCoroutine(WaitForSpace());
+
         numStr = "";
     }
     IEnumerator WaitForSpace()

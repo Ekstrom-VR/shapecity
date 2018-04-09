@@ -8,7 +8,7 @@ public class Control : MonoBehaviour {
     public int curR, curT, priorCity, cityNum, numCities;
     public string trialType, curVidNav, taskAction, getTaskAction;
     public float getTimer;
-    public bool taskOn, task_iti, task_trial, task_run_end, task_start, task_run_start;
+    public bool taskOn, task_iti, task_trial, task_run_end, task_start, task_run_start, task_over;
     [SerializeField]List<City.Coords> coordsList = new List<City.Coords>();
     [SerializeField] List<string> curStoreList = new List<string>();
     [SerializeField] List<City.Run> runList = new List<City.Run>();
@@ -91,9 +91,10 @@ public class Control : MonoBehaviour {
 
         }
         else if(getTaskAction == "run_end"){
+
          	if(task_run_end){
         	task_run_end = false;
-            RunEnd();
+            StartCoroutine(RunEnd());
             }
         }
 
@@ -106,8 +107,11 @@ public class Control : MonoBehaviour {
         	}						
         }
         else if(getTaskAction == "task_over"){
-            getTaskAction = "task_over..";
-        	StartCoroutine(TaskOver());
+            if (task_over)
+            {
+                task_over = false;
+                StartCoroutine(TaskOver());
+            }
         }
 
     }
@@ -139,9 +143,8 @@ public class Control : MonoBehaviour {
     IEnumerator RunEnd()
     {
         taskOn = false;
-        yield return null;
-        
-        StartCoroutine(trial.RunBreak());
+
+       yield return StartCoroutine(trial.RunBreak());
 
         curR += 1;
         if (curR < Manager.config.numR)
@@ -160,8 +163,7 @@ public class Control : MonoBehaviour {
 
     IEnumerator SetupComps()
     {
-        StartCoroutine(CityConfig());
-        yield return null;
+        yield return StartCoroutine(CityConfig());
     }
 
     IEnumerator SetUpTaskType()
@@ -223,7 +225,6 @@ public class Control : MonoBehaviour {
 
             //
 
-            Debug.Log("setup city number" + cityNum);
             pasNav.SetupTrial(cityNum);
 
             var x = new List<float> ();
@@ -246,9 +247,7 @@ public class Control : MonoBehaviour {
 
     IEnumerator TaskOver()
     {
-        getTaskAction = "task_over..";
-        yield return null;
-        StartCoroutine(trial.TaskOver());
+        yield return StartCoroutine(trial.TaskOver());
         Manager.experiment.StartNextTask();
     }
 

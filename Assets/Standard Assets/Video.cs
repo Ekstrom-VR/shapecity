@@ -221,7 +221,8 @@ public class Video {
             for (int iCity = 0; iCity < numCities; iCity++)
             {
                 List<PosRotPath> newCityPaths = GetCityRoutePaths(navPath, taskName, iCity);
-                TaskPaths.Add(newCityPaths);
+
+                TaskPaths.Add(Shuffle.ShuffleList(newCityPaths));
                 Debug.Log("Loading " + taskName + " city " + iCity.ToString() + "...");
             }
         }

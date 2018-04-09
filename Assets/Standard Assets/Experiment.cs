@@ -136,9 +136,9 @@ public class Experiment : MonoBehaviour {
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 3f;
-			Manager.config.numR = 1;
-			Manager.config.numT = 10;
+			Manager.config.trial_time = 1f;
+			Manager.config.numR = 2;
+			Manager.config.numT = 1;
             Manager.config.numCities = 2;
                 LoadPaths();
                 break;
