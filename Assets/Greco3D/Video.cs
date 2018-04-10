@@ -188,22 +188,22 @@ public class Video {
         return route;
     }
 
-    public void WriteXML()
-    {
- var serializer = new XmlSerializer(typeof(Video));
- var stream = new FileStream(Application.dataPath + "/" + "video.xml", FileMode.Create);
- serializer.Serialize(stream, this);
- stream.Close();
+ //   public void WriteXML()
+ //   {
+ //var serializer = new XmlSerializer(typeof(Video));
+ //var stream = new FileStream(Application.dataPath + "/" + "video.xml", FileMode.Create);
+ //serializer.Serialize(stream, this);
+ //stream.Close();
 
-    }
+ //   }
 
-	public void ReadXML(string path)
-    {
- var serializer = new XmlSerializer(typeof(Video));
- var stream = new FileStream(path, FileMode.Open);
- var container = serializer.Deserialize(stream) as Video;
- stream.Close();
-    }
+	//public void ReadXML(string path)
+ //   {
+ //var serializer = new XmlSerializer(typeof(Video));
+ //var stream = new FileStream(path, FileMode.Open);
+ //var container = serializer.Deserialize(stream) as Video;
+ //stream.Close();
+ //   }
 
     public class Paths
     {

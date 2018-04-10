@@ -18,6 +18,7 @@ public class OutputManager : MonoBehaviour {
 
         //CreateOutputFile
         fpath = dataDir + fname;
+        Debug.Log(fpath);
         FileStream fs = File.Create(fpath);
         fs.Close();
     }
@@ -27,7 +28,7 @@ public class OutputManager : MonoBehaviour {
         string line = "";
         foreach (string var in varList)
         {
-            line = line + var + "\t ";
+            line = line + var + ", ";
         }
         line = line + newLineChar;
         return line;

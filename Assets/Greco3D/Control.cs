@@ -90,8 +90,11 @@ public class Control : MonoBehaviour {
                 task_iti = false;
                 task_trial = true;
                 pasNav.StopTrial();
-                trial.StartITI();
+                
+                StartCoroutine(trial.StartITI());
                 StartCoroutine(NextTrialSetup());
+                StartCoroutine(LogOutput());
+
             }
         }
         else if (getTaskAction == "trial")
@@ -103,9 +106,10 @@ public class Control : MonoBehaviour {
                 task_trial = false;
                 task_iti = true;
                 pasNav.StartTrial();
-                trial.StopITI();
+                StartCoroutine(trial.StopITI());
             }
         }
+
         else if (getTaskAction == "start")
         {
             if (task_start)
@@ -113,7 +117,7 @@ public class Control : MonoBehaviour {
                 Debug.Log("Start control");
                 task_start = false;
                 task_trial = true;
-                trial.StartITI();
+                StartCoroutine(trial.StartITI());
                 StartCoroutine(NextTrialSetup());
             }
 
@@ -121,7 +125,6 @@ public class Control : MonoBehaviour {
         else if(getTaskAction == "run_end"){
 
          	if(task_run_end){
-                print("hello");
         	task_run_end = false;
             StartCoroutine(RunEnd());
             }
@@ -151,14 +154,10 @@ public class Control : MonoBehaviour {
         yield return null;
 
         yield return StartCoroutine(trial.StartCountDown());
-        Debug.Log("count down over");
 
         yield return StartCoroutine(timer.SetUpTime(Manager.config.iti_time, Manager.config.trial_time, Manager.config.numT));
-        Debug.Log("timer setup");
         taskOn = true;
         yield return StartCoroutine(timer.StartRun());
-        Debug.Log("start tun coroutine over");
-
 
         task_run_end = true;
         
@@ -198,7 +197,7 @@ public class Control : MonoBehaviour {
         trial = GetComponent(typeof(Trial)) as Trial;
 
         string subj = PlayerPrefs.GetString("subj_id");
-        string fname = subj + "_" + Manager.config.version + "_output.txt";
+        string fname = subj + "_" + Manager.config.version + "_output.csv";
         string dir = Manager.genBehav.BuildPath("Data","Nav", Manager.config.version);
 
         output = GetComponent(typeof(OutputManager)) as OutputManager;
@@ -218,24 +217,33 @@ public class Control : MonoBehaviour {
 
     IEnumerator NextTrialSetup()
     {
+        yield return new WaitForSeconds(0.5f);
+
+        curT = timer.cntTrial;
         if (curT < Manager.config.numT)
         {
-            if(curT > 0)
-            {
-                LogOutput();
-            }
      
-            yield return new WaitForSeconds(0.5f);
             cityNum = run_trial_order[curT] - 1;
 
             if(curT == 0)
             {
                 priorCity = 99;
+                trialType = "null";
             }
             else
             {
                 priorCity = run_trial_order[curT - 1] - 1;
+                if (priorCity == cityNum)
+                {
+                    trialType = "s";
+                }
+                else
+                {
+                    trialType = "d";
+                }
             }
+
+         
 
             //response variables
             respKey = "null";
@@ -245,10 +253,7 @@ public class Control : MonoBehaviour {
             itiRespKeyList.Clear();
             itiRespTimeList.Clear();
 
-
-            //
-
-            pasNav.SetupTrial(cityNum);
+            curVidNav = pasNav.SetupTrial(cityNum);
 
             var x = new List<float> ();
             var y = new List<float> ();
@@ -278,23 +283,7 @@ public class Control : MonoBehaviour {
     {
         if (taskOn)
         {
-            getTaskAction = timer.GetAction();
-            getTimer = timer.GetTime("trial");
-            curT = timer.cntTrial;
-
-            if (curT != 0)
-            {
-                priorCity = run_trial_order[curT - 1];
-            }
-
-            if (priorCity == cityNum)
-            {
-                trialType = "s";
-            }
-            else
-            {
-                trialType = "d";
-            }
+            getTaskAction = timer.GetAction();       
         }
     }
 
@@ -317,9 +306,10 @@ public class Control : MonoBehaviour {
         yield return null;
     }
 
-    void LogOutput()
+    IEnumerator LogOutput()
     {
 
+        yield return new WaitForSeconds(.2f);
         output.AddLine(curT.ToString(),curR.ToString(),trialStartTime.ToString(),
             respKey,respTime.ToString(),trialType,acc.ToString(),cityNum.ToString(),priorCity.ToString(),"itiTrialList","itiRespList",curVidNav);
     }
@@ -332,7 +322,8 @@ public class Control : MonoBehaviour {
         {
             Debug.Log("left arrow key down");
             respKey = "s";
-            respTime = timer.GetTime("task");
+            respTime = timer.GetTime("trial");
+            Debug.Log(respTime);
             taskRespKeyList.Add(respKey);
             taskRespTimeList.Add(respTime);
         }
@@ -341,7 +332,8 @@ public class Control : MonoBehaviour {
         {
             print("right arrow key down");
             respKey = "d";
-            respTime = timer.GetTime("task");
+            respTime = timer.GetTime("trial");
+            Debug.Log(respTime);
             taskRespKeyList.Add(respKey);
             taskRespTimeList.Add(respTime);
         }

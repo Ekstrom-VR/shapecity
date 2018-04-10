@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour {
     bool panelHidden = false;
     [SerializeField] GameObject panel;
 
+
     private void OnEnable()
     {
         EventManager.onStartTask += HidePanel;

@@ -57,7 +57,16 @@ public class Timer : MonoBehaviour {
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator StartTimer(float time)
+    {
         timer = 0f;
+        while (timer < time)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 
     IEnumerator StartTimerTrial()
@@ -68,27 +77,28 @@ public class Timer : MonoBehaviour {
             timer += Time.deltaTime;
             yield return null;
         }
-        timer = 0f;
     }
 
     IEnumerator TrialTimer()
     {
         trialAction = "trial";
         yield return StartCoroutine(StartTimerTrial());
-        cntTrial++;
+       
         trialAction = "iti";
+        cntTrial++;
         yield return StartCoroutine(StartTimerITI());
     }
 
     public IEnumerator StartRun()
     {
         trialAction = "start";
-        yield return StartCoroutine(StartTimerITI());
+        StartCoroutine(StartRunClock());
+        yield return StartCoroutine(StartTimer(2f));
         do
         {
             yield return StartCoroutine(TrialTimer());
         } while (cntTrial < numTrials);
-
+        StopCoroutine(StartRunClock());
         trialAction = "run_end";
     }
 }

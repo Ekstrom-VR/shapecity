@@ -11,16 +11,21 @@ public class Background : MonoBehaviour {
 	private bool backgroundon;
 	public float targetAlpha;
 	public bool fadeMode = true;
-	public float fadeTime = .5f;
+	public float fadeTime = .3f;
 	public 		Color curColor;
+    public float alpha;
 	void Awake () {
 		backgroundon = false;
 		background = GameObject.Find("Background2");
 		image = background.GetComponent<Image>();
-		targetAlpha = image.color.a;
 	}
-	
-	public void BackGroundOff () {
+
+    public void Update()
+    {
+        alpha = image.canvasRenderer.GetAlpha();
+    }
+
+    public void BackGroundOff () {
 		if(backgroundon){
 			backgroundon = false;
 			if(fadeMode){
@@ -47,10 +52,12 @@ public class Background : MonoBehaviour {
 	}
 
 	void FadeOut(){
-		image.CrossFadeAlpha( 0f, fadeTime, false );
+        print("fade out");
+        image.CrossFadeAlpha( 0f, fadeTime, false );
 	}
 
 	void FadeIn(){
-		image.CrossFadeAlpha( 1f, fadeTime, false );
+        print("Fade In");
+        image.CrossFadeAlpha( 1f, fadeTime, false );
 	}
 }

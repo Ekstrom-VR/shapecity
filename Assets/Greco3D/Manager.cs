@@ -7,6 +7,7 @@ public static class Manager
 	public static Experiment experiment;
     public static GenBehav genBehav;
     public static EventManager eventManager;
+    public static OutputManager outputManager;
 
 
 	static Manager()
@@ -16,6 +17,7 @@ public static class Manager
         config = (Config)SafeComponent(m, "Config");
 		experiment = (Experiment)SafeComponent(m, "Experiment");
         genBehav = (GenBehav)SafeComponent(m, "GenBehav");
+        outputManager = (OutputManager)SafeComponent(m, "OutputManager");
     }
 
     public static void TestManager()

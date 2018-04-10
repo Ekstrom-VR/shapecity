@@ -5,10 +5,11 @@ public class PassiveNav : MonoBehaviour {
     private bool navigate;
     private Video.Route route;
  
-    public void SetupTrial(int cityNum)
+    public string SetupTrial(int cityNum)
     {
         navigate = true;
         route = Manager.experiment.paths.NavGetRouteFromPaths(cityNum);
+        return route.fpathPos;
     }
 
     public void StartTrial()

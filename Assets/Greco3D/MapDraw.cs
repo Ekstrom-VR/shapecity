@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class MapDraw : MonoBehaviour 
 {
 
@@ -9,8 +10,8 @@ public class MapDraw : MonoBehaviour
     [SerializeField] GameObject panelMap;
     [SerializeField] GameObject panelEnd;
     bool taskStart = true;
+    bool nextTask = false;
     bool buildMap, taskOver;
-    string taskType;
     [SerializeField] List<string> curStoreList = new List<string>();
     [SerializeField] Text mapText;
     int storeCount = 0;
@@ -67,7 +68,6 @@ public class MapDraw : MonoBehaviour
         }
         else if (taskOver)
         {
-            taskOver = false;
             NextTask();
         }
 
@@ -92,9 +92,8 @@ public class MapDraw : MonoBehaviour
 
     void StartTask()
     {
-        taskType = "Practice";
-        //City city = new City(Manager.config.version);
-        City city = new City(taskType);
+
+        City city = new City(Manager.config.version);
 
         curStoreList = city.stores;
         cityCount = city.coordsList.Count;
@@ -181,26 +180,45 @@ public class MapDraw : MonoBehaviour
 
     void EndTask()
     {
-        //Exit task an enable output script when Escape is pressed
         if (Input.GetKeyUp(KeyCode.Escape) && mapCount == cityCount)
         {
             Output();
             PanelEndToggle();
             taskOver = true;
+            nextTask = true;
         }
 
     }
 
     void Output()
     {
+        string subj = PlayerPrefs.GetString("subj_id");
+        string fname = subj + "_" + Manager.config.version + "_MD_output.csv";
+        string dir = Manager.genBehav.BuildPath("Data", "Map", Manager.config.version);
+
+        Manager.outputManager.Setup(dir, fname);
+        Manager.outputManager.AddLine("Map_name", "Store_name", "Position_x", "Position_y", "Position_z");
 
 
+        foreach (GameObject map in mapList)
+        {
+            foreach (Transform child in map.transform)
+            {
+                Manager.outputManager.AddLine(map.name, child.name, child.position.x.ToString(), 
+                    child.position.y.ToString(), child.position.z.ToString());
+            }
+        }
     }
-
     void NextTask()
     {
-        EventManager.StartTask();
-        print("Mapdraw task over");
+        if (Input.anyKeyDown)
+        {
+            nextTask = false;
+            EventManager.StartTask();
+            print("Mapdraw task over");
+
+        }
+    
     }
 }
 

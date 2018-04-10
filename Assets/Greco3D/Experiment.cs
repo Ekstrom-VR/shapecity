@@ -14,6 +14,9 @@ public class Experiment : MonoBehaviour {
 	public Image black;
 	public Animator anim;
     public string taskName;
+    [SerializeField] GameObject background;
+    [SerializeField] GameObject panel;
+
 
     private void OnEnable()
     {
@@ -35,6 +38,7 @@ public class Experiment : MonoBehaviour {
 
 	public IEnumerator NavigationTestSetup(){
 		Manager.config.version = "Practice";
+        curModule = 1;
 		yield return null;
 		SetUpTask ();
 		yield return null;
@@ -93,7 +97,10 @@ public class Experiment : MonoBehaviour {
 	public void LoadExperiment(){
 		curModule = 0;
 		SceneManager.LoadScene("Experiment");
-	}
+        background.SetActive(true);
+        panel.SetActive(true);
+
+    }
 
 	public void ReloadCurrentScene(){
 		Scene scene = SceneManager.GetActiveScene();
@@ -136,9 +143,10 @@ public class Experiment : MonoBehaviour {
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 1f;
-			Manager.config.numR = 2;
-			Manager.config.numT = 1;
+			Manager.config.trial_time = 3f;
+			Manager.config.numR = 1;
+			Manager.config.numT = 10;
+            Manager.config.iti_time = 2;
             Manager.config.numCities = 2;
                 LoadPaths();
                 break;
@@ -165,15 +173,19 @@ public class Experiment : MonoBehaviour {
 
     IEnumerator SetupNextTask()
     {
-        
-        taskName = tasks[curModule];
-        print(taskName);
-        anim.SetTrigger("fade");
-        yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene(taskName);
-        yield return null;
-        anim.SetTrigger("fade");
-        curModule++;
+        bool nextTask = true;
+        if (nextTask)
+        {
+            nextTask = false;
+            taskName = tasks[curModule];
+            print(taskName);
+            anim.SetTrigger("fade");
+            yield return new WaitUntil(() => black.color.a == 1);
+            SceneManager.LoadScene(taskName);
+            anim.SetTrigger("fade");
+            background.SetActive(false);
+            curModule++;
+        }
     }
 
     public IEnumerator SetupNextTask(string newTask)
