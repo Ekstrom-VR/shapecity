@@ -96,6 +96,7 @@ public class Trial : MonoBehaviour {
     public IEnumerator TaskOver()
     {
         numStr = "Task over";
+        print("tassk over");
         guiOn = true;
         background.BackGroundOn();
         runBreak = true;

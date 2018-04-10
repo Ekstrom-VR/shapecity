@@ -152,11 +152,11 @@ public class Experiment : MonoBehaviour {
 		}
     }
 
-
     public void StartNextTask()
     {
         StartCoroutine(SetupNextTask());
     }
+
 
     public void StartNextTask(string name)
     {
@@ -174,7 +174,7 @@ public class Experiment : MonoBehaviour {
         anim.SetTrigger("fade");
     }
 
-    IEnumerator SetupNextTask(string newTask)
+    public IEnumerator SetupNextTask(string newTask)
     {
         curModule = tasks.IndexOf(newTask);
         taskName = tasks[curModule];

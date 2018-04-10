@@ -22,16 +22,12 @@ public class Menu : MonoBehaviour {
         EventManager.onStartTask -= HidePanel;
     }
 
-    void HidePanel()
+    public void HidePanel()
     {
         panelHidden = !panelHidden;
         if (panelHidden)
         {
             panel.SetActive(false);
-        }
-        else
-        {
-            panel.SetActive(true);
         }
     }
 
@@ -58,7 +54,6 @@ public class Menu : MonoBehaviour {
 		dropTask.captionText.text = "Task type";
 
 		foreach (string i in taskList) {
- 			print (i);
             newData = new Dropdown.OptionData
             {
                 text = i
@@ -123,8 +118,12 @@ public class Menu : MonoBehaviour {
 		//Change the message to say the name of the current Dropdown selection using the value
 		string m_Message = dropTaskDebug.options[m_DropdownValue].text;
 
-		print(m_Message);
-		Manager.experiment.StartNextTask(m_Message);
+        StartCoroutine(Manager.experiment.SetupNextTask(m_Message));
+    }
 
-	}
+    public void StartMapDrawDebug()
+    {
+        Manager.config.version = "Practice";
+        StartCoroutine(Manager.experiment.SetupNextTask("MapDraw"));
+    }
 }

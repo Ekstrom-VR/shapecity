@@ -16,4 +16,9 @@ public class InputManager : MonoBehaviour {
         EventManager.StartTask();
     }
 
+    public void StartTaskNav()
+    {
+        EventManager.StartTaskNav();
+    }
+
 }

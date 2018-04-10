@@ -101,7 +101,6 @@ public class City : MonoBehaviour {
                 break;
 
             case "Practice":
-                print("setup practice");
                 run1 = new Run(new List<int>() { 1, 1, 2, 1, 1, 2, 1, 2, 2, 1 });
                 run2 = new Run(new List<int>() { 2, 1, 1, 2, 2, 2, 1, 1, 2, 2 });
                 runList = new List<Run>() { run1, run2 };

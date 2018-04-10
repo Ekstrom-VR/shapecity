@@ -27,12 +27,32 @@ public class Control : MonoBehaviour {
     string itiRespKey;
     float itiRespTime;
     float trialStartTime = 0f;
+    bool startTask = true;
+    [SerializeField] GameObject panel;
 
-    void Start () {
+    private void OnEnable()
+    {
+        EventManager.onStartTaskNav += StartRequest;
+        EventManager.onStartTaskNav += InstructionsOff;
+    }
 
+    private void OnDisable()
+    {
+        EventManager.onStartTaskNav -= StartRequest;
+        EventManager.onStartTaskNav -= InstructionsOff;
+    }
+
+
+    private void InstructionsOff()
+    {
+        panel.SetActive(false);
+    }
+
+    void StartRequest()
+    {
         StartCoroutine(StartTask());
-	}
-	
+    }
+
     IEnumerator StartTask()
     {
         taskOn = false;
@@ -41,16 +61,24 @@ public class Control : MonoBehaviour {
         task_run_end = true;
         task_start = true;
         task_run_start = true;
+        task_over = true;
 
-        StartCoroutine(SetUpTaskType());
-        yield return null;
-        StartCoroutine(SetupComps());
-        yield return null;
+        yield return StartCoroutine(SetUpTaskType());
+        yield return StartCoroutine(SetupComps());
         getTaskAction = "run_start";
 
     }
 
     void Update () {
+
+        if (startTask)
+        {
+
+            if (Input.anyKeyDown){
+                startTask = false;
+                EventManager.StartTaskNav();
+            }
+        }
 
         TaskVariables();
 
@@ -93,6 +121,7 @@ public class Control : MonoBehaviour {
         else if(getTaskAction == "run_end"){
 
          	if(task_run_end){
+                print("hello");
         	task_run_end = false;
             StartCoroutine(RunEnd());
             }
@@ -101,7 +130,6 @@ public class Control : MonoBehaviour {
         else if(getTaskAction == "run_start"){
 
             if (task_run_start){
-             print("start task");
              task_run_start = false;
         	StartCoroutine(RunStart());
         	}						
@@ -120,24 +148,20 @@ public class Control : MonoBehaviour {
     {
         City.Run run = runList[curR];
         run_trial_order =run.trials;
-        print("run_trial_order");
-
         yield return null;
 
-        StartCoroutine(trial.StartCountDown());
-        Debug.Log("finish countdown");
+        yield return StartCoroutine(trial.StartCountDown());
+        Debug.Log("count down over");
 
-        yield return null;
-        
-        StartCoroutine(timer.SetUpTime(Manager.config.iti_time, Manager.config.trial_time, Manager.config.numT));
-
-        Debug.Log("finish setup");
-
-        StartCoroutine(timer.StartRun());
-        Debug.Log("run ended");
-
+        yield return StartCoroutine(timer.SetUpTime(Manager.config.iti_time, Manager.config.trial_time, Manager.config.numT));
+        Debug.Log("timer setup");
         taskOn = true;
-        Debug.Log("task on");
+        yield return StartCoroutine(timer.StartRun());
+        Debug.Log("start tun coroutine over");
+
+
+        task_run_end = true;
+        
     }
 
     IEnumerator RunEnd()
@@ -145,13 +169,12 @@ public class Control : MonoBehaviour {
         taskOn = false;
 
        yield return StartCoroutine(trial.RunBreak());
-
+        
         curR += 1;
         if (curR < Manager.config.numR)
         {
             task_run_start = true;
             getTaskAction = "run_start";
-            task_run_end = true;
             task_start = true;
 
         }
