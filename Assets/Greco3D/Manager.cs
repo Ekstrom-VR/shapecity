@@ -8,9 +8,10 @@ public static class Manager
     public static GenBehav genBehav;
     public static EventManager eventManager;
     public static OutputManager outputManager;
+    public static Menu menu;
 
 
-	static Manager()
+    static Manager()
 	{
 		GameObject m;
 		m = SafeFind("Experiment");
@@ -18,6 +19,8 @@ public static class Manager
 		experiment = (Experiment)SafeComponent(m, "Experiment");
         genBehav = (GenBehav)SafeComponent(m, "GenBehav");
         outputManager = (OutputManager)SafeComponent(m, "OutputManager");
+        menu = (Menu)SafeComponent(m, "Menu");
+
     }
 
     public static void TestManager()

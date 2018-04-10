@@ -7,32 +7,17 @@ public class Trial : MonoBehaviour {
 
     public string numStr;
     public float timer;
-    private bool guiOn;
     private Background background;
     private bool runBreak;
     public Text taskText;
+    public Text accuracy;
 
     private void Start()
     {
         background = GetComponent(typeof(Background)) as Background;
         taskText.text = "";
+        accuracy.text = "";
     }
-
-    //private void OnGUI()
-    //{
-    //    if (guiOn)
-    //    {
-            
-    //        GUIStyle style = new GUIStyle();
-    //        int buttonWidth = 50;
-    //        int buttonHeight = 20;
-    //        style.normal.textColor = Color.white;
-    //        style.fontSize = 75;
-    //        style.alignment = TextAnchor.MiddleCenter;
-    //        Rect rect = new Rect((Screen.width/2)-(buttonWidth/2),(Screen.height/2) - (buttonHeight / 2),buttonWidth,buttonHeight);
-    //        GUI.Label(rect, numStr, style);
-    //    }
-    //}
 
     private void TextOn()
     {
@@ -94,8 +79,9 @@ public class Trial : MonoBehaviour {
         TextOn();
         background.BackGroundOn();
         runBreak = true;
+        accuracy.text = Manager.experiment.accPerc;
         yield return StartCoroutine(WaitForSpace());
-
+        accuracy.text = "";
         numStr = "";
     }
     IEnumerator WaitForSpace()

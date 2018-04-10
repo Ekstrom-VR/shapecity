@@ -20,14 +20,22 @@ public class Control : MonoBehaviour {
     List<float> itiRespTimeList = new List<float>();
     List<string> taskRespKeyList = new List<string>();
     List<float> taskRespTimeList = new List<float>();
-
-    string respKey = "null";
-    float respTime = 0f;
-    int acc = 99;
-    string itiRespKey;
-    float itiRespTime;
-    float trialStartTime = 0f;
     bool startTask = true;
+
+    [Header("Accuracy")]
+    public string respKey = "null";
+    public float respTime = 0f;
+    public int acc = 0;
+    public int accTotal = 0;
+    public float accPerc;
+    public int accTrialCnt = 0;
+
+    [Header("ITI")]
+    public string itiRespKey;
+    public float itiRespTime;
+    public float trialStartTime = 0f;
+
+    [Header("UI")]
     [SerializeField] GameObject panel;
 
     private void OnEnable()
@@ -204,7 +212,7 @@ public class Control : MonoBehaviour {
         yield return null;
         output.Setup(dir,fname);
         output.AddLine("Global_trial_num","run_num", "trial_time","resp_key","resp_time",
-            "trial_type","acc","currCity","priorCity","trialList","respList","curVidNav");
+            "trial_type","acc","currCity","priorCity","trialList","respList","curVidNav","accuracy");
 
         //Load city stuff
         City city = new City(Manager.config.version);
@@ -232,6 +240,8 @@ public class Control : MonoBehaviour {
             }
             else
             {
+                accTrialCnt++;
+
                 priorCity = run_trial_order[curT - 1] - 1;
                 if (priorCity == cityNum)
                 {
@@ -243,7 +253,6 @@ public class Control : MonoBehaviour {
                 }
             }
 
-         
 
             //response variables
             respKey = "null";
@@ -308,10 +317,19 @@ public class Control : MonoBehaviour {
 
     IEnumerator LogOutput()
     {
-
+        if (respKey == trialType)
+            acc = 1;
+        else
+            acc = 0;
+        CalcAccuracy();
+        Manager.experiment.accPerc = accPerc.ToString("F2");
         yield return new WaitForSeconds(.2f);
+
         output.AddLine(curT.ToString(),curR.ToString(),trialStartTime.ToString(),
-            respKey,respTime.ToString(),trialType,acc.ToString(),cityNum.ToString(),priorCity.ToString(),"itiTrialList","itiRespList",curVidNav);
+            respKey,respTime.ToString(),trialType,acc.ToString(),cityNum.ToString(),
+            priorCity.ToString(),"itiTrialList","itiRespList",curVidNav, Manager.experiment.accPerc);
+
+        accTotal = accTotal + acc;
     }
 
 
@@ -320,23 +338,28 @@ public class Control : MonoBehaviour {
 
         if (Input.GetKeyDown("left") || Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("left arrow key down");
             respKey = "s";
             respTime = timer.GetTime("trial");
-            Debug.Log(respTime);
             taskRespKeyList.Add(respKey);
             taskRespTimeList.Add(respTime);
+
         }
 
         if (Input.GetKeyDown("right") || Input.GetKeyDown(KeyCode.Alpha2))
         {
-            print("right arrow key down");
             respKey = "d";
             respTime = timer.GetTime("trial");
             Debug.Log(respTime);
             taskRespKeyList.Add(respKey);
             taskRespTimeList.Add(respTime);
         }
+    }
+
+    void CalcAccuracy()
+    {
+        accPerc = (float)accTotal / (float)(accTrialCnt);
+        Debug.Log(accPerc);
+
     }
 
     void GetITIResponse()

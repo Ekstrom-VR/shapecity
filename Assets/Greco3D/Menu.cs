@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour {
 
 	private string subjectID;
-	private string[] taskList = {"","Practice","CE","Greco"};
+	private string[] taskList = {"Practice","CE","Greco"};
 	public Dropdown dropTask;
-	public Dropdown dropTaskDebug;
     bool panelHidden = false;
-    [SerializeField] GameObject panel;
+    [SerializeField] GameObject panelMenu;
+    public GameObject panelTask;
+
+
 
 
     private void OnEnable()
@@ -28,17 +30,32 @@ public class Menu : MonoBehaviour {
         panelHidden = !panelHidden;
         if (panelHidden)
         {
-            panel.SetActive(false);
+            panelMenu.SetActive(false);
         }
     }
 
     void Start(){
 		SetupDropTask();
-		SetupDropTaskDebug ();
-	}
-	public void AdvanceLevel(){
-		Manager.experiment.StartNextTask();
-	}
+        panelTask.SetActive(false);
+    }
+
+    public void SetupTaskPanel(string top, string bottom)
+    {
+        Text[] textList;
+        textList = panelTask.GetComponentsInChildren<Text>();
+        foreach(Text text in textList)
+        {
+            if (text.name == "TextTop")
+                text.text = top;
+            else if (text.name == "TextBot")
+                text.text = bottom;
+        }
+    }
+
+
+	//public void AdvanceLevel(){
+	//	Manager.experiment.StartNextTask();
+	//}
 
 	 public void GetID(){
 		GameObject inputFieldGo = GameObject.Find("SubjectID");
@@ -53,7 +70,7 @@ public class Menu : MonoBehaviour {
 		List<Dropdown.OptionData> m_Messages = new List<Dropdown.OptionData>();
 		Dropdown.OptionData newData;
 		dropTask.ClearOptions ();
-		dropTask.captionText.text = "Task type";
+		dropTask.captionText.text = taskList[0];
 
 		foreach (string i in taskList) {
             newData = new Dropdown.OptionData
@@ -69,43 +86,12 @@ public class Menu : MonoBehaviour {
 		}
     }
 
-	public void SetupDropTaskDebug(){
-		List<Dropdown.OptionData> m_Messages = new List<Dropdown.OptionData>();
+    public void StartExperiment()
+    {
+        StartCoroutine(SetUpExperiment());
+    }
 
-       
-		Dropdown.OptionData newData;
-
-		dropTaskDebug.ClearOptions ();
-
-		dropTaskDebug.captionText.text = "Module";
-
-		//Add blank
-		newData = new Dropdown.OptionData
-		{
-			text = ""
-		};
-		m_Messages.Add (newData);
-
-		//Add scenes
-		int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-
-		for( int i = 0; i < sceneCount; i++ )
-		{
-			newData = new Dropdown.OptionData
-			{
-				text = System.IO.Path.GetFileNameWithoutExtension( UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex( i ) )
-			};
-				
-			m_Messages.Add (newData);
-		}
-
-
-		foreach (Dropdown.OptionData message in m_Messages) {
-			dropTaskDebug.options.Add (message);
-		}
-	}
-
-	public void ConfigureTask(){
+	public IEnumerator SetUpExperiment(){
 		//Keep the current index of the Dropdown in a variable
 		int m_DropdownValue = dropTask.value;
 		//Change the message to say the name of the current Dropdown selection using the value
@@ -113,20 +99,9 @@ public class Menu : MonoBehaviour {
 
 		Manager.config.version= m_Message;
 		Manager.experiment.SetUpTask();
+        yield return null;
+        EventManager.StartTask();
 	}
 
-	public void ConfigureTaskDebug(){
-		//Keep the current index of the Dropdown in a variable
-		int m_DropdownValue = dropTaskDebug.value;
-		//Change the message to say the name of the current Dropdown selection using the value
-		string m_Message = dropTaskDebug.options[m_DropdownValue].text;
 
-        StartCoroutine(Manager.experiment.SetupNextTask(m_Message));
-    }
-
-    public void StartMapDrawDebug()
-    {
-        Manager.config.version = "Practice";
-        StartCoroutine(Manager.experiment.SetupNextTask("MapDraw"));
-    }
 }

@@ -16,10 +16,13 @@ public class Experiment : MonoBehaviour {
     public string taskName;
     [SerializeField] GameObject background;
     [SerializeField] GameObject panel;
+    public string accPerc;
 
 
     private void OnEnable()
     {
+
+
         EventManager.onStartTask += StartNextTask;
     }
 
@@ -128,22 +131,22 @@ public class Experiment : MonoBehaviour {
 			Manager.config.numVideos = 100;
 			Manager.config.trial_time = 20f;
 			Manager.config.numR = 4;
-			Manager.config.numT = 25;
+			Manager.config.numT = 16;
             Manager.config.numCities = 3;
                 LoadPaths();
                 break;
 
 		case "CE":
 			Manager.config.numVideos = 100;
-			Manager.config.trial_time = 20f;
-			Manager.config.numR = 4;
-			Manager.config.numT = 25;
+			Manager.config.trial_time = 20;
+            Manager.config.numR = 4;
+			Manager.config.numT = 16;
             Manager.config.numCities = 4;
                 LoadPaths();
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 3f;
+			Manager.config.trial_time = 16f;
 			Manager.config.numR = 1;
 			Manager.config.numT = 10;
             Manager.config.iti_time = 2;

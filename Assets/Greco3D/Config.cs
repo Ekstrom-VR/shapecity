@@ -7,7 +7,7 @@ public class Config : MonoBehaviour {
     public int numVideos = 100;//100
     public float trial_time = 20f;//20
     public int numR = 4;//4
-    public int numT = 25;//25
+    public int numT = 24;//25
     public bool feedBackOn  = false;
     public string preRun = "CountDown";//Either 'Task' or 'CountDown'
     public bool test_mood = false; 

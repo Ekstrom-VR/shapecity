@@ -36,6 +36,7 @@ public class OutputManager : MonoBehaviour {
     public void AddLine(params string[] varList)
     {
         string line = BuildLine(varList);
+        Debug.Log(line);
         File.AppendAllText(fpath,line);
 
     }

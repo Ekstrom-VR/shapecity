@@ -10,7 +10,6 @@ public class MapDraw : MonoBehaviour
     [SerializeField] GameObject panelMap;
     [SerializeField] GameObject panelEnd;
     bool taskStart = true;
-    bool nextTask = false;
     bool buildMap, taskOver;
     [SerializeField] List<string> curStoreList = new List<string>();
     [SerializeField] Text mapText;
@@ -20,6 +19,7 @@ public class MapDraw : MonoBehaviour
     public int curMapNum = 1;
     public int cityCount, mapCount;
     List<GameObject> mapList = new List<GameObject>();
+    public static bool storeView = true;
 
 
     private void OnEnable()
@@ -180,12 +180,13 @@ public class MapDraw : MonoBehaviour
 
     void EndTask()
     {
+
         if (Input.GetKeyUp(KeyCode.Escape) && mapCount == cityCount)
         {
+            storeView = false;
             Output();
             PanelEndToggle();
             taskOver = true;
-            nextTask = true;
         }
 
     }
@@ -206,6 +207,7 @@ public class MapDraw : MonoBehaviour
             {
                 Manager.outputManager.AddLine(map.name, child.name, child.position.x.ToString(), 
                     child.position.y.ToString(), child.position.z.ToString());
+
             }
         }
     }
@@ -213,7 +215,6 @@ public class MapDraw : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            nextTask = false;
             EventManager.StartTask();
             print("Mapdraw task over");
 
