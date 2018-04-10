@@ -7,8 +7,9 @@ public class MapDraw : MonoBehaviour
 
 	[SerializeField] GameObject panelInstructions;
     [SerializeField] GameObject panelMap;
+    [SerializeField] GameObject panelEnd;
     bool taskStart = true;
-    bool buildMap;
+    bool buildMap, taskOver;
     string taskType;
     [SerializeField] List<string> curStoreList = new List<string>();
     [SerializeField] Text mapText;
@@ -39,6 +40,7 @@ public class MapDraw : MonoBehaviour
     void Start()
     {
         PanelMapToggle();
+        PanelEndToggle();
     }
 
 
@@ -57,10 +59,16 @@ public class MapDraw : MonoBehaviour
             DupStore();
 
         }
-        else
+        else if(!taskOver)
         {
             DupMap();
             SwitchMaps();
+            EndTask();
+        }
+        else if (taskOver)
+        {
+            taskOver = false;
+            NextTask();
         }
 
     }
@@ -74,6 +82,12 @@ public class MapDraw : MonoBehaviour
     {
         bool active = panelMap.activeSelf;
         panelMap.SetActive(!active);
+    }
+
+    void PanelEndToggle()
+    {
+        bool active = panelEnd.activeSelf;
+        panelEnd.SetActive(!active);
     }
 
     void StartTask()
@@ -128,7 +142,7 @@ public class MapDraw : MonoBehaviour
             GameObject newMap = Instantiate(curMap, curMap.transform.position, Quaternion.identity);
             newMap.name = "Map " + mapCount.ToString();
             mapList.Add(newMap);
-            print(mapList.Count);
+
             //Inactivate prior Map
             curMap.SetActive(false);
 
@@ -161,6 +175,32 @@ public class MapDraw : MonoBehaviour
             mapText.text = "Build Map " + curMapNum.ToString();
 
         }
+    }
+
+
+
+    void EndTask()
+    {
+        //Exit task an enable output script when Escape is pressed
+        if (Input.GetKeyUp(KeyCode.Escape) && mapCount == cityCount)
+        {
+            Output();
+            PanelEndToggle();
+            taskOver = true;
+        }
+
+    }
+
+    void Output()
+    {
+
+
+    }
+
+    void NextTask()
+    {
+        EventManager.StartTask();
+        print("Mapdraw task over");
     }
 }
 

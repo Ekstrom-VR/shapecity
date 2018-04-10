@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour {
 
     public float GetTime(string type)
     {
-        float getTime;
+        float getTime = 0f;
         switch (type)
         {
          case "task":
@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour {
             getTime = timer;
             break;
         }
-        return timer;
+        return getTime;
     }
 
     public string GetAction()
