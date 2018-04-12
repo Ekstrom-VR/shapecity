@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 public class OutputManager : MonoBehaviour {
     public string fpath, newLineChar;
@@ -9,8 +10,8 @@ public class OutputManager : MonoBehaviour {
     private void Awake()
     {
         newLineChar = System.Environment.NewLine;
-
     }
+
     public void Setup(string dataDir, string fname)
     {
         //Create output directory
@@ -25,17 +26,13 @@ public class OutputManager : MonoBehaviour {
 
     private string BuildLine(string[] varList)
     {
-        string line = "";
-        foreach (string var in varList)
-        {
-            line = line + var + ", ";
-        }
+        var line = varList.Aggregate("", (current, var) => current + var + ", ");
         line = line + newLineChar;
         return line;
     }
     public void AddLine(params string[] varList)
     {
-        string line = BuildLine(varList);
+        var line = BuildLine(varList);
         Debug.Log(line);
         File.AppendAllText(fpath,line);
 

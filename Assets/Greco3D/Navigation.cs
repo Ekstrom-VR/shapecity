@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Greco3D.UnityFramework.Tasks
 {
-    public class Control : MonoBehaviour
+    public class Navigation : MonoBehaviour
     {
 
         OutputManager output;
@@ -38,27 +38,42 @@ namespace Greco3D.UnityFramework.Tasks
 
         [Header("UI")] [SerializeField] GameObject panel;
 
-        private void OnEnable()
+        private Background background;
+
+        private void Start()
         {
-            EventManager.onStartTaskNav += StartRequest;
-            EventManager.onStartTaskNav += InstructionsOff;
+            background = GetComponent(typeof(Background)) as Background;
+            StartCoroutine(Task());
         }
 
-        private void OnDisable()
+        IEnumerator Task()
         {
-            EventManager.onStartTaskNav -= StartRequest;
-            EventManager.onStartTaskNav -= InstructionsOff;
-        }
-
-
-        private void InstructionsOff()
-        {
-            panel.SetActive(false);
-        }
-
-        void StartRequest()
-        {
+           yield return StartCoroutine(InstuctStart());
+           background.Active();
             StartCoroutine(StartTask());
+        }
+
+        IEnumerator InstuctStart()
+        {
+            Manager.menu.SetupTaskPanel("NAVIGATION TASK", "Press any key to start");
+            Manager.menu.panelTask.SetActive(true);
+            while (!Input.anyKeyDown)
+                yield return null;
+            Manager.menu.panelTask.SetActive(false);
+
+        }
+
+       private void InstructOff()
+        {
+            Manager.menu.SetupTaskPanel("", "");
+        }
+
+        IEnumerator InstructEnd()
+        {
+            Manager.menu.SetupTaskPanel("", "Press any key to advance");
+            Manager.menu.panelTask.SetActive(true);
+            while (!Input.anyKeyDown)
+                yield return null;
         }
 
         IEnumerator StartTask()
@@ -79,16 +94,6 @@ namespace Greco3D.UnityFramework.Tasks
 
         void Update()
         {
-
-            if (startTask)
-            {
-
-                if (Input.anyKeyDown)
-                {
-                    startTask = false;
-                    EventManager.StartTaskNav();
-                }
-            }
 
             TaskVariables();
 
@@ -183,11 +188,11 @@ namespace Greco3D.UnityFramework.Tasks
         {
             taskOn = false;
 
-            yield return StartCoroutine(trial.RunBreak());
 
             curR += 1;
             if (curR < Manager.config.numR)
             {
+                yield return StartCoroutine(trial.RunBreak());
                 task_run_start = true;
                 getTaskAction = "run_start";
                 task_start = true;
@@ -293,8 +298,12 @@ namespace Greco3D.UnityFramework.Tasks
 
         IEnumerator TaskOver()
         {
-            yield return StartCoroutine(trial.TaskOver());
+            background.Inactive();
+            trial.TextOff();
+            yield return StartCoroutine(InstructEnd());
             Manager.experiment.StartNextTask();
+            InstructOff();
+
         }
 
         void TaskVariables()

@@ -24,7 +24,7 @@ public class Trial : MonoBehaviour {
          taskText.text = numStr;
     }
 
-    private void TextOff()
+    public void TextOff()
     {
         taskText.text = "";
     }
@@ -95,19 +95,6 @@ public class Trial : MonoBehaviour {
             }
             yield return null;
         }
-    }
-
-    public IEnumerator TaskOver()
-    {
-        numStr = "Navigation task over";
-        print("task over");
-        //guiOn = true;
-        TextOn();
-
-        background.BackGroundOn();
-        runBreak = true;
-        yield return StartCoroutine(WaitForSpace());
-        numStr = "";
     }
 
 }

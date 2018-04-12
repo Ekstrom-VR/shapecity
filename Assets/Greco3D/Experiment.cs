@@ -33,8 +33,6 @@ public class Experiment : MonoBehaviour {
         fade.SetActive(true);
     }
 
-
-
     private void OnEnable()
     {
         EventManager.onStartTask += StartNextTask;
@@ -79,6 +77,7 @@ public class Experiment : MonoBehaviour {
         }
         Debug.Log(sceneAO.progress);
         yield return null;
+        loadingUI.SetActive(false);
     }
  
 
@@ -187,7 +186,7 @@ public class Experiment : MonoBehaviour {
 
 		case "CE":
 			Manager.config.numVideos = 100;
-			Manager.config.trial_time = 20;
+			Manager.config.trial_time = 16;
             Manager.config.numR = 4;
 			Manager.config.numT = 16;
             Manager.config.numCities = 4;
@@ -195,9 +194,9 @@ public class Experiment : MonoBehaviour {
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 2f;
+			Manager.config.trial_time = 16f;
 			Manager.config.numR = 1;
-			Manager.config.numT = 2;
+			Manager.config.numT = 10;
             Manager.config.iti_time = 2;
             Manager.config.numCities = 2;
                 LoadPaths();
@@ -218,11 +217,6 @@ public class Experiment : MonoBehaviour {
     }
 
 
-    public void StartNextTask(string name)
-    {
-        StartCoroutine(SetupNextTask(name));
-    }
-
     IEnumerator SetupNextTask()
     {
         bool nextTask = true;
@@ -235,21 +229,10 @@ public class Experiment : MonoBehaviour {
             yield return new WaitUntil(() => black.color.a == 1);
 
             SceneManager.LoadScene(taskName);
-            //ChangeScene();
+            //ChangeScene(taskName);
             anim.SetTrigger("fade");
             background.SetActive(false);
             curModule++;
         }
-    }
-
-    public IEnumerator SetupNextTask(string newTask)
-    {
-        curModule = tasks.IndexOf(newTask);
-        taskName = tasks[curModule];
-        anim.SetTrigger("fade");
-        yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene(taskName);
-        yield return null;
-        anim.SetTrigger("fade");
     }
 }

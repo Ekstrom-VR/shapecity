@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class End : MonoBehaviour {
 
-
     private void Start()
     {
         TriggerInstruct();

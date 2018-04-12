@@ -7,25 +7,31 @@ public class Background : MonoBehaviour {
 
 	private Image image;
 
-	private GameObject background;
+	[SerializeField] GameObject background;
 	private bool backgroundon;
 	public float targetAlpha;
 	public bool fadeMode = true;
 	public float fadeTime = .3f;
 	public 		Color curColor;
     public float alpha;
-	void Awake () {
-		backgroundon = false;
-		background = GameObject.Find("Background2");
-		image = background.GetComponent<Image>();
-	}
 
-    public void Update()
+	void Awake () {
+		image = background.GetComponent<Image>();
+	    background.SetActive(false);
+    }
+
+    public void Active()
     {
-        alpha = image.canvasRenderer.GetAlpha();
+        background.SetActive(true);
+    }
+
+    public void Inactive()
+    {
+        background.SetActive(false);
     }
 
     public void BackGroundOff () {
+
 		if(backgroundon){
 			backgroundon = false;
 			if(fadeMode){
@@ -60,4 +66,5 @@ public class Background : MonoBehaviour {
         print("Fade In");
         image.CrossFadeAlpha( 1f, fadeTime, false );
 	}
+
 }
