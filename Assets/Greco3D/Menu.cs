@@ -13,8 +13,6 @@ public class Menu : MonoBehaviour {
     public GameObject panelTask;
 
 
-
-
     private void OnEnable()
     {
         EventManager.onStartTask += HidePanel;
@@ -36,7 +34,7 @@ public class Menu : MonoBehaviour {
 
     void Start(){
 		SetupDropTask();
-        panelTask.SetActive(false);
+        //panelTask.SetActive(false);
     }
 
     public void SetupTaskPanel(string top, string bottom)
@@ -58,8 +56,8 @@ public class Menu : MonoBehaviour {
 	//}
 
 	 public void GetID(){
-		GameObject inputFieldGo = GameObject.Find("SubjectID");
-		InputField inputFieldCo = inputFieldGo.GetComponent<InputField>() as InputField;
+		var inputFieldGo = GameObject.Find("SubjectID");
+		var inputFieldCo = inputFieldGo.GetComponent<InputField>() as InputField;
     
 		subjectID = inputFieldCo.text;
 		PlayerPrefs.SetString("subj_id",subjectID);

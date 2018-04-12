@@ -23,16 +23,17 @@ public class MapDrawDrag : MonoBehaviour {
     GUIStyle style = new GUIStyle();
     void OnGUI()
     {
-        if (MapDraw.storeView) {
+        if (MapDraw.storeView)
+        {
             Vector2 newPos = Camera.main.WorldToScreenPoint(this.transform.position);
-        style.fontSize = 10;
-        style.alignment = TextAnchor.UpperLeft;
-        style.normal.textColor = Color.black;
-        int buttonWidth = 5;
-        int buttonHeight = 5;
-        Rect buttonRect = new Rect(newPos.x, Screen.height - newPos.y + 20, buttonWidth, buttonHeight);
-        GUI.Label(buttonRect, name, style);
-    }
+            style.fontSize = 10;
+            style.alignment = TextAnchor.UpperLeft;
+            style.normal.textColor = Color.black;
+            int buttonWidth = 5;
+            int buttonHeight = 5;
+            Rect buttonRect = new Rect(newPos.x, Screen.height - newPos.y + 20, buttonWidth, buttonHeight);
+            GUI.Label(buttonRect, name, style);
+        }
     }
 
 }

@@ -21,10 +21,12 @@ public class MapDraw : MonoBehaviour
     List<GameObject> mapList = new List<GameObject>();
     public static bool storeView = true;
 
-
+    #region Monobehavior functions
     private void OnEnable()
 	{
-		EventManager.onStartTaskMD += PanelInstruxToggle;
+      storeView = true;
+
+        EventManager.onStartTaskMD += PanelInstruxToggle;
         EventManager.onStartTaskMD += PanelMapToggle;
         EventManager.onStartTaskMD += StartTask;
     }
@@ -37,15 +39,13 @@ public class MapDraw : MonoBehaviour
 
     }
 
-
-    void Start()
+    private void Start()
     {
         PanelMapToggle();
         PanelEndToggle();
     }
 
-
-	void Update () 
+    private void Update () 
 	{
 
 		if (taskStart) {
@@ -72,8 +72,10 @@ public class MapDraw : MonoBehaviour
         }
 
     }
+    #endregion
 
-	void PanelInstruxToggle(){
+    #region ui
+    void PanelInstruxToggle(){
         bool active = panelInstructions.activeSelf;
         panelInstructions.SetActive(!active);
 	}
@@ -89,6 +91,7 @@ public class MapDraw : MonoBehaviour
         bool active = panelEnd.activeSelf;
         panelEnd.SetActive(!active);
     }
+    #endregion
 
     void StartTask()
     {

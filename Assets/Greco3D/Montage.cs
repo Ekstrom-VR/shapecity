@@ -91,14 +91,10 @@ public class Montage : MonoBehaviour {
 			}
 
 		}
-		monRunning = false;		
 	}
 
-   
-
-	
 	public void  ConfigureCity (){															
-		City city = new City(Manager.config.version);
+		var city = new City(Manager.config.version);
 		curStoreList = city.stores;
 	}
 }

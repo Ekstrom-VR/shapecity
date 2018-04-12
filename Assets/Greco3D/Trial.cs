@@ -99,7 +99,7 @@ public class Trial : MonoBehaviour {
 
     public IEnumerator TaskOver()
     {
-        numStr = "Task over";
+        numStr = "Navigation task over";
         print("task over");
         //guiOn = true;
         TextOn();

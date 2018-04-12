@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Experiment : MonoBehaviour {
-
-	public List<string> tasks = new List<string>();
+    [Header("Settings")]
+    public List<string> tasks = new List<string>();
 	public int curModule = 0;
 	public bool debug_mode;
     public Video video;
@@ -17,12 +17,26 @@ public class Experiment : MonoBehaviour {
     [SerializeField] GameObject background;
     [SerializeField] GameObject panel;
     public string accPerc;
+    [SerializeField] GameObject fade;
+
+    [Header("Progress bar")]
+    [SerializeField] GameObject loadingUI;
+    [SerializeField] Slider loadingProgbar;
+    [SerializeField] Text loadingText;
+    AsyncOperation sceneAO;
+    // the actual percentage while scene is fully loaded
+    private const float LOAD_READY_PERCENTAGE = 0.9f;
+
+
+    private void Awake()
+    {
+        fade.SetActive(true);
+    }
+
 
 
     private void OnEnable()
     {
-
-
         EventManager.onStartTask += StartNextTask;
     }
 
@@ -31,6 +45,41 @@ public class Experiment : MonoBehaviour {
         EventManager.onStartTask -= StartNextTask;
     }
 
+    
+    public void ChangeScene(string sceneName)
+    {
+        loadingUI.SetActive(true);
+        loadingText.text = "LOADING...";
+        StartCoroutine(LoadingSceneRealProgress(sceneName));
+    }
+
+    IEnumerator LoadingSceneRealProgress(string sceneName)
+    {
+        yield return new WaitForSeconds(1);
+        sceneAO = SceneManager.LoadSceneAsync(sceneName);
+
+        // disable scene activation while loading to prevent auto load
+        sceneAO.allowSceneActivation = false;
+
+        while (!sceneAO.isDone)
+        {
+            loadingProgbar.value = sceneAO.progress;
+
+            if (sceneAO.progress >= LOAD_READY_PERCENTAGE)
+            {
+                loadingProgbar.value = 1f;
+                loadingText.text = "PRESS SPACE TO CONTINUE";
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    sceneAO.allowSceneActivation = true;
+                }
+            }
+            Debug.Log(sceneAO.progress);
+            yield return null;
+        }
+        Debug.Log(sceneAO.progress);
+        yield return null;
+    }
  
 
     public void LoadVideos()
@@ -146,9 +195,9 @@ public class Experiment : MonoBehaviour {
                 break;
 		case "Practice":
 			Manager.config.numVideos = 20;
-			Manager.config.trial_time = 16f;
+			Manager.config.trial_time = 2f;
 			Manager.config.numR = 1;
-			Manager.config.numT = 10;
+			Manager.config.numT = 2;
             Manager.config.iti_time = 2;
             Manager.config.numCities = 2;
                 LoadPaths();
@@ -184,7 +233,9 @@ public class Experiment : MonoBehaviour {
             print(taskName);
             anim.SetTrigger("fade");
             yield return new WaitUntil(() => black.color.a == 1);
+
             SceneManager.LoadScene(taskName);
+            //ChangeScene();
             anim.SetTrigger("fade");
             background.SetActive(false);
             curModule++;
