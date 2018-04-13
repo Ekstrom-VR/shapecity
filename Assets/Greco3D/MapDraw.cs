@@ -135,8 +135,14 @@ namespace Greco3D.UnityFramework.Tasks
             {
                 if (Input.GetButtonUp("Fire2"))
                 {
+//                    GameObject storeInstance = Instantiate(storePrefab,
+//                        storePrefab.transform.position + new Vector3(1, 1, 0), Quaternion.identity);
+                    Vector3 newPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, storePrefab.transform.position.y));
+
                     GameObject storeInstance = Instantiate(storePrefab,
-                        storePrefab.transform.position + new Vector3(1, 1, 0), Quaternion.identity);
+                        newPosition, Quaternion.identity);
+
+                
                     storeInstance.name = curStoreList[storeCount];
                     curStoreList.RemoveAt(storeCount);
                     storeInstance.transform.parent = curMap.transform;
