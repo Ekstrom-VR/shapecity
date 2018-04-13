@@ -8,30 +8,19 @@ public class Menu : MonoBehaviour {
 	private string subjectID;
 	private string[] taskList = {"Practice","CE","Greco"};
 	public Dropdown dropTask;
-    bool panelHidden = false;
+
     [SerializeField] GameObject panelMenu;
     public GameObject panelTask;
 
-
-    private void OnEnable()
-    {
-        EventManager.onStartTask += HidePanel;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.onStartTask -= HidePanel;
-    }
-
     public void HidePanel()
     {
-        panelHidden = !panelHidden;
-        if (panelHidden)
-        {
-            panelMenu.SetActive(false);
-        }
+       panelMenu.SetActive(false);
     }
 
+    public void ShowPanel()
+    {
+        panelMenu.SetActive(true);
+    }
     void Start(){
 		SetupDropTask();
         //panelTask.SetActive(false);

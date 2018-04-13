@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Experiment : MonoBehaviour {
     [Header("Settings")]
+    [SerializeField] public bool DebugTour;
     public List<string> tasks = new List<string>();
 	public int curModule = 0;
 	public bool debug_mode;
@@ -18,6 +19,7 @@ public class Experiment : MonoBehaviour {
     [SerializeField] GameObject panel;
     public string accPerc;
     [SerializeField] GameObject fade;
+    private bool _nextTask = true;
 
     [Header("Progress bar")]
     [SerializeField] GameObject loadingUI;
@@ -27,7 +29,6 @@ public class Experiment : MonoBehaviour {
     // the actual percentage while scene is fully loaded
     private const float LOAD_READY_PERCENTAGE = 0.9f;
 
-
     private void Awake()
     {
         fade.SetActive(true);
@@ -36,14 +37,23 @@ public class Experiment : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.onStartTask += StartNextTask;
+        EventManager.onStartTask += Manager.menu.HidePanel;
+        EventManager.onEndExperiment += Manager.menu.ShowPanel;
+        EventManager.onEndExperiment += Manager.experiment.LoadExperiment;
     }
 
     private void OnDisable()
     {
         EventManager.onStartTask -= StartNextTask;
+        EventManager.onStartTask -= Manager.menu.HidePanel;
+        EventManager.onEndExperiment -= Manager.menu.ShowPanel;
+        EventManager.onEndExperiment -= Manager.experiment.LoadExperiment;
+
+
+
     }
 
-    
+
     public void ChangeScene(string sceneName)
     {
         loadingUI.SetActive(true);
@@ -160,11 +170,11 @@ public class Experiment : MonoBehaviour {
 		
 	public void OnGUI(){
 		if(debug_mode){
-		if (GUILayout.Button("Debug-skip"))
-               EventManager.StartTask();
+            if (GUILayout.Button("Debug-skip"))
+                   EventManager.StartTask();
             if (GUILayout.Button("Debug-exit"))
 			QuitRequest();
-	    }
+        }
 
     }
 
@@ -209,20 +219,28 @@ public class Experiment : MonoBehaviour {
             Manager.config.numCities = 0;
             break;
 		}
+
+	    if(DebugTour)
+	    {
+	        Manager.config.numR = 1;
+	        Manager.config.numT = 2;
+	        Manager.config.trial_time = 1f;
+            Manager.config.iti_time = 1;
+
+        }
     }
 
     public void StartNextTask()
     {
-        StartCoroutine(SetupNextTask());
+        if(_nextTask)
+            StartCoroutine(SetupNextTask());
     }
 
 
-    IEnumerator SetupNextTask()
+   private IEnumerator SetupNextTask()
     {
-        bool nextTask = true;
-        if (nextTask)
-        {
-            nextTask = false;
+       
+     
             taskName = tasks[curModule];
             print(taskName);
             anim.SetTrigger("fade");
@@ -233,6 +251,7 @@ public class Experiment : MonoBehaviour {
             anim.SetTrigger("fade");
             background.SetActive(false);
             curModule++;
-        }
+            yield return null;
+             _nextTask = true;
     }
 }

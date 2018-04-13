@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 
 public class OutputManager : MonoBehaviour {
-    public string fpath, newLineChar;
+    private string _fpath, _newLineChar;
 
     private void Awake()
     {
-        newLineChar = System.Environment.NewLine;
+        _newLineChar = System.Environment.NewLine;
     }
 
     public void Setup(string dataDir, string fname)
@@ -18,23 +18,23 @@ public class OutputManager : MonoBehaviour {
         Directory.CreateDirectory(dataDir);
 
         //CreateOutputFile
-        fpath = dataDir + fname;
-        Debug.Log(fpath);
-        FileStream fs = File.Create(fpath);
+        _fpath = dataDir + fname;
+        Debug.Log(_fpath);
+        var fs = File.Create(_fpath);
         fs.Close();
     }
 
     private string BuildLine(string[] varList)
     {
         var line = varList.Aggregate("", (current, var) => current + var + ", ");
-        line = line + newLineChar;
+        line = line + _newLineChar;
         return line;
     }
     public void AddLine(params string[] varList)
     {
         var line = BuildLine(varList);
         Debug.Log(line);
-        File.AppendAllText(fpath,line);
+        File.AppendAllText(_fpath,line);
 
     }
 }

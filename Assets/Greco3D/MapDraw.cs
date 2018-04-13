@@ -13,6 +13,7 @@ namespace Greco3D.UnityFramework.Tasks
         [SerializeField] GameObject panelEnd;
         bool taskStart = true;
         bool buildMap, taskOver;
+        private bool _nextTask = true;
 
         [SerializeField] List<string> curStoreList = new List<string>();
         [SerializeField] Text mapText;
@@ -36,6 +37,13 @@ namespace Greco3D.UnityFramework.Tasks
             EventManager.onStartTaskMD += StartTask;
         }
 
+        private void OnDisable()
+        {
+
+            EventManager.onStartTaskMD -= PanelInstruxToggle;
+            EventManager.onStartTaskMD -= PanelMapToggle;
+            EventManager.onStartTaskMD -= StartTask;
+        }
 
         private void Start()
         {
@@ -198,6 +206,7 @@ namespace Greco3D.UnityFramework.Tasks
                 taskOver = true;
             }
 
+
         }
 
         void Output()
@@ -223,12 +232,16 @@ namespace Greco3D.UnityFramework.Tasks
 
         void NextTask()
         {
-            if (Input.anyKeyDown)
+            //            if (Input.anyKeyDown)
+            //            {
+            if (_nextTask)
             {
+                _nextTask = false;
                 EventManager.StartTask();
                 print("Mapdraw task over");
-
             }
+
+//            }
 
         }
     }

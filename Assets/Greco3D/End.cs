@@ -22,8 +22,7 @@ public class End : MonoBehaviour {
         Manager.menu.panelTask.SetActive(true);
         while (!Input.anyKeyDown)
             yield return null;
-        Manager.experiment.LoadExperiment();
-        Manager.menu.panelTask.SetActive(false);
+        EventManager.EndExperiment();
 
     }
 

@@ -9,8 +9,8 @@ public class EventManager : MonoBehaviour {
     public delegate void StartTaskStrDelegate(string task);
     public static StartTaskStrDelegate onStartTaskStr;
 
-    public delegate void EndTaskDelegate();
-    public static EndTaskDelegate onEndTask;
+    public delegate void EndExperimentDelegate();
+    public static EndExperimentDelegate onEndExperiment;
 
     public delegate void StartTaskNavDelegate();
     public static StartTaskNavDelegate onStartTaskNav;
@@ -30,10 +30,10 @@ public class EventManager : MonoBehaviour {
             onStartTaskStr(task);
     }
 
-    public static void EndTask()
+    public static void EndExperiment()
     {
-        if (onEndTask != null)
-            onEndTask();
+        if (onEndExperiment != null)
+            onEndExperiment();
     }
 
     public static void StartTaskNav()
