@@ -221,11 +221,11 @@ namespace Greco3D.UnityFramework.Tasks
 
             string subj = PlayerPrefs.GetString("subj_id");
             string fname = subj + "_" + Manager.config.version + "_output.csv";
-            string dir = Manager.genBehav.BuildPath("Data", "Nav", Manager.config.version);
+            //string dir = Manager.genBehav.BuildPath("Data", subj);
 
             output = GetComponent(typeof(OutputManager)) as OutputManager;
             yield return null;
-            output.Setup(dir, fname);
+            output.Setup(Manager.experiment.outputDir, fname);
             output.AddLine("Global_trial_num", "run_num", "trial_time", "resp_key", "resp_time",
                 "trial_type", "acc", "currCity", "priorCity", "trialList", "respList", "curVidNav", "accuracy");
 

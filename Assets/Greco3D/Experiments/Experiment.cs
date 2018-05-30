@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class Experiment : MonoBehaviour {
 	public int curModule = 0;
 	public bool debug_mode;
     public Video video;
+    public string outputDir;
     public Video.Paths paths;
 	public Image black;
 	public Animator anim;
@@ -48,9 +50,6 @@ public class Experiment : MonoBehaviour {
         EventManager.onStartTask -= Manager.menu.HidePanel;
         EventManager.onEndExperiment -= Manager.menu.ShowPanel;
         EventManager.onEndExperiment -= Manager.experiment.LoadExperiment;
-
-
-
     }
 
 
@@ -184,7 +183,12 @@ public class Experiment : MonoBehaviour {
 		
 	public void SetUpTask(){
 
-		switch (Manager.config.version) {
+        //Setup subject directory string
+        string subj = PlayerPrefs.GetString("subj_id");
+        outputDir = Manager.genBehav.BuildPath("Data", subj);
+
+
+        switch (Manager.config.version) {
 		case "Greco":
 			Manager.config.numVideos = 100;
 			Manager.config.trial_time = 20f;
@@ -226,8 +230,7 @@ public class Experiment : MonoBehaviour {
 	        Manager.config.numT = 2;
 	        Manager.config.trial_time = 1f;
             Manager.config.iti_time = 1;
-
-        }
+	    }
     }
 
     public void StartNextTask()
@@ -239,8 +242,6 @@ public class Experiment : MonoBehaviour {
 
    private IEnumerator SetupNextTask()
     {
-       
-     
             taskName = tasks[curModule];
             print(taskName);
             anim.SetTrigger("fade");

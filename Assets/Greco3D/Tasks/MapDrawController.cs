@@ -215,9 +215,8 @@ namespace Greco3D.UnityFramework.Tasks.MapDraw
         {
             string subj = PlayerPrefs.GetString("subj_id");
             string fname = subj + "_" + Manager.config.version + "_MD_output.csv";
-            string dir = Manager.genBehav.BuildPath("Data", "Map", Manager.config.version);
 
-            Manager.outputManager.Setup(dir, fname);
+            Manager.outputManager.Setup(Manager.experiment.outputDir, fname);
             Manager.outputManager.AddLine("Map_name", "Store_name", "Position_x", "Position_y", "Position_z");
 
 
